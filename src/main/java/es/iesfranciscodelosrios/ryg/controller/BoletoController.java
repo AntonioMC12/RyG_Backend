@@ -55,7 +55,7 @@ public class BoletoController {
 	 * @return Boleto encontrado, o boleto vacío si hay algún error.
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Boleto> getBoletoById(@PathVariable Long id) {
+	public ResponseEntity<Boleto> getBoletoById(@PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				Boleto getBoletoById = service.getBoletoById(id);
