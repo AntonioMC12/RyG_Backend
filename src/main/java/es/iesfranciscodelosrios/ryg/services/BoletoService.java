@@ -43,7 +43,7 @@ public class BoletoService {
 				if (getBoletoById.isPresent()) {
 					return getBoletoById.get();
 				} else {
-					throw new RecordNotFoundException("La nota no existe", id);
+					throw new RecordNotFoundException("El boleto no existe", id);
 				}
 			} catch (IllegalArgumentException e) {
 				throw new IllegalArgumentException(e);
@@ -108,7 +108,7 @@ public class BoletoService {
 					throw new IllegalArgumentException(e);
 				}
 			} else {
-				throw new RecordNotFoundException("La nota no existe", boleto.getId());
+				throw new RecordNotFoundException("El boleto no existe", boleto.getId());
 			}
 		} else {
 			throw new NullPointerException("El boleto es un objeto nulo");
@@ -119,7 +119,7 @@ public class BoletoService {
 	 * Método que borra un boleto de la base de datos si lo encuentra, si no lo
 	 * encuentra lanza una excepción.
 	 * 
-	 * @param id de la nota que queremos borrar.
+	 * @param id del boleto que queremos borrar.
 	 * @throws NullPointerException
 	 * @throws RecordNotFoundException
 	 * @throws IllegalArgumentException
@@ -135,7 +135,7 @@ public class BoletoService {
 					throw new IllegalArgumentException(e);
 				}
 			} else {
-				throw new RecordNotFoundException("La nota no existe", id);
+				throw new RecordNotFoundException("El boleto no existe", id);
 			}
 		} else {
 			throw new NullPointerException("El id es un objeto nulo");

@@ -3,20 +3,16 @@ package es.iesfranciscodelosrios.ryg.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="infoTicket")
-public class InfoTicket implements Serializable{
+@Table(name = "infoTicket")
+public class InfoTicket implements Serializable {
 
 	/**
 	 * 
@@ -36,13 +32,10 @@ public class InfoTicket implements Serializable{
 	private Timestamp fechaTicket;
 	@Column(name = "nombre_comercio")
 	private String nombreComercio;
-	
-	
-	
-    /// private int idBoleto   
-	
-	public InfoTicket() {}
-	
+
+	public InfoTicket() {
+	}
+
 	public InfoTicket(Long id, String nombreCliente, int telefono, int numeroTicket, Timestamp fechaTicket,
 			String nombreComercio) {
 		super();
@@ -108,12 +101,5 @@ public class InfoTicket implements Serializable{
 				+ ", numeroTicket=" + numeroTicket + ", fechaTicket=" + fechaTicket + ", nombreComercio="
 				+ nombreComercio + "]";
 	}
-	
-	
-	 
-	
-	
-	
-	
-	
+
 }

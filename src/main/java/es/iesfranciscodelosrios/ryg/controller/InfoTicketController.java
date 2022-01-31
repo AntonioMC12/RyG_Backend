@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import es.iesfranciscodelosrios.ryg.model.InfoTicket;
-import es.iesfranciscodelosrios.ryg.services.InfoTicketServicio;
+import es.iesfranciscodelosrios.ryg.services.InfoTicketService;
 
 
 
@@ -28,7 +28,7 @@ import es.iesfranciscodelosrios.ryg.services.InfoTicketServicio;
 public class InfoTicketController {
 
 	@Autowired
-	InfoTicketServicio service;
+	InfoTicketService service;
 	
 	
 	/**

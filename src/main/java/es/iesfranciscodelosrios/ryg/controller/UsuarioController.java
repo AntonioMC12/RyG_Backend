@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -107,9 +108,10 @@ public class UsuarioController {
 	/**
 	 * Método que recoge una petición http para hacer una consulta a la base de datos
 	 * y borrar un usuario
-	 * @param id
+	 * @param id del usuario a borrar
 	 * @return Usuario encontrado en la bd, o vacío si hay algún error
 	 */
+	@DeleteMapping("/{id}")
 	public HttpStatus deleteUsuarioById(@PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
