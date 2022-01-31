@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,7 +55,7 @@ public class BoletoController {
 	 * @return Boleto encontrado, o boleto vacío si hay algún error.
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Boleto> getBoletoById(@PathVariable Long id) {
+	public ResponseEntity<Boleto> getBoletoById(@PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				Boleto getBoletoById = service.getBoletoById(id);
@@ -115,6 +116,7 @@ public class BoletoController {
 	 * @param id del boleto a borrar
 	 * @return Ok si lo borra, Bad_Request.
 	 */
+	@DeleteMapping("/{id}")
 	public HttpStatus deleteBoletoById(@PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {

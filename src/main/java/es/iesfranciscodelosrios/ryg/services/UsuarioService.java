@@ -42,7 +42,7 @@ public class UsuarioService {
 				if (getUsuarioById.isPresent()) {
 					return getUsuarioById.get();
 				} else {
-					throw new RecordNotFoundException("La nota no existe", id);
+					throw new RecordNotFoundException("El usuario no existe", id);
 				}
 			} catch (IllegalArgumentException e) {
 				throw new IllegalArgumentException(e);
@@ -106,7 +106,7 @@ public class UsuarioService {
 					throw new IllegalArgumentException(e);
 				}
 			} else {
-				throw new RecordNotFoundException("La nota no existe", usuario.getId());
+				throw new RecordNotFoundException("El usuario no existe", usuario.getId());
 			}
 		} else {
 			throw new NullPointerException("El usuario es un objeto nulo");
@@ -132,7 +132,7 @@ public class UsuarioService {
 					throw new IllegalArgumentException(e);
 				}
 			} else {
-				throw new RecordNotFoundException("La nota no existe", id);
+				throw new RecordNotFoundException("El usuario no existe", id);
 			}
 		} else {
 			throw new NullPointerException("El id es un objeto nulo");
