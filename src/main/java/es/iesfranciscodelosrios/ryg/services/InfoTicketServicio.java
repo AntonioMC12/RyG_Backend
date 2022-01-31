@@ -17,7 +17,7 @@ public class InfoTicketServicio {
 	InfoTicketRepository repository;
 
 	/**
-	 * Método que devuelve todos los tickets, haciendo uso del repositorio del mismo
+	 * MÃ©todo que devuelve todos los tickets, haciendo uso del repositorio del mismo
 	 * 
 	 * @return Lista con todos los tickets existentes
 	 */
@@ -27,8 +27,8 @@ public class InfoTicketServicio {
 	}
 
 	/**
-	 * Método que obtiene un ticket de la base de datos buscando por su id, si
-	 * existe, lo devuelve, si no, lanza una excepción para dicho resultado
+	 * MÃ©todo que obtiene un ticket de la base de datos buscando por su id, si
+	 * existe, lo devuelve, si no, lanza una excepciÃ³n para dicho resultado
 	 * 
 	 * @param id
 	 * @return ticket si lo encuentra, excepcion si no lo encuentra
@@ -38,11 +38,11 @@ public class InfoTicketServicio {
 	public InfoTicket getInfoTicketById(Long id) throws RecordNotFoundException, NullPointerException {
 		if (id != null) {
 			try {
-				Optional<InfoTicket> result = repository.findById(id); // Optional->Para no tener null
+				Optional<InfoTicket> result = repository.findById(id); 
 				if (result.isPresent()) {
 					return result.get();
 				} else {
-					throw new RecordNotFoundException("La nota no existe", id); // Exception que nos hemos inventado
+					throw new RecordNotFoundException("La nota no existe", id); 
 				}
 			} catch (IllegalArgumentException e) {
 				throw new IllegalArgumentException(e);
@@ -55,8 +55,8 @@ public class InfoTicketServicio {
 	}
 	
 	/**
-	 * Método que crea un ticket en la base de datos, si existe el objeto
-	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el método
+	 * MÃ©todo que crea un ticket en la base de datos, si existe el objeto
+	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el mÃ©todo
 	 * de actualizar
 	 * @param ticket
 	 * @return Ticket creado en la base de datos 
@@ -81,7 +81,7 @@ public class InfoTicketServicio {
 	}
 	
 	/**
-	 * Método que actualiza la información de un ticket de la base de datos
+	 * MÃ©todo que actualiza la informaciÃ³n de un ticket de la base de datos
 	 * @param ticket
 	 * @return ticket actualizado
 	 * @throws NullPointerException
@@ -115,8 +115,8 @@ public class InfoTicketServicio {
 
 
 	/**
-	 * Método que borra un ticket de la base de datos, si no lo encuentra
-	 * lanza una excepción
+	 * MÃ©todo que borra un ticket de la base de datos, si no lo encuentra
+	 * lanza una excepciÃ³n
 	 * @param id
 	 * @throws RecordNotFoundException
 	 * @throws NullPointerException
