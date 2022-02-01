@@ -6,19 +6,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import es.iesfranciscodelosrios.ryg.model.Premios;
+import es.iesfranciscodelosrios.ryg.model.Premio;
 
 @Repository
 
-public interface PremiosRepository extends JpaRepository<Premios,Integer> {
+public interface PremioRepository extends JpaRepository<Premio,Integer> {
 	 @Query(
-	    		value="SELECT * FROM Premios as p WHERE p.Descripcion LIKE %?1% ",
+	    		value="SELECT * FROM Premio as p WHERE p.Descripcion LIKE %?1% ",
 	    		nativeQuery = true)
 	    		
 	    		
 
 	   
-	    public List<Premios> getByDescripcion(String descripcion);
+	    public List<Premio> getByDescripcion(String descripcion);
 	
 	 
 	

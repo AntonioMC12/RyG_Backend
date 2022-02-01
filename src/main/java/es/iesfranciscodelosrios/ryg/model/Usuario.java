@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "usuario")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -78,93 +78,10 @@ public class Usuario implements Serializable {
 	}
 
 	/**
-	 * @param nombre_comercio
-	 * @param contrasena
-	 * @param email
-	 */
-	public Usuario(String nombre_comercio, String contrasena, String email) {
-		super();
-		this.nombre_comercio = nombre_comercio;
-		this.contrasena = contrasena;
-		this.email = email;
-	}
-
-	/**
-	 * @param contrasena
-	 * @param email
-	 */
-	public Usuario(String contrasena, String email) {
-		super();
-		this.contrasena = contrasena;
-		this.email = email;
-	}
-
-	/**
 	 * 
 	 */
 	public Usuario() {
 		super();
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((contrasena == null) ? 0 : contrasena.hashCode());
-		result = prime * result + ((direccion == null) ? 0 : direccion.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + Float.floatToIntBits(latitud);
-		result = prime * result + Float.floatToIntBits(longitud);
-		result = prime * result + ((nombre_comercio == null) ? 0 : nombre_comercio.hashCode());
-		result = prime * result + ((telefono == null) ? 0 : telefono.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Usuario other = (Usuario) obj;
-		if (contrasena == null) {
-			if (other.contrasena != null)
-				return false;
-		} else if (!contrasena.equals(other.contrasena))
-			return false;
-		if (direccion == null) {
-			if (other.direccion != null)
-				return false;
-		} else if (!direccion.equals(other.direccion))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (Float.floatToIntBits(latitud) != Float.floatToIntBits(other.latitud))
-			return false;
-		if (Float.floatToIntBits(longitud) != Float.floatToIntBits(other.longitud))
-			return false;
-		if (nombre_comercio == null) {
-			if (other.nombre_comercio != null)
-				return false;
-		} else if (!nombre_comercio.equals(other.nombre_comercio))
-			return false;
-		if (telefono == null) {
-			if (other.telefono != null)
-				return false;
-		} else if (!telefono.equals(other.telefono))
-			return false;
-		return true;
 	}
 
 	public Long getId() {
@@ -229,6 +146,23 @@ public class Usuario implements Serializable {
 
 	public void setLongitud(float longitud) {
 		this.longitud = longitud;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 	@Override

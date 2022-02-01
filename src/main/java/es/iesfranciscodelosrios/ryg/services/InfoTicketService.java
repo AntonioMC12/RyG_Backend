@@ -38,60 +38,63 @@ public class InfoTicketService {
 	public InfoTicket getInfoTicketById(Long id) throws RecordNotFoundException, NullPointerException {
 		if (id != null) {
 			try {
-				Optional<InfoTicket> result = repository.findById(id); 
+				Optional<InfoTicket> result = repository.findById(id);
 				if (result.isPresent()) {
 					return result.get();
 				} else {
-					throw new RecordNotFoundException("La nota no existe", id); 
+					throw new RecordNotFoundException("La nota no existe", id);
 				}
 			} catch (IllegalArgumentException e) {
 				throw new IllegalArgumentException(e);
 			}
-			
+
 		} else {
 			throw new NullPointerException("El id es un objeto nulo");
 		}
 
 	}
-	
+
 	/**
 	 * Método que crea un ticket en la base de datos, si existe el objeto
-	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el método
-	 * de actualizar
+	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el método de
+	 * actualizar
+	 * 
 	 * @param ticket
-	 * @return Ticket creado en la base de datos 
+	 * @return Ticket creado en la base de datos
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 */
-	public InfoTicket createInfoTicket(InfoTicket ticket) throws NullPointerException, IllegalArgumentException{
-		if(ticket != null) {
-			if(ticket.getId() !=-1) {
+	public InfoTicket createInfoTicket(InfoTicket ticket) throws NullPointerException, IllegalArgumentException {
+		if (ticket != null) {
+			if (ticket.getId() != -1) {
 				ticket.setId(null);
 				try {
 					return ticket = repository.save(ticket);
 				} catch (IllegalArgumentException e) {
 					throw new IllegalArgumentException(e);
 				}
-			}else {
+			} else {
 				return updateInfoTicket(ticket);
 			}
-		}else {
+		} else {
 			throw new NullPointerException("El ticket es un objeto nulo");
 		}
 	}
-	
+
 	/**
 	 * Método que actualiza la información de un ticket de la base de datos
+	 * 
 	 * @param ticket
 	 * @return ticket actualizado
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 * @throws RecordNotFoundException
 	 */
-	public InfoTicket updateInfoTicket(InfoTicket ticket) throws NullPointerException, IllegalArgumentException, RecordNotFoundException{
-		if(ticket != null) {
+	public InfoTicket updateInfoTicket(InfoTicket ticket)
+			throws NullPointerException, IllegalArgumentException, RecordNotFoundException {
+		if (ticket != null) {
 			Optional<InfoTicket> getTicket = Optional.ofNullable(getInfoTicketById(ticket.getId()));
-			if(!getTicket.isEmpty()) {
+			if (!getTicket.isEmpty()) {
 				InfoTicket newTicket = getTicket.get();
 				newTicket.setId(ticket.getId());
 				newTicket.setFechaTicket(ticket.getFechaTicket());
@@ -104,39 +107,39 @@ public class InfoTicketService {
 				} catch (IllegalArgumentException e) {
 					throw new IllegalArgumentException(e);
 				}
-			}else {
+			} else {
 				throw new RecordNotFoundException("El ticket no existe", ticket.getId());
 			}
-		}else {
+		} else {
 			throw new NullPointerException("El ticket es un objeto nulo");
 		}
 	}
 
-
-
 	/**
-	 * Método que borra un ticket de la base de datos, si no lo encuentra
-	 * lanza una excepción
+	 * Método que borra un ticket de la base de datos, si no lo encuentra lanza una
+	 * excepción
+	 * 
 	 * @param id
 	 * @throws RecordNotFoundException
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 */
-	public void deleteInfoTicketById(Long id) throws RecordNotFoundException, NullPointerException, IllegalArgumentException {
-		if(id!=null) {
+	public void deleteInfoTicketById(Long id)
+			throws RecordNotFoundException, NullPointerException, IllegalArgumentException {
+		if (id != null) {
 			Optional<InfoTicket> ticket = Optional.ofNullable(getInfoTicketById(id));
-			if(!ticket.isEmpty()) {
+			if (!ticket.isEmpty()) {
 				try {
 					repository.deleteById(id);
 				} catch (IllegalArgumentException e) {
 					throw new IllegalArgumentException(e);
 				}
-			}else {
+			} else {
 				throw new RecordNotFoundException("El ticket no existe", id);
 			}
-		}else {
+		} else {
 			throw new NullPointerException("El id es un objeto nulo");
 		}
-		
+
 	}
 }

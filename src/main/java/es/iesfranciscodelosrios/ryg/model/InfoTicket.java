@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "infoTicket")
+@Table(name = "info_ticket")
 public class InfoTicket implements Serializable {
 
 	/**
@@ -100,6 +100,23 @@ public class InfoTicket implements Serializable {
 		return "InfoTicket [id=" + id + ", nombreCliente=" + nombreCliente + ", telefono=" + telefono
 				+ ", numeroTicket=" + numeroTicket + ", fechaTicket=" + fechaTicket + ", nombreComercio="
 				+ nombreComercio + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		InfoTicket other = (InfoTicket) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }
