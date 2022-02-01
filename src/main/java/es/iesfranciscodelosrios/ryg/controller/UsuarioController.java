@@ -22,7 +22,7 @@ import es.iesfranciscodelosrios.ryg.model.Usuario;
 import es.iesfranciscodelosrios.ryg.services.UsuarioService;
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
 	@Autowired
@@ -46,13 +46,14 @@ public class UsuarioController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de datos
-	 * y devolver el usuario que le corresponda un id determinado
+	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * datos y devolver el usuario que le corresponda un id determinado
+	 * 
 	 * @param id
 	 * @return Usuario encontrado en la bd, o vacío si hay algún error
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
+	public ResponseEntity<Usuario> getUsuarioById(@PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				Usuario getUsuarioById = service.getUsuarioById(id);
@@ -66,8 +67,9 @@ public class UsuarioController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de datos
-	 * y crear un usuario nuevo
+	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * datos y crear un usuario nuevo
+	 * 
 	 * @param id
 	 * @return Usuario encontrado en la bd, o vacío si hay algún error
 	 */
@@ -86,8 +88,9 @@ public class UsuarioController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de datos
-	 * y actualizar un usuario
+	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * datos y actualizar un usuario
+	 * 
 	 * @param id
 	 * @return Usuario encontrado en la bd, o vacío si hay algún error
 	 */
@@ -106,8 +109,9 @@ public class UsuarioController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de datos
-	 * y borrar un usuario
+	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * datos y borrar un usuario
+	 * 
 	 * @param id del usuario a borrar
 	 * @return Usuario encontrado en la bd, o vacío si hay algún error
 	 */

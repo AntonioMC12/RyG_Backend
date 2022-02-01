@@ -22,7 +22,7 @@ import es.iesfranciscodelosrios.ryg.model.Boleto;
 import es.iesfranciscodelosrios.ryg.services.BoletoService;
 
 @RestController
-@RequestMapping("/boleto")
+@RequestMapping("/boletos")
 public class BoletoController {
 
 	@Autowired
