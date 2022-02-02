@@ -63,10 +63,10 @@ public class UsuarioService {
 	 */
 	public Usuario createUsuario(Usuario usuario) throws NullPointerException, IllegalArgumentException {
 		if (usuario != null) {
-			if (usuario.getId() != -1) {
+			if (usuario.getId() == -1) {
 				usuario.setId(null);
 				try {
-					return usuario = repository.save(usuario);
+					return repository.save(usuario);
 				} catch (IllegalArgumentException e) {
 					throw new IllegalArgumentException(e);
 				}

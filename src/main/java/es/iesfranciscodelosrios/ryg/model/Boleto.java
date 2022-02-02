@@ -4,17 +4,23 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
-@Table(name = "Boleto")
+@Table(name = "boleto")
 public class Boleto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -25,9 +31,31 @@ public class Boleto implements Serializable {
 	private boolean entregado;
 	@Column(name = "canjeado")
 	private boolean canjeado;
-	// private Premio premio;
-	@Column(name = "id_usuario")
+
+	@JsonIgnoreProperties(value = {"boleto"}, allowSetters = true)
+	@OneToOne
+	@JoinColumn(nullable = true, name = "id_premio")
+	private Premio premio;
+
+	@JsonIgnoreProperties(value = {"boleto"}, allowSetters = true)
+	@OneToOne(mappedBy = "boleto")
+	private InfoTicket ticket;
+
+	@JsonIgnoreProperties(value = {"boletos"}, allowSetters = true)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
+
+	public Boleto(Long id, String descripicion, boolean entregado, boolean canjeado, Premio premio, InfoTicket ticket,
+			Usuario usuario) {
+		this.id = id;
+		this.descripicion = descripicion;
+		this.entregado = entregado;
+		this.canjeado = canjeado;
+		this.premio = premio;
+		this.ticket = ticket;
+		this.usuario = usuario;
+	}
 
 	public Boleto() {
 
@@ -73,12 +101,23 @@ public class Boleto implements Serializable {
 		this.usuario = usuario;
 	}
 
-	@Override
-	public String toString() {
-		return "Boleto [id=" + id + ", descripicion=" + descripicion + ", entregado=" + entregado + ", canjeado="
-				+ canjeado + "]";
+	public Premio getPremio() {
+		return premio;
 	}
 
+	public void setPremio(Premio premio) {
+		this.premio = premio;
+	}
+
+	public InfoTicket getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(InfoTicket ticket) {
+		this.ticket = ticket;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -103,4 +142,5 @@ public class Boleto implements Serializable {
 			return false;
 		return true;
 	}
+
 }

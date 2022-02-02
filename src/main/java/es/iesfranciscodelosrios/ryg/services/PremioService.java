@@ -69,7 +69,7 @@ public class PremioService {
 	 */
 	public Premio createPremio(Premio entity) throws NullPointerException, IllegalArgumentException{
 		if (entity != null) {
-			if (entity.getId() != -1) {
+			if (entity.getId() == -1) {
 				entity.setId(-1);
 				try {
 					return entity = premiosrepository.save(entity);

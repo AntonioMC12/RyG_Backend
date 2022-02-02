@@ -66,7 +66,7 @@ public class InfoTicketService {
 	 */
 	public InfoTicket createInfoTicket(InfoTicket ticket) throws NullPointerException, IllegalArgumentException {
 		if (ticket != null) {
-			if (ticket.getId() != -1) {
+			if (ticket.getId() == -1) {
 				ticket.setId(null);
 				try {
 					return ticket = repository.save(ticket);
