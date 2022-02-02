@@ -80,7 +80,7 @@ public class UsuarioController {
 				Usuario createUsuario = service.createUsuario(usuario);
 				return new ResponseEntity<Usuario>(createUsuario, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
-				return new ResponseEntity<Usuario>(new Usuario(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<Usuario>(new Usuario(), new HttpHeaders(), HttpStatus.BAD_GATEWAY);
 			}
 		} else {
 			return new ResponseEntity<Usuario>(new Usuario(), new HttpHeaders(), HttpStatus.BAD_REQUEST);

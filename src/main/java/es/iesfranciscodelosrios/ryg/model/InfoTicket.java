@@ -3,12 +3,17 @@ package es.iesfranciscodelosrios.ryg.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "info_ticket")
@@ -32,6 +37,11 @@ public class InfoTicket implements Serializable {
 	private Timestamp fechaTicket;
 	@Column(name = "nombre_comercio")
 	private String nombreComercio;
+
+	@JsonIgnoreProperties(value = {"ticket"}, allowSetters = true)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_boleto", referencedColumnName = "id")
+	private Boleto boleto;
 
 	public InfoTicket() {
 	}
@@ -95,11 +105,12 @@ public class InfoTicket implements Serializable {
 		this.nombreComercio = nombreComercio;
 	}
 
-	@Override
-	public String toString() {
-		return "InfoTicket [id=" + id + ", nombreCliente=" + nombreCliente + ", telefono=" + telefono
-				+ ", numeroTicket=" + numeroTicket + ", fechaTicket=" + fechaTicket + ", nombreComercio="
-				+ nombreComercio + "]";
+	public Boleto getBoleto() {
+		return boleto;
+	}
+
+	public void setBoleto(Boleto boleto) {
+		this.boleto = boleto;
 	}
 
 	@Override

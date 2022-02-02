@@ -1,13 +1,18 @@
 package es.iesfranciscodelosrios.ryg.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "usuario")
@@ -32,6 +37,12 @@ public class Usuario implements Serializable {
 	private float latitud;
 	@Column(name = "longitud")
 	private float longitud;
+	@Column(name = "participaciones")
+	private int participaciones;
+
+	@JsonIgnoreProperties(value = {"usuario"}, allowSetters = true)
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Boleto> boletos;
 
 	/**
 	 * @param id
@@ -66,7 +77,7 @@ public class Usuario implements Serializable {
 	 * @param longitud
 	 */
 	public Usuario(String nombre_comercio, String contrasena, String direccion, String email, String telefono,
-			float latitud, float longitud) {
+			float latitud, float longitud, int participaciones) {
 		super();
 		this.nombre_comercio = nombre_comercio;
 		this.contrasena = contrasena;
@@ -75,13 +86,13 @@ public class Usuario implements Serializable {
 		this.telefono = telefono;
 		this.latitud = latitud;
 		this.longitud = longitud;
+		this.participaciones = participaciones;
 	}
 
 	/**
 	 * 
 	 */
 	public Usuario() {
-		super();
 	}
 
 	public Long getId() {
@@ -148,6 +159,22 @@ public class Usuario implements Serializable {
 		this.longitud = longitud;
 	}
 
+	public int getParticipaciones() {
+		return participaciones;
+	}
+
+	public void setParticipaciones(int participaciones) {
+		this.participaciones = participaciones;
+	}
+
+	public List<Boleto> getBoletos() {
+		return boletos;
+	}
+
+	public void setBoletos(List<Boleto> boletos) {
+		this.boletos = boletos;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -163,13 +190,6 @@ public class Usuario implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nombre_comercio=" + nombre_comercio + ", contrasena=" + contrasena
-				+ ", direccion=" + direccion + ", email=" + email + ", telefono=" + telefono + ", latitud=" + latitud
-				+ ", longitud=" + longitud + "]";
 	}
 
 }

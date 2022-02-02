@@ -66,7 +66,7 @@ public class BoletoService {
 	 */
 	public Boleto createBoleto(Boleto boleto) throws NullPointerException, IllegalArgumentException {
 		if (boleto != null) {
-			if (boleto.getId() != -1) {
+			if (boleto.getId() == -1) {
 				boleto.setId(null);
 				try {
 					return boleto = repository.save(boleto);
