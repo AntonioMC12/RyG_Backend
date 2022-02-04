@@ -142,4 +142,14 @@ public class BoletoService {
 		}
 	}
 
+	/**
+	 * Método que devuelve todas los boletos que han sido entregados, haciendo uso del repositorio del mismo
+	 * 
+	 * @return Lista con todos los boletos entregados
+	 */
+	public List<Boleto> getBoletosEntregados() {
+		List<Boleto> getBoletosEntregados = repository.getBoletosEntregados();
+		return null;
+	}
+
 }

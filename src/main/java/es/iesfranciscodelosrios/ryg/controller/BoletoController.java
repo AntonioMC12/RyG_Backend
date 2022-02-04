@@ -70,6 +70,28 @@ public class BoletoController {
 
 	/**
 	 * Método que recoge una petición http a nuestra API para hacer una consulta a
+	 * la base de datos y devolver todos los Boletos entregados.
+	 * 
+	 * @return Lista con todos los boletos entregados de la base de datos, una lista
+	 *         vacía si algo ha ido mal
+	 */
+	@GetMapping("/entregados")
+	public ResponseEntity<List<Boleto>> getBoletosEntregados(@PathVariable("entregado") boolean entregado) {
+		if (entregado != false) {
+			try {
+				List<Boleto> getBoletosEntregados = service.getBoletosEntregados();
+				return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				List<Boleto> getBoletosEntregados = new ArrayList<Boleto>();
+				return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
+			}
+		}
+		return null;
+
+	}
+
+	/**
+	 * Método que recoge una petición http a nuestra API para hacer una consulta a
 	 * la base de datos y añadir un boleto.
 	 * 
 	 * @param boleto a añadir
