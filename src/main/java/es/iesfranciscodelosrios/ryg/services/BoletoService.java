@@ -149,7 +149,7 @@ public class BoletoService {
 	 */
 	public List<Boleto> getBoletosEntregados() {
 		List<Boleto> getBoletosEntregados = repository.getBoletosEntregados();
-		return null;
+		return getBoletosEntregados;
 	}
 
 }
