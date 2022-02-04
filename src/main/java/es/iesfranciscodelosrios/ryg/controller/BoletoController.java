@@ -85,8 +85,10 @@ public class BoletoController {
 				List<Boleto> getBoletosEntregados = new ArrayList<Boleto>();
 				return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
 			}
+		} else {
+			List<Boleto> getBoletosEntregados = new ArrayList<Boleto>();
+			return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
 		}
-		return null;
 
 	}
 
