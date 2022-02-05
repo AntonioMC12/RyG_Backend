@@ -69,6 +69,24 @@ public class InfoTicketController {
 		}
 
 	}
+	
+	/**
+	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * datos y devolver una lista de tickets filtrando por teléfono
+	 * 
+	 * @return Lista de tickets de la base de datos según teléfono, lista vacía en caso contrario
+	 */
+	@GetMapping("/telefono/{telefono}")
+	public ResponseEntity<List<InfoTicket>> getTicketsByTelephone(@PathVariable("telefono") int telefono) {
+		try {
+			List<InfoTicket> getTicketsByTelephone = service.getTicketsByTelephone(telefono);
+			return new ResponseEntity<List<InfoTicket>>(getTicketsByTelephone, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			List<InfoTicket> getTicketsByTelephone = new ArrayList<InfoTicket>();
+			return new ResponseEntity<List<InfoTicket>>(getTicketsByTelephone, new HttpHeaders(), HttpStatus.OK);
+		}
+
+	}
 
 	/**
 	 * Método que recoge una petición http para hacer una consulta a la base de

@@ -142,4 +142,20 @@ public class InfoTicketService {
 		}
 
 	}
+
+	/**
+	 * Método que devuelve todos los tickets de un teléfono
+	 * 
+	 * @param telefono
+	 * @return Lista con todos los tickets de un teléfono en concreto
+	 * @throws IllegalArgumentException
+	 */
+	public List<InfoTicket> getTicketsByTelephone(int telefono) throws IllegalArgumentException {
+		try {
+			List<InfoTicket> getTicketsByTelephone = repository.getTicketsByTelephone(telefono);
+			return getTicketsByTelephone;
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
 }
