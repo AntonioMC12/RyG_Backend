@@ -143,7 +143,8 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que devuelve todas los boletos que han sido entregados, haciendo uso del repositorio del mismo
+	 * Método que devuelve todas los boletos que han sido entregados, haciendo uso
+	 * del repositorio del mismo
 	 * 
 	 * @return Lista con todos los boletos entregados
 	 */
@@ -153,7 +154,8 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que devuelve todas los boletos que han sido canjeados, haciendo uso del repositorio del mismo
+	 * Método que devuelve todas los boletos que han sido canjeados, haciendo uso
+	 * del repositorio del mismo
 	 * 
 	 * @return Lista con todos los boletos canjeados
 	 */
@@ -161,5 +163,40 @@ public class BoletoService {
 		List<Boleto> getBoletosCanjeados = repository.getBoletosCanjeados();
 		return getBoletosCanjeados;
 	}
+
+	/**
+	 * Método que devuelve todas los boletos de un usuario
+	 * 
+	 * @return Lista con todos los boletos de un usuario en concreto
+	 */
+	public List<Boleto> getBoletosByIdComercio(Long id_comercio) throws NullPointerException {
+		if (id_comercio != null) {
+			try {
+				List<Boleto> getBoletosByIdComercio = repository.getBoletosByIdComercio(id_comercio);
+				return getBoletosByIdComercio;
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			}
+		} else {
+			throw new NullPointerException("El id es un objeto nulo");
+		}
+
+	}
+//	public Boleto getBoletoById(Long id) throws RecordNotFoundException, NullPointerException {
+//		if (id != null) {
+//			try {
+//				Optional<Boleto> getBoletoById = repository.findById(id);
+//				if (getBoletoById.isPresent()) {
+//					return getBoletoById.get();
+//				} else {
+//					throw new RecordNotFoundException("El boleto no existe", id);
+//				}
+//			} catch (IllegalArgumentException e) {
+//				throw new IllegalArgumentException(e);
+//			}
+//		} else {
+//			throw new NullPointerException("El id es un objeto nulo");
+//		}
+//	}
 
 }

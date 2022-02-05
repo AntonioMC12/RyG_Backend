@@ -70,6 +70,29 @@ public class BoletoController {
 
 	/**
 	 * Método que recoge una petición http a nuestra API para hacer una consulta a
+	 * la base de datos y devolver todos los Boletos de un usuario en concreto.
+	 * 
+	 * @return Lista con todos los boletos de un usuario de la base de datos, una
+	 *         lista vacía si algo ha ido mal
+	 */
+	@GetMapping("/usuarios/{id}")
+	public ResponseEntity<List<Boleto>> getBoletosByIdComercio(@PathVariable("id_comercio") Long id_comercio) {
+		if (id_comercio != null && id_comercio > -1) {
+			try {
+				List<Boleto> getBoletosByIdComercio = service.getBoletosByIdComercio(id_comercio);
+				return new ResponseEntity<List<Boleto>>(getBoletosByIdComercio, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				List<Boleto> getBoletosByIdComercio = new ArrayList<Boleto>();
+				return new ResponseEntity<List<Boleto>>(getBoletosByIdComercio, new HttpHeaders(), HttpStatus.OK);
+			}
+		} else {
+			List<Boleto> getBoletosByIdComercio = new ArrayList<Boleto>();
+			return new ResponseEntity<List<Boleto>>(getBoletosByIdComercio, new HttpHeaders(), HttpStatus.OK);
+		}
+	}
+
+	/**
+	 * Método que recoge una petición http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Boletos entregados.
 	 * 
 	 * @return Lista con todos los boletos entregados de la base de datos, una lista
@@ -91,7 +114,7 @@ public class BoletoController {
 		}
 
 	}
-	
+
 	/**
 	 * Método que recoge una petición http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Boletos canjeados.

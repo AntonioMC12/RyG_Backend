@@ -17,4 +17,7 @@ public interface BoletoRepository extends JpaRepository<Boleto, Long> {
 	@Query(value = "SELECT * FROM boleto AS b WHERE b.canjeado = 1", nativeQuery = true)
 	public List<Boleto> getBoletosCanjeados();
 
+	@Query(value = "SELECT * FROM boleto AS b WHERE b.id_comercio = ?1", nativeQuery = true)
+	public List<Boleto> getBoletosByIdComercio(Long id_comercio);
+
 }

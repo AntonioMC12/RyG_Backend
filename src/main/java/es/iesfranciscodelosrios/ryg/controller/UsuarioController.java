@@ -78,7 +78,7 @@ public class UsuarioController {
 	public ResponseEntity<Usuario> getUsuarioByCoordinates(@PathVariable("latitud") float latitud,
 			@PathVariable("longitud") float longitud) {
 		Usuario getUsuarioByCoordinates = service.getUsuarioByCoordinates(latitud, longitud);
-		return null;
+		return new ResponseEntity<Usuario>(getUsuarioByCoordinates, new HttpHeaders(), HttpStatus.OK);
 
 	}
 
