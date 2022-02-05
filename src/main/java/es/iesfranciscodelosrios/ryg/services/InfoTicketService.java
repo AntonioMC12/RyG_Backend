@@ -1,5 +1,6 @@
 package es.iesfranciscodelosrios.ryg.services;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -156,6 +157,55 @@ public class InfoTicketService {
 			return getTicketsByTelephone;
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException(e);
+		}
+	}
+
+	/**
+	 * Método que devuelve todos los tickets de una fecha concreta
+	 * 
+	 * @param fecha_ticket
+	 * @return Lista con todos los tickets de una fecha
+	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
+	 */
+	public List<InfoTicket> getTicketsByDate(Timestamp fecha_ticket)
+			throws NullPointerException, IllegalArgumentException {
+		if (fecha_ticket != null) {
+			try {
+				List<InfoTicket> getTicketsByDate = repository.getTicketsByDate(fecha_ticket);
+				return getTicketsByDate;
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			}
+		} else {
+			throw new NullPointerException("La fecha es nula");
+		}
+	}
+
+	/**
+	 * Método que obtiene un ticket de la base de datos buscando por el id de su
+	 * boleto asociado. Si existe, lo devuelve, si no, lanza una excepción para
+	 * dicho resultado
+	 * 
+	 * @param id_boleto
+	 * @return ticket si lo encuentra, excepcion si no lo encuentra
+	 * @throws RecordNotFoundException
+	 * @throws NullPointerException
+	 */
+	public InfoTicket getTicketByIdBoleto(Long id_boleto) throws RecordNotFoundException, NullPointerException {
+		if (id_boleto != null) {
+			try {
+				Optional<InfoTicket> getTicketByIdBoleto = repository.getTicketByIdBoleto(id_boleto);
+				if (getTicketByIdBoleto.isPresent()) {
+					return getTicketByIdBoleto.get();
+				} else {
+					throw new RecordNotFoundException("El ticket asociado a ese boleto no existe", id_boleto);
+				}
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			}
+		} else {
+			throw new NullPointerException("El id de boleto es un objeto nulo");
 		}
 	}
 }
