@@ -152,4 +152,14 @@ public class BoletoService {
 		return getBoletosEntregados;
 	}
 
+	/**
+	 * Método que devuelve todas los boletos que han sido canjeados, haciendo uso del repositorio del mismo
+	 * 
+	 * @return Lista con todos los boletos canjeados
+	 */
+	public List<Boleto> getBoletosCanjeados() {
+		List<Boleto> getBoletosCanjeados = repository.getBoletosCanjeados();
+		return getBoletosCanjeados;
+	}
+
 }

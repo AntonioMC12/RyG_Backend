@@ -91,6 +91,30 @@ public class BoletoController {
 		}
 
 	}
+	
+	/**
+	 * Método que recoge una petición http a nuestra API para hacer una consulta a
+	 * la base de datos y devolver todos los Boletos canjeados.
+	 * 
+	 * @return Lista con todos los boletos canjeados de la base de datos, una lista
+	 *         vacía si algo ha ido mal
+	 */
+	@GetMapping("/canjeados")
+	public ResponseEntity<List<Boleto>> getBoletosCanjeados(@PathVariable("canjeado") boolean canjeado) {
+		if (canjeado != false) {
+			try {
+				List<Boleto> getBoletosCanjeados = service.getBoletosCanjeados();
+				return new ResponseEntity<List<Boleto>>(getBoletosCanjeados, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				List<Boleto> getBoletosCanjeados = new ArrayList<Boleto>();
+				return new ResponseEntity<List<Boleto>>(getBoletosCanjeados, new HttpHeaders(), HttpStatus.OK);
+			}
+		} else {
+			List<Boleto> getBoletosCanjeados = new ArrayList<Boleto>();
+			return new ResponseEntity<List<Boleto>>(getBoletosCanjeados, new HttpHeaders(), HttpStatus.OK);
+		}
+
+	}
 
 	/**
 	 * Método que recoge una petición http a nuestra API para hacer una consulta a
