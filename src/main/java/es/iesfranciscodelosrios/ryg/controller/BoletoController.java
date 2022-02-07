@@ -77,7 +77,7 @@ public class BoletoController {
 	 *         lista vacía si algo ha ido mal
 	 */
 	@GetMapping("/usuarios/{id}")
-	public ResponseEntity<List<Boleto>> getBoletosByIdComercio(@PathVariable("id_comercio") Long id_comercio) {
+	public ResponseEntity<List<Boleto>> getBoletosByIdComercio(Long id_comercio) {
 		if (id_comercio != null && id_comercio > -1) {
 			try {
 				List<Boleto> getBoletosByIdComercio = service.getBoletosByIdComercio(id_comercio);
@@ -100,8 +100,8 @@ public class BoletoController {
 	 *         vacía si algo ha ido mal
 	 */
 	@GetMapping("/entregados")
-	public ResponseEntity<List<Boleto>> getBoletosEntregados(@PathVariable("entregado") boolean entregado) {
-		if (entregado != false) {
+	public ResponseEntity<List<Boleto>> getBoletosEntregados() {
+		
 			try {
 				List<Boleto> getBoletosEntregados = service.getBoletosEntregados();
 				return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
@@ -109,10 +109,6 @@ public class BoletoController {
 				List<Boleto> getBoletosEntregados = new ArrayList<Boleto>();
 				return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
 			}
-		} else {
-			List<Boleto> getBoletosEntregados = new ArrayList<Boleto>();
-			return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
-		}
 
 	}
 
@@ -124,16 +120,11 @@ public class BoletoController {
 	 *         vacía si algo ha ido mal
 	 */
 	@GetMapping("/canjeados")
-	public ResponseEntity<List<Boleto>> getBoletosCanjeados(@PathVariable("canjeado") boolean canjeado) {
-		if (canjeado != false) {
-			try {
-				List<Boleto> getBoletosCanjeados = service.getBoletosCanjeados();
-				return new ResponseEntity<List<Boleto>>(getBoletosCanjeados, new HttpHeaders(), HttpStatus.OK);
-			} catch (Exception e) {
-				List<Boleto> getBoletosCanjeados = new ArrayList<Boleto>();
-				return new ResponseEntity<List<Boleto>>(getBoletosCanjeados, new HttpHeaders(), HttpStatus.OK);
-			}
-		} else {
+	public ResponseEntity<List<Boleto>> getBoletosCanjeados() {
+		try {
+			List<Boleto> getBoletosCanjeados = service.getBoletosCanjeados();
+			return new ResponseEntity<List<Boleto>>(getBoletosCanjeados, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
 			List<Boleto> getBoletosCanjeados = new ArrayList<Boleto>();
 			return new ResponseEntity<List<Boleto>>(getBoletosCanjeados, new HttpHeaders(), HttpStatus.OK);
 		}
