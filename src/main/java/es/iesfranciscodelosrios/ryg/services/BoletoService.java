@@ -24,10 +24,16 @@ public class BoletoService {
 	 * Método que devuelve todas los boletos, haciendo uso del repositorio del mismo
 	 * 
 	 * @return Lista con todos los boletos existentes.
+	 * @throws Exception
 	 */
-	public List<Boleto> getAllBoleto() {
-		List<Boleto> getAllBoleto = repository.findAll();
-		return getAllBoleto;
+	public List<Boleto> getAllBoleto() throws Exception {
+		try {
+			List<Boleto> getAllBoleto = repository.findAll();
+			return getAllBoleto;
+		} catch (Exception e) {
+			logger.error("The boleto doesn't exists in the database.");
+			throw new Exception("El boleto no existe", e);
+		}
 	}
 
 	/**
