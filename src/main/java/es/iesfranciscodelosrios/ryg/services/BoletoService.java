@@ -3,6 +3,8 @@ package es.iesfranciscodelosrios.ryg.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ import es.iesfranciscodelosrios.ryg.repository.BoletoRepository;
 
 @Service
 public class BoletoService {
+
+	private static final Logger logger = LogManager.getLogger("BoletoService");
 
 	@Autowired
 	BoletoRepository repository;
@@ -33,22 +37,28 @@ public class BoletoService {
 	 * 
 	 * @param id del boleto a buscar
 	 * @return boleto si lo encuentra, excepcion si no lo encuentra.
-	 * @throws RecordNotFoundException
-	 * @throws NullPointerException
+	 * @throws Exception, IllegalArgumentException
 	 */
-	public Boleto getBoletoById(Long id) throws RecordNotFoundException, NullPointerException {
+	public Boleto getBoletoById(Long id)
+			throws Exception, IllegalArgumentException, NullPointerException, RecordNotFoundException {
 		if (id != null) {
 			try {
 				Optional<Boleto> getBoletoById = repository.findById(id);
 				if (getBoletoById.isPresent()) {
 					return getBoletoById.get();
 				} else {
+					logger.error("The boleto doesn't exists in the database.");
 					throw new RecordNotFoundException("El boleto no existe", id);
 				}
 			} catch (IllegalArgumentException e) {
+				logger.error("IllegalArgumentException in the method getBoletoById: " + e);
 				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				logger.error("Exception in the method getBoletoById: " + e);
+				throw new Exception(e);
 			}
 		} else {
+			logger.error("NullPointerException in the method getBoletoById id equals to null.");
 			throw new NullPointerException("El id es un objeto nulo");
 		}
 
@@ -61,22 +71,39 @@ public class BoletoService {
 	 * 
 	 * @param boleto a guardar en la base de datos.
 	 * @return boleto creado en la base de datos con el id actualizado.
-	 * @throws NullPointerException
-	 * @throws IllegalArgumentException
+	 * @throws Exception, RecordNotFoundException, NullPointerException,
+	 *                    IllegalArgumentException
 	 */
-	public Boleto createBoleto(Boleto boleto) throws NullPointerException, IllegalArgumentException {
+	public Boleto createBoleto(Boleto boleto)
+			throws Exception, RecordNotFoundException, NullPointerException, IllegalArgumentException {
 		if (boleto != null) {
 			if (boleto.getId() == -1) {
 				boleto.setId(null);
 				try {
 					return boleto = repository.save(boleto);
 				} catch (IllegalArgumentException e) {
+					logger.error("IllegalArgumentException in the method createBoleto" + e);
 					throw new IllegalArgumentException(e);
 				}
 			} else {
-				return updateBoleto(boleto);
+				try {
+					return updateBoleto(boleto);
+				} catch (RecordNotFoundException e) {
+					logger.error("RecordNotFoundException in the method createBoleto" + e);
+					throw new RecordNotFoundException("El boleto no existe", e);
+				} catch (NullPointerException e) {
+					logger.error("NullPointerException in the method createBoleto" + e);
+					throw new NullPointerException("El boleto no existe");
+				} catch (IllegalArgumentException e) {
+					logger.error("IllegalArgumentException in the method createBoleto" + e);
+					throw new IllegalArgumentException("El boleto no existe");
+				} catch (Exception e) {
+					logger.error("Exception in the method createBoleto" + e);
+					throw new Exception("El boleto no existe");
+				}
 			}
 		} else {
+			logger.error("NullPointerException in the method createBoleto boleto is null");
 			throw new NullPointerException("He boleto es un objeto nulo");
 		}
 	}
@@ -92,25 +119,37 @@ public class BoletoService {
 	 * @throws IllegalArgumentException
 	 */
 	public Boleto updateBoleto(Boleto boleto)
-			throws NullPointerException, RecordNotFoundException, IllegalArgumentException {
+			throws NullPointerException, RecordNotFoundException, IllegalArgumentException, Exception {
 		if (boleto != null) {
-			Optional<Boleto> getBoleto = Optional.ofNullable(getBoletoById(boleto.getId()));
-			if (!getBoleto.isEmpty()) {
-				Boleto updateBoleto = getBoleto.get();
-				updateBoleto.setId(boleto.getId());
-				updateBoleto.setDescripcion(boleto.getDescripcion());
-				updateBoleto.setUsuario(boleto.getUsuario());
-				updateBoleto.setCanjeado(boleto.isCanjeado());
-				updateBoleto.setEntregado(boleto.isEntregado());
-				try {
+			Optional<Boleto> getBoleto;
+			try {
+				getBoleto = Optional.ofNullable(getBoletoById(boleto.getId()));
+				if (!getBoleto.isEmpty()) {
+					Boleto updateBoleto = getBoleto.get();
+					updateBoleto.setId(boleto.getId());
+					updateBoleto.setDescripcion(boleto.getDescripcion());
+					updateBoleto.setUsuario(boleto.getUsuario());
+					updateBoleto.setCanjeado(boleto.isCanjeado());
+					updateBoleto.setEntregado(boleto.isEntregado());
 					return repository.save(updateBoleto);
-				} catch (IllegalArgumentException e) {
-					throw new IllegalArgumentException(e);
+				} else {
+					throw new RecordNotFoundException("El boleto no existe", boleto.getId());
 				}
-			} else {
-				throw new RecordNotFoundException("El boleto no existe", boleto.getId());
+			} catch (IllegalArgumentException e1) {
+				logger.error("Exception in the method updateBoleto" + e1);
+				throw new IllegalArgumentException("El boleto no existe");
+			} catch (NullPointerException e1) {
+				logger.error("Exception in the method updateBoleto" + e1);
+				throw new NullPointerException("El boleto no existe");
+			} catch (RecordNotFoundException e1) {
+				logger.error("Exception in the method updateBoleto" + e1);
+				throw new RecordNotFoundException("El boleto no existe", e1);
+			} catch (Exception e1) {
+				logger.error("Exception in the method updateBoleto" + e1);
+				throw new Exception("El boleto no existe");
 			}
 		} else {
+			logger.error("Exception in the method updateBoleto");
 			throw new NullPointerException("El boleto es un objeto nulo");
 		}
 	}
@@ -125,19 +164,32 @@ public class BoletoService {
 	 * @throws IllegalArgumentException
 	 */
 	public void deleteBoletoById(Long id)
-			throws NullPointerException, RecordNotFoundException, IllegalArgumentException {
+			throws NullPointerException, RecordNotFoundException, IllegalArgumentException, Exception {
 		if (id != null) {
-			Optional<Boleto> deleteBoletoById = Optional.ofNullable(getBoletoById(id));
-			if (!deleteBoletoById.isEmpty()) {
-				try {
+			Optional<Boleto> deleteBoletoById;
+			try {
+				deleteBoletoById = Optional.ofNullable(getBoletoById(id));
+				if (!deleteBoletoById.isEmpty()) {
 					repository.deleteById(id);
-				} catch (IllegalArgumentException e) {
-					throw new IllegalArgumentException(e);
+				} else {
+					logger.error("Exception in the method deleteBoletoById");
+					throw new RecordNotFoundException("El boleto no existe", id);
 				}
-			} else {
-				throw new RecordNotFoundException("El boleto no existe", id);
+			} catch (IllegalArgumentException e1) {
+				logger.error("Exception in the method deleteBoletoById" + e1);
+				throw new IllegalArgumentException("El boleto no existe");
+			} catch (NullPointerException e1) {
+				logger.error("Exception in the method deleteBoletoById" + e1);
+				throw new NullPointerException("El boleto no existe");
+			} catch (RecordNotFoundException e1) {
+				logger.error("Exception in the method deleteBoletoById" + e1);
+				throw new RecordNotFoundException("El boleto no existe", e1);
+			} catch (Exception e1) {
+				logger.error("Exception in the method deleteBoletoById" + e1);
+				throw new Exception("El boleto no existe");
 			}
 		} else {
+			logger.error("Exception in the method deleteBoletoById");
 			throw new NullPointerException("El id es un objeto nulo");
 		}
 	}
@@ -147,10 +199,16 @@ public class BoletoService {
 	 * del repositorio del mismo
 	 * 
 	 * @return Lista con todos los boletos entregados
+	 * @throws Exception
 	 */
-	public List<Boleto> getBoletosEntregados() {
-		List<Boleto> getBoletosEntregados = repository.getBoletosEntregados();
-		return getBoletosEntregados;
+	public List<Boleto> getBoletosEntregados() throws Exception {
+		try {
+			List<Boleto> getBoletosEntregados = repository.getBoletosEntregados();
+			return getBoletosEntregados;
+		} catch (Exception e) {
+			logger.error("Exception in the method getBoletosEntregados" + e);
+			throw new Exception("El boleto no existe");
+		}
 	}
 
 	/**
@@ -158,10 +216,16 @@ public class BoletoService {
 	 * del repositorio del mismo
 	 * 
 	 * @return Lista con todos los boletos canjeados
+	 * @throws Exception
 	 */
-	public List<Boleto> getBoletosCanjeados() {
-		List<Boleto> getBoletosCanjeados = repository.getBoletosCanjeados();
-		return getBoletosCanjeados;
+	public List<Boleto> getBoletosCanjeados() throws Exception {
+		try {
+			List<Boleto> getBoletosCanjeados = repository.getBoletosCanjeados();
+			return getBoletosCanjeados;
+		} catch (Exception e) {
+			logger.error("Exception in the method getBoletosCanjeados" + e);
+			throw new Exception("El boleto no existe");
+		}
 	}
 
 	/**
@@ -178,11 +242,14 @@ public class BoletoService {
 				List<Boleto> getBoletosByIdComercio = repository.getBoletosByIdComercio(id_comercio);
 				return getBoletosByIdComercio;
 			} catch (IllegalArgumentException e) {
+				logger.error("Exception in the method getBoletosByIdComercio" + e);
 				throw new IllegalArgumentException(e);
 			} catch (Exception e) {
+				logger.error("Exception in the method getBoletosByIdComercio" + e);
 				throw new Exception(e);
 			}
 		} else {
+			logger.error("Exception in the method getBoletosByIdComercio");
 			throw new NullPointerException("El id es un objeto nulo");
 		}
 	}
@@ -190,12 +257,13 @@ public class BoletoService {
 	/**
 	 * Actualiza un boleto con el parametro de entregado que le pasamos.
 	 * 
-	 * @param boleto   a actualizar
+	 * @param boleto    a actualizar
 	 * @param entregado estado de entregado a actualizar
 	 * @return true si lo actualiza bien, false si lo contrario.
 	 * @throws IllegalArgumentException
 	 */
-	public boolean setBoletoEntregado(Boleto boleto, boolean entregado) throws IllegalArgumentException {
+	public boolean setBoletoEntregado(Boleto boleto, boolean entregado)
+			throws IllegalArgumentException, NullPointerException {
 		if (boleto != null) {
 			Boleto setBoletoEntregado = repository.getOne(boleto.getId());
 			setBoletoEntregado.setEntregado(entregado);
@@ -203,10 +271,12 @@ public class BoletoService {
 				repository.save(setBoletoEntregado);
 				return true;
 			} catch (IllegalArgumentException e) {
+				logger.error("Exception in the method setBoletoEntregado" + e);
 				return false;
 			}
 		} else {
-			return false;
+			logger.error("Exception in the method setBoletoEntregado");
+			throw new NullPointerException("El id es un objeto nulo");
 		}
 	}
 
@@ -227,11 +297,14 @@ public class BoletoService {
 				List<Boleto> getBoletosForRandomPick = repository.getBoletosForRandomPick(id_comercio);
 				return getBoletosForRandomPick;
 			} catch (IllegalArgumentException e) {
+				logger.error("Exception in the method getBoletosForRandomPick" + e);
 				throw new IllegalArgumentException(e);
 			} catch (Exception e) {
+				logger.error("Exception in the method getBoletosForRandomPick" + e);
 				throw new Exception(e);
 			}
 		} else {
+			logger.error("Exception in the method getBoletosForRandomPick id_comercio is null");
 			throw new NullPointerException("El id es un objeto nulo");
 		}
 	}
