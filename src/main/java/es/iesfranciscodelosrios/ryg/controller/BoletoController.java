@@ -2,6 +2,7 @@ package es.iesfranciscodelosrios.ryg.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.validation.Valid;
 
@@ -198,6 +199,37 @@ public class BoletoController {
 			return HttpStatus.OK;
 		} else {
 			return HttpStatus.BAD_REQUEST;
+		}
+	}
+
+	@GetMapping("/sorteo/{id}")
+	public ResponseEntity<Boleto> getRandomBoleto(@PathVariable("id") Long id) {
+		try {
+			List<Boleto> listaBoletos = service.getBoletosForRandomPick(id);
+			// Obtenemos un boleto aleatorio de la lista.
+			Random rand = new Random();
+			Boleto randomElement = listaBoletos.get(rand.nextInt(listaBoletos.size()));
+			if (randomElement != null) {
+				if (service.setBoletoCanjeado(randomElement, true)) {
+					return new ResponseEntity<Boleto>(randomElement, new HttpHeaders(), HttpStatus.OK);
+				} else {
+					System.out.println("salida 1");
+					return new ResponseEntity<Boleto>(new Boleto(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+				}
+			} else {
+				System.out.println("salida 2");
+				return new ResponseEntity<Boleto>(new Boleto(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+			}
+		} catch (IllegalArgumentException e) {
+			System.out.println("salida 3");
+			return new ResponseEntity<Boleto>(new Boleto(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		} catch (NullPointerException e) {
+			System.out.println("salida 4");
+			return new ResponseEntity<Boleto>(new Boleto(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			System.out.println("salida 5");
+			System.out.println(e);
+			return new ResponseEntity<Boleto>(new Boleto(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 }

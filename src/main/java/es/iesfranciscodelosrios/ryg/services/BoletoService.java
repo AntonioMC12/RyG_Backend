@@ -169,16 +169,67 @@ public class BoletoService {
 	 * 
 	 * @param id_comercio
 	 * @return Lista con todos los boletos de un usuario en concreto
-	 * @throws NullPointerException
-	 * @throws IllegalArgumentException
+	 * @throws Exception, IllegalArgumentException
 	 */
-	public List<Boleto> getBoletosByIdComercio(Long id_comercio) throws NullPointerException, IllegalArgumentException {
+	public List<Boleto> getBoletosByIdComercio(Long id_comercio)
+			throws Exception, IllegalArgumentException, NullPointerException {
 		if (id_comercio != null) {
 			try {
 				List<Boleto> getBoletosByIdComercio = repository.getBoletosByIdComercio(id_comercio);
 				return getBoletosByIdComercio;
 			} catch (IllegalArgumentException e) {
 				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
+			}
+		} else {
+			throw new NullPointerException("El id es un objeto nulo");
+		}
+	}
+
+	/**
+	 * Actualiza un boleto con el parametro de canjeado que le pasamos.
+	 * 
+	 * @param boleto   a actualizar
+	 * @param canjeado estado de canjeado a actualizar
+	 * @return true si lo actualiza bien, false si lo contrario.
+	 * @throws IllegalArgumentException
+	 */
+	public boolean setBoletoCanjeado(Boleto boleto, boolean canjeado) throws IllegalArgumentException {
+		if (boleto != null) {
+			Boleto setBoletoCanjeado = repository.getOne(boleto.getId());
+			setBoletoCanjeado.setCanjeado(canjeado);
+			try {
+				repository.save(setBoletoCanjeado);
+				return true;
+			} catch (IllegalArgumentException e) {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Método que devuelve una lista de boletos no entregado y distinta del comercio
+	 * que va a realizar la peticion
+	 * 
+	 * @param id_comercio, id del comercio que no vamos a devolver los boletos.
+	 * @return lista de boletos no entregados y de distinto comercio.
+	 * @throws Exception
+	 * @throws IllegalArgumentException
+	 * @throws NullPointerException
+	 */
+	public List<Boleto> getBoletosForRandomPick(Long id_comercio)
+			throws Exception, IllegalArgumentException, NullPointerException {
+		if (id_comercio != null && id_comercio > -1) {
+			try {
+				List<Boleto> getBoletosForRandomPick = repository.getBoletosForRandomPick(id_comercio);
+				return getBoletosForRandomPick;
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				throw new Exception(e);
 			}
 		} else {
 			throw new NullPointerException("El id es un objeto nulo");

@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.iesfranciscodelosrios.ryg.model.Boleto;
 import es.iesfranciscodelosrios.ryg.model.InfoTicket;
-import es.iesfranciscodelosrios.ryg.model.Usuario;
 import es.iesfranciscodelosrios.ryg.services.InfoTicketService;
 
 @RestController
