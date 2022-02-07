@@ -2,6 +2,7 @@ package es.iesfranciscodelosrios.ryg.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +39,7 @@ public class Boleto implements Serializable {
 	private Premio premio;
 
 	@JsonIgnoreProperties(value = {"boleto"}, allowSetters = true)
-	@OneToOne(mappedBy = "boleto")
+	@OneToOne(mappedBy = "boleto", cascade = CascadeType.ALL, orphanRemoval = true)
 	private InfoTicket ticket;
 
 	@JsonIgnoreProperties(value = {"boletos"}, allowSetters = true)
