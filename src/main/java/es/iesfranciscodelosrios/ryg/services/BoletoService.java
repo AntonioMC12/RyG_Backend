@@ -98,7 +98,7 @@ public class BoletoService {
 			if (!getBoleto.isEmpty()) {
 				Boleto updateBoleto = getBoleto.get();
 				updateBoleto.setId(boleto.getId());
-				updateBoleto.setDescripicion(boleto.getDescripicion());
+				updateBoleto.setDescripcion(boleto.getDescripcion());
 				updateBoleto.setUsuario(boleto.getUsuario());
 				updateBoleto.setCanjeado(boleto.isCanjeado());
 				updateBoleto.setEntregado(boleto.isEntregado());

@@ -26,7 +26,7 @@ public class Boleto implements Serializable {
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "descripcion", length = 256)
-	private String descripicion;
+	private String descripcion;
 	@Column(name = "entregado")
 	private boolean entregado;
 	@Column(name = "canjeado")
@@ -46,10 +46,10 @@ public class Boleto implements Serializable {
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 
-	public Boleto(Long id, String descripicion, boolean entregado, boolean canjeado, Premio premio, InfoTicket ticket,
+	public Boleto(Long id, String descripcion, boolean entregado, boolean canjeado, Premio premio, InfoTicket ticket,
 			Usuario usuario) {
 		this.id = id;
-		this.descripicion = descripicion;
+		this.descripcion = descripcion;
 		this.entregado = entregado;
 		this.canjeado = canjeado;
 		this.premio = premio;
@@ -69,12 +69,12 @@ public class Boleto implements Serializable {
 		this.id = id;
 	}
 
-	public String getDescripicion() {
-		return descripicion;
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setDescripicion(String descripicion) {
-		this.descripicion = descripicion;
+	public void setDescripcion(String descripicion) {
+		this.descripcion = descripicion;
 	}
 
 	public boolean isEntregado() {
