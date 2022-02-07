@@ -20,7 +20,7 @@ public interface BoletoRepository extends JpaRepository<Boleto, Long> {
 	@Query(value = "SELECT * FROM boleto AS b WHERE b.id_usuario = ?1", nativeQuery = true)
 	public List<Boleto> getBoletosByIdComercio(Long id_comercio);
 	
-	@Query(value = "SELECT * FROM boleto AS b WHERE b.id_usuario != ?1 AND b.entregado = 0", nativeQuery = true)
+	@Query(value = "SELECT * FROM boleto AS b WHERE b.id_usuario != ?1 AND b.entregado = 0 AND b.canjeado = 0", nativeQuery = true)
 	public List<Boleto> getBoletosForRandomPick(Long id_comercio);
 
 }

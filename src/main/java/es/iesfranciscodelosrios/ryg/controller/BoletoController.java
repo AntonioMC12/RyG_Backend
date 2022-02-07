@@ -210,7 +210,7 @@ public class BoletoController {
 			Random rand = new Random();
 			Boleto randomElement = listaBoletos.get(rand.nextInt(listaBoletos.size()));
 			if (randomElement != null) {
-				if (service.setBoletoCanjeado(randomElement, true)) {
+				if (service.setBoletoEntregado(randomElement, true)) {
 					return new ResponseEntity<Boleto>(randomElement, new HttpHeaders(), HttpStatus.OK);
 				} else {
 					System.out.println("salida 1");

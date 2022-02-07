@@ -188,19 +188,19 @@ public class BoletoService {
 	}
 
 	/**
-	 * Actualiza un boleto con el parametro de canjeado que le pasamos.
+	 * Actualiza un boleto con el parametro de entregado que le pasamos.
 	 * 
 	 * @param boleto   a actualizar
-	 * @param canjeado estado de canjeado a actualizar
+	 * @param entregado estado de entregado a actualizar
 	 * @return true si lo actualiza bien, false si lo contrario.
 	 * @throws IllegalArgumentException
 	 */
-	public boolean setBoletoCanjeado(Boleto boleto, boolean canjeado) throws IllegalArgumentException {
+	public boolean setBoletoEntregado(Boleto boleto, boolean entregado) throws IllegalArgumentException {
 		if (boleto != null) {
-			Boleto setBoletoCanjeado = repository.getOne(boleto.getId());
-			setBoletoCanjeado.setCanjeado(canjeado);
+			Boleto setBoletoEntregado = repository.getOne(boleto.getId());
+			setBoletoEntregado.setEntregado(entregado);
 			try {
-				repository.save(setBoletoCanjeado);
+				repository.save(setBoletoEntregado);
 				return true;
 			} catch (IllegalArgumentException e) {
 				return false;
