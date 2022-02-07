@@ -70,6 +70,77 @@ public class BoletoController {
 
 	/**
 	 * Método que recoge una petición http a nuestra API para hacer una consulta a
+	 * la base de datos y devolver todos los Boletos de un usuario en concreto.
+	 * 
+	 * @return Lista con todos los boletos de un usuario de la base de datos, una
+	 *         lista vacía si algo ha ido mal
+	 */
+	@GetMapping("/usuarios/{id}")
+	public ResponseEntity<List<Boleto>> getBoletosByIdComercio(@PathVariable("id_comercio") Long id_comercio) {
+		if (id_comercio != null && id_comercio > -1) {
+			try {
+				List<Boleto> getBoletosByIdComercio = service.getBoletosByIdComercio(id_comercio);
+				return new ResponseEntity<List<Boleto>>(getBoletosByIdComercio, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				List<Boleto> getBoletosByIdComercio = new ArrayList<Boleto>();
+				return new ResponseEntity<List<Boleto>>(getBoletosByIdComercio, new HttpHeaders(), HttpStatus.OK);
+			}
+		} else {
+			List<Boleto> getBoletosByIdComercio = new ArrayList<Boleto>();
+			return new ResponseEntity<List<Boleto>>(getBoletosByIdComercio, new HttpHeaders(), HttpStatus.OK);
+		}
+	}
+
+	/**
+	 * Método que recoge una petición http a nuestra API para hacer una consulta a
+	 * la base de datos y devolver todos los Boletos entregados.
+	 * 
+	 * @return Lista con todos los boletos entregados de la base de datos, una lista
+	 *         vacía si algo ha ido mal
+	 */
+	@GetMapping("/entregados")
+	public ResponseEntity<List<Boleto>> getBoletosEntregados(@PathVariable("entregado") boolean entregado) {
+		if (entregado != false) {
+			try {
+				List<Boleto> getBoletosEntregados = service.getBoletosEntregados();
+				return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				List<Boleto> getBoletosEntregados = new ArrayList<Boleto>();
+				return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
+			}
+		} else {
+			List<Boleto> getBoletosEntregados = new ArrayList<Boleto>();
+			return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
+		}
+
+	}
+
+	/**
+	 * Método que recoge una petición http a nuestra API para hacer una consulta a
+	 * la base de datos y devolver todos los Boletos canjeados.
+	 * 
+	 * @return Lista con todos los boletos canjeados de la base de datos, una lista
+	 *         vacía si algo ha ido mal
+	 */
+	@GetMapping("/canjeados")
+	public ResponseEntity<List<Boleto>> getBoletosCanjeados(@PathVariable("canjeado") boolean canjeado) {
+		if (canjeado != false) {
+			try {
+				List<Boleto> getBoletosCanjeados = service.getBoletosCanjeados();
+				return new ResponseEntity<List<Boleto>>(getBoletosCanjeados, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				List<Boleto> getBoletosCanjeados = new ArrayList<Boleto>();
+				return new ResponseEntity<List<Boleto>>(getBoletosCanjeados, new HttpHeaders(), HttpStatus.OK);
+			}
+		} else {
+			List<Boleto> getBoletosCanjeados = new ArrayList<Boleto>();
+			return new ResponseEntity<List<Boleto>>(getBoletosCanjeados, new HttpHeaders(), HttpStatus.OK);
+		}
+
+	}
+
+	/**
+	 * Método que recoge una petición http a nuestra API para hacer una consulta a
 	 * la base de datos y añadir un boleto.
 	 * 
 	 * @param boleto a añadir

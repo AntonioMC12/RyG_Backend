@@ -68,6 +68,22 @@ public class UsuarioController {
 
 	/**
 	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * datos y devolver el usuario que le corresponda una latitud y longitud determinadas
+	 * 
+	 * @param latitud
+	 * @param longitud
+	 * @return Usuario encontrado en la bd, o vacío si hay algún error
+	 */
+	@GetMapping("/coordenadas/{latitud}/{longitud}")
+	public ResponseEntity<Usuario> getUsuarioByCoordinates(@PathVariable("latitud") float latitud,
+			@PathVariable("longitud") float longitud) {
+		Usuario getUsuarioByCoordinates = service.getUsuarioByCoordinates(latitud, longitud);
+		return new ResponseEntity<Usuario>(getUsuarioByCoordinates, new HttpHeaders(), HttpStatus.OK);
+
+	}
+
+	/**
+	 * Método que recoge una petición http para hacer una consulta a la base de
 	 * datos y crear un usuario nuevo
 	 * 
 	 * @param id

@@ -17,7 +17,8 @@ public class UsuarioService {
 	UsuarioRepository repository;
 
 	/**
-	 * Método que devuelve todos los usuarios, haciendo uso del repositorio del mismo
+	 * Método que devuelve todos los usuarios, haciendo uso del repositorio del
+	 * mismo
 	 * 
 	 * @return Lista con todos los usuarios existentes
 	 */
@@ -54,10 +55,11 @@ public class UsuarioService {
 
 	/**
 	 * Método que crea un usuario en la base de datos, si existe el objeto
-	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el método
-	 * de actualizar
+	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el método de
+	 * actualizar
+	 * 
 	 * @param usuario
-	 * @return Usuario creado en la base de datos 
+	 * @return Usuario creado en la base de datos
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 */
@@ -80,6 +82,7 @@ public class UsuarioService {
 
 	/**
 	 * Método que actualiza la información de un usuario de la base de datos
+	 * 
 	 * @param usuario
 	 * @return usuario actualizado
 	 * @throws NullPointerException
@@ -114,8 +117,9 @@ public class UsuarioService {
 	}
 
 	/**
-	 * Método que borra un usuario de la base de datos, si no lo encuentra
-	 * lanza una excepción
+	 * Método que borra un usuario de la base de datos, si no lo encuentra lanza una
+	 * excepción
+	 * 
 	 * @param id
 	 * @throws RecordNotFoundException
 	 * @throws NullPointerException
@@ -136,6 +140,32 @@ public class UsuarioService {
 			}
 		} else {
 			throw new NullPointerException("El id es un objeto nulo");
+		}
+	}
+
+	/**
+	 * Método que obtiene un usuario de la base de datos buscando por su latitud y
+	 * longitud, si existe, lo devuelve, si no, lanza una excepción para dicho
+	 * resultado
+	 * 
+	 * @param latitud
+	 * @param longitud
+	 * @return usuario si lo encuentra, excepcion si no lo encuentra
+	 * @throws RecordNotFoundException
+	 * @throws NullPointerException
+	 */
+	public Usuario getUsuarioByCoordinates(float latitud, float longitud)
+			throws RecordNotFoundException, NullPointerException {
+		try {
+			Optional<Usuario> getUsuarioByCoordinates = repository.getUsuarioByCoordinates(latitud, longitud);
+			if (getUsuarioByCoordinates.isPresent()) {
+				return getUsuarioByCoordinates.get();
+			} else {
+				throw new RecordNotFoundException("No existe ningún usuario con esas coordenadas",
+						latitud + "-" + longitud);
+			}
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(e);
 		}
 	}
 }

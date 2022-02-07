@@ -14,7 +14,7 @@ import es.iesfranciscodelosrios.ryg.repository.PremioRepository;
 @Service
 public class PremioService {
 	@Autowired
-	PremioRepository premiosrepository;
+	PremioRepository repository;
 
 	/**
 	 * Método que devuelve todos los premios, haciendo uso del repositorio del mismo
@@ -22,7 +22,7 @@ public class PremioService {
 	 * @return Lista con todos los premios existentes
 	 */
 	public List<Premio> getAllPremios() {
-		List<Premio> premiosList = premiosrepository.findAll();
+		List<Premio> premiosList = repository.findAll();
 
 		if (premiosList.size() > 0) {
 			return premiosList;
@@ -43,7 +43,7 @@ public class PremioService {
 		
 		if(id!=null) {
 			try {
-				Optional<Premio> premio = premiosrepository.findById(id);
+				Optional<Premio> premio = repository.findById(id);
 				if (premio.isPresent()) {
 					return premio.get();
 				} else {
@@ -72,7 +72,7 @@ public class PremioService {
 			if (entity.getId() == -1) {
 				entity.setId(-1);
 				try {
-					return entity = premiosrepository.save(entity);
+					return entity = repository.save(entity);
 				} catch (IllegalArgumentException e) {
 					throw new IllegalArgumentException(e);
 				}
@@ -97,7 +97,7 @@ public class PremioService {
 			throws NullPointerException, IllegalArgumentException, RecordNotFoundException {
 
 		if (entity!=null) {
-			Optional<Premio> premio = premiosrepository.findById(entity.getId());
+			Optional<Premio> premio = repository.findById(entity.getId());
 
 			if (premio.isPresent()) {
 				Premio newEntity = premio.get();
@@ -106,7 +106,7 @@ public class PremioService {
 				newEntity.setEntregado(entity.isEntregado());
 
 				try {
-					return premiosrepository.save(newEntity);
+					return repository.save(newEntity);
 				} catch (IllegalArgumentException e) {
 					throw new IllegalArgumentException(e);
 				}
@@ -130,11 +130,11 @@ public class PremioService {
 			throws RecordNotFoundException, NullPointerException, IllegalArgumentException {
 		
 		if (id!=null) {
-			Optional<Premio> premio = premiosrepository.findById(id);
+			Optional<Premio> premio = repository.findById(id);
 
 			if (premio.isPresent()) {
 				try {
-					premiosrepository.deleteById(id);
+					repository.deleteById(id);
 				} catch (IllegalArgumentException e) {
 					throw new IllegalArgumentException(e);
 				}
@@ -149,7 +149,7 @@ public class PremioService {
 	}
 
 	public List<Premio> getPremiosByDescription(String description) {
-		List<Premio> premiosList = premiosrepository.getByDescripcion(description);
+		List<Premio> premiosList = repository.getByDescripcion(description);
 
 		if (premiosList.size() > 0) {
 			return premiosList;
@@ -157,6 +157,28 @@ public class PremioService {
 			return new ArrayList<Premio>();
 		}
 
+	}
+
+	/**
+	 * Método que devuelve todas los premios que han sido entregados, haciendo uso
+	 * del repositorio del mismo
+	 * 
+	 * @return Lista con todos los premios entregados
+	 */
+	public List<Premio> getPremiosEntregados() {
+		List<Premio> getPremiosEntregados = repository.getPremiosEntregados();
+		return getPremiosEntregados;
+	}
+
+	/**
+	 * Método que devuelve todas los premios no que han sido entregados, haciendo uso
+	 * del repositorio del mismo
+	 * 
+	 * @return Lista con todos los premios no entregados
+	 */
+	public List<Premio> getPremiosNoEntregados() {
+		List<Premio> getPremiosNoEntregados = repository.getPremiosNoEntregados();
+		return getPremiosNoEntregados;
 	}
 
 }

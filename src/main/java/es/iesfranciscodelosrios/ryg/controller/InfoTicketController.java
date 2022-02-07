@@ -1,5 +1,6 @@
 package es.iesfranciscodelosrios.ryg.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import es.iesfranciscodelosrios.ryg.model.Boleto;
 import es.iesfranciscodelosrios.ryg.model.InfoTicket;
+import es.iesfranciscodelosrios.ryg.model.Usuario;
 import es.iesfranciscodelosrios.ryg.services.InfoTicketService;
 
 @RestController
@@ -68,6 +72,72 @@ public class InfoTicketController {
 			return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.OK);
 		}
 
+	}
+
+	/**
+	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * datos y devolver una lista de tickets filtrando por teléfono
+	 * 
+	 * @param telefono
+	 * @return Lista de tickets de la base de datos según teléfono, lista vacía en
+	 *         caso contrario
+	 */
+	@GetMapping("/telefono/{telefono}")
+	public ResponseEntity<List<InfoTicket>> getTicketsByTelephone(@PathVariable("telefono") int telefono) {
+		try {
+			List<InfoTicket> getTicketsByTelephone = service.getTicketsByTelephone(telefono);
+			return new ResponseEntity<List<InfoTicket>>(getTicketsByTelephone, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			List<InfoTicket> getTicketsByTelephone = new ArrayList<InfoTicket>();
+			return new ResponseEntity<List<InfoTicket>>(getTicketsByTelephone, new HttpHeaders(), HttpStatus.OK);
+		}
+
+	}
+
+	/**
+	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * datos y devolver una lista de tickets filtrando por una fecha
+	 * 
+	 * @param fecha_ticket
+	 * @return Ticket de la base de datos según id de boleto, vacío en caso
+	 *         contrario
+	 */
+	@GetMapping("/fecha/{fecha_ticket}")
+	public ResponseEntity<List<InfoTicket>> getTicketsByDate(@PathVariable("fecha_ticket") Timestamp fecha_ticket) {
+		if (fecha_ticket != null) {
+			try {
+				List<InfoTicket> getTicketsByDate = service.getTicketsByDate(fecha_ticket);
+				return new ResponseEntity<List<InfoTicket>>(getTicketsByDate, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				List<InfoTicket> getTicketsByDate = new ArrayList<InfoTicket>();
+				return new ResponseEntity<List<InfoTicket>>(getTicketsByDate, new HttpHeaders(), HttpStatus.OK);
+			}
+		} else {
+			List<InfoTicket> getTicketsByDate = new ArrayList<InfoTicket>();
+			return new ResponseEntity<List<InfoTicket>>(getTicketsByDate, new HttpHeaders(), HttpStatus.OK);
+		}
+	}
+
+	/**
+	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * datos y devolver un ticket filtrando por su id de boleto
+	 * 
+	 * @param id_boleto
+	 * @return Lista de tickets de la base de datos según fecha, lista vacía en caso
+	 *         contrario
+	 */
+	@GetMapping("/boleto/{id_boleto}")
+	public ResponseEntity<InfoTicket> getTicketByIdBoleto(@PathVariable("id_boleto") Long id_boleto) {
+		if (id_boleto != null && id_boleto > -1) {
+			try {
+				InfoTicket getTicketByIdBoleto = service.getTicketByIdBoleto(id_boleto);
+				return new ResponseEntity<InfoTicket>(getTicketByIdBoleto, new HttpHeaders(), HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.OK);
+			}
+		} else {
+			return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.OK);
+		}
 	}
 
 	/**
