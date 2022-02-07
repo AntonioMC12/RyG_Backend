@@ -84,8 +84,8 @@ public class PremioController {
 	 *         vacía si algo ha ido mal
 	 */
 	@GetMapping("/entregado")
-	public ResponseEntity<List<Premio>> getPremiosEntregados(@PathVariable("entregado") boolean entregado) {
-		if (entregado != false) {
+	public ResponseEntity<List<Premio>> getPremiosEntregados() {
+		
 			try {
 				List<Premio> getPremiosEntregados = service.getPremiosEntregados();
 				return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.OK);
@@ -93,10 +93,7 @@ public class PremioController {
 				List<Premio> getPremiosEntregados = new ArrayList<Premio>();
 				return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.OK);
 			}
-		} else {
-			List<Premio> getPremiosEntregados = new ArrayList<Premio>();
-			return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.OK);
-		}
+		
 
 	}
 	
@@ -108,8 +105,8 @@ public class PremioController {
 	 *         vacía si algo ha ido mal
 	 */
 	@GetMapping("/no-entregado")
-	public ResponseEntity<List<Premio>> getPremiosNoEntregados(@PathVariable("no-entregado") boolean entregado) {
-		if (entregado != true) {
+	public ResponseEntity<List<Premio>> getPremiosNoEntregados() {
+		
 			try {
 				List<Premio> getPremiosNoEntregados = service.getPremiosNoEntregados();
 				return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.OK);
@@ -117,10 +114,7 @@ public class PremioController {
 				List<Premio> getPremiosNoEntregados = new ArrayList<Premio>();
 				return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.OK);
 			}
-		} else {
-			List<Premio> getPremiosNoEntregados = new ArrayList<Premio>();
-			return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.OK);
-		}
+	
 
 	}
 
