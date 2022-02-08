@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iesfranciscodelosrios.ryg.model.Premio;
 import es.iesfranciscodelosrios.ryg.services.PremioService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
@@ -29,11 +34,15 @@ public class PremioController {
 	PremioService service;
 
 	/**
-	 * M閠odo que recoge una petici髇 http para hacer una consulta a la base de
+	 * M茅todo que recoge una petici贸n http para hacer una consulta a la base de
 	 * datos y devolver una lista de premios
 	 * 
-	 * @return Lista de premios de la base de datos, lista vac韆 en caso contrario
+	 * @return Lista de premios de la base de datos, lista vac铆a en caso contrario
 	 */
+	@ApiOperation(value = "Encuentra todos los premios", notes = "Devuelve una lista de todos los premios")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Error al obtener los premios"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping
 	public ResponseEntity<List<Premio>> getAllPremios() {
 		try {
@@ -47,14 +56,18 @@ public class PremioController {
 	}
 
 	/**
-	 * M閠odo que recoge una petici髇 http para hacer una consulta a la base de
+	 * M茅todo que recoge una petici贸n http para hacer una consulta a la base de
 	 * datos y devolver el premio que le corresponda un id determinado
 	 * 
 	 * @param id
-	 * @return premio encontrado en la bd, o vac韔 si hay alg鷑 error
+	 * @return premio encontrado en la bd, o vac铆o si hay alg煤n error
 	 */
+	@ApiOperation(value = "Encuentra el premio por su id", notes = "Devuelve un premio con id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Id no v谩lido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/{id}")
-	public ResponseEntity<Premio> getPremiosById(@PathVariable("id") Integer id) {
+	public ResponseEntity<Premio> getPremiosById(@ApiParam("Boleto id (Integer)") @PathVariable("id") Integer id) {
 		if (id != null && id > -1) {
 			try {
 				Premio entity = service.getPremiosById(id);
@@ -69,8 +82,13 @@ public class PremioController {
 
 	}
 
+	@ApiOperation(value = "Encuentra premios por su descripci贸n", notes = "Devuelve una lista de premios con descripci贸n")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Id no v谩lido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/description/{description}")
-	public ResponseEntity<List<Premio>> getPremiosByDescription(@PathVariable("description") String description) {
+	public ResponseEntity<List<Premio>> getPremiosByDescription(
+			@ApiParam("Premio descripcion (String)") @PathVariable("description") String description) {
 		List<Premio> list;
 		try {
 			list = service.getPremiosByDescription(description);
@@ -81,15 +99,18 @@ public class PremioController {
 	}
 
 	/**
-	 * M閠odo que recoge una petici髇 http a nuestra API para hacer una consulta a
+	 * M茅todo que recoge una petici贸n http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Premios entregados.
 	 * 
 	 * @return Lista con todos los premios entregados de la base de datos, una lista
-	 *         vac韆 si algo ha ido mal
+	 *         vac铆a si algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra premios por su entregado", notes = "Devuelve la lista de premios que han sido entregados")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Entregado no v谩lido/no hay premios entregados"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/entregado")
 	public ResponseEntity<List<Premio>> getPremiosEntregados() {
-		
 			try {
 				List<Premio> getPremiosEntregados = service.getPremiosEntregados();
 				return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.OK);
@@ -100,17 +121,20 @@ public class PremioController {
 		
 
 	}
-	
+
 	/**
-	 * M閠odo que recoge una petici髇 http a nuestra API para hacer una consulta a
+	 * M茅todo que recoge una petici贸n http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Premios no entregados.
 	 * 
-	 * @return Lista con todos los premios no entregados de la base de datos, una lista
-	 *         vac韆 si algo ha ido mal
+	 * @return Lista con todos los premios no entregados de la base de datos, una
+	 *         lista vac铆a si algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra premios por su no-entregado", notes = "Devuelve la lista de premios que no han sido entregados")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "No entregado no v谩lido/no hay premios no entregados"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/no-entregado")
 	public ResponseEntity<List<Premio>> getPremiosNoEntregados() {
-		
 			try {
 				List<Premio> getPremiosNoEntregados = service.getPremiosNoEntregados();
 				return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.OK);
@@ -123,12 +147,16 @@ public class PremioController {
 	}
 
 	/**
-	 * M閠odo que recoge una petici髇 http para hacer una consulta a la base de
+	 * M茅todo que recoge una petici贸n http para hacer una consulta a la base de
 	 * datos y crear un premio nuevo
 	 * 
 	 * @param id
-	 * @return premio encontrado en la bd, o vac韔 si hay alg鷑 error
+	 * @return premio encontrado en la bd, o vac铆o si hay alg煤n error
 	 */
+	@ApiOperation(value = "Crea un nuevo premio", notes = "Crea un nuevo premio siempre que tenga un id v谩lido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = Premio.class),
+			@ApiResponse(code = 404, message = "Error al crear el premio"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PostMapping
 	public ResponseEntity<Premio> createPremios(@Valid @RequestBody Premio myPremio) {
 		if (myPremio != null && myPremio.getId() == -1) {
@@ -145,12 +173,16 @@ public class PremioController {
 	}
 
 	/**
-	 * M閠odo que recoge una petici髇 http para hacer una consulta a la base de
+	 * M茅todo que recoge una petici贸n http para hacer una consulta a la base de
 	 * datos y actualizar un premio
 	 * 
 	 * @param id
-	 * @return premio encontrado en la bd, o vac韔 si hay alg鷑 error
+	 * @return premio encontrado en la bd, o vac铆o si hay alg煤n error
 	 */
+	@ApiOperation(value = "Edita un premio", notes = "Edita un premio siempre que tenga un id v谩lido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = Premio.class),
+			@ApiResponse(code = 404, message = "Error al editar el premio"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PutMapping
 	public ResponseEntity<Premio> updatePremio(@Valid @RequestBody Premio myPremio) {
 		if (myPremio != null && myPremio.getId() != -1) {
@@ -167,14 +199,18 @@ public class PremioController {
 	}
 
 	/**
-	 * M閠odo que recoge una petici髇 http para hacer una consulta a la base de
+	 * M茅todo que recoge una petici贸n http para hacer una consulta a la base de
 	 * datos y borrar un premio
 	 * 
 	 * @param id
-	 * @return premio encontrado en la bd, o vac韔 si hay alg鷑 error
+	 * @return premio encontrado en la bd, o vac铆o si hay alg煤n error
 	 */
+	@ApiOperation(value = "Borra un premio", notes = "Borra un premio usando id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = Premio.class),
+			@ApiResponse(code = 404, message = "Id no v谩lido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@DeleteMapping("/{id}")
-	public HttpStatus deletePremioById(@PathVariable("id") Integer id) {
+	public HttpStatus deletePremioById(@ApiParam("Premio id (Long)") @PathVariable("id") Integer id) {
 		if (id != null && id > -1) {
 			try {
 				service.deletePremioById(id);

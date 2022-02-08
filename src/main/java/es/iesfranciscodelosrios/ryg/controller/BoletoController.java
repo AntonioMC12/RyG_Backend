@@ -21,6 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iesfranciscodelosrios.ryg.model.Boleto;
 import es.iesfranciscodelosrios.ryg.services.BoletoService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
 
 @RestController
 @RequestMapping("/boletos")
@@ -30,12 +34,16 @@ public class BoletoController {
 	BoletoService service;
 
 	/**
-	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
+	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Boletos.
 	 * 
-	 * @return Lista con todos los boletos de la base de datos, una lista vacÌa si
+	 * @return Lista con todos los boletos de la base de datos, una lista vac√≠a si
 	 *         algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra todos los boletos", notes = "Devuelve una lista de todos los boletos")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Error al obtener los boletos"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping
 	public ResponseEntity<List<Boleto>> getAllBoletos() {
 		try {
@@ -49,14 +57,18 @@ public class BoletoController {
 	}
 
 	/**
-	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
-	 * la base de datos y obtener el boleto con el id que pasamos por par·metro
+	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
+	 * la base de datos y obtener el boleto con el id que pasamos por par√°metro
 	 * 
 	 * @param id del boleto a buscar
-	 * @return Boleto encontrado, o boleto vacÌo si hay alg˙n error.
+	 * @return Boleto encontrado, o boleto vac√≠o si hay alg√∫n error.
 	 */
+	@ApiOperation(value = "Encuentra el boleto por su id", notes = "Devuelve un boleto con id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Id no v√°lido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/{id}")
-	public ResponseEntity<Boleto> getBoletoById(@PathVariable("id") Long id) {
+	public ResponseEntity<Boleto> getBoletoById(@ApiParam("Boleto id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				Boleto getBoletoById = service.getBoletoById(id);
@@ -70,14 +82,19 @@ public class BoletoController {
 	}
 
 	/**
-	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
+	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Boletos de un usuario en concreto.
 	 * 
 	 * @return Lista con todos los boletos de un usuario de la base de datos, una
-	 *         lista vacÌa si algo ha ido mal
+	 *         lista vac√≠a si algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra todos los boletos de un comercio", notes = "Devuelve una lista de todos los boletos con id del comercio")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Id comercio no v√°lido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/usuarios/{id}")
-	public ResponseEntity<List<Boleto>> getBoletosByIdComercio(Long id_comercio) {
+	public ResponseEntity<List<Boleto>> getBoletosByIdComercio(
+			@ApiParam("Comercio id (Long)") @PathVariable("id_comercio") Long id_comercio) {
 		if (id_comercio != null && id_comercio > -1) {
 			try {
 				List<Boleto> getBoletosByIdComercio = service.getBoletosByIdComercio(id_comercio);
@@ -93,15 +110,19 @@ public class BoletoController {
 	}
 
 	/**
-	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
+	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Boletos entregados.
 	 * 
 	 * @return Lista con todos los boletos entregados de la base de datos, una lista
-	 *         vacÌa si algo ha ido mal
+	 *         vac√≠a si algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra todos los boletos entregados", notes = "Devuelve una lista de todos los boletos que han sido entregados")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Entregado no v√°lido/no hay boletos entregados"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/entregados")
-	public ResponseEntity<List<Boleto>> getBoletosEntregados() {
-
+	public ResponseEntity<List<Boleto>> getBoletosEntregados(
+			@ApiParam("entregado (boolean)") @PathVariable("entregado") boolean entregado) {
 		try {
 			List<Boleto> getBoletosEntregados = service.getBoletosEntregados();
 			return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
@@ -113,12 +134,16 @@ public class BoletoController {
 	}
 
 	/**
-	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
+	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Boletos canjeados.
 	 * 
 	 * @return Lista con todos los boletos canjeados de la base de datos, una lista
-	 *         vacÌa si algo ha ido mal
+	 *         vac√≠a si algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra todos los boletos canjeados", notes = "Devuelve una lista de todos los boletos que han sido canjeados")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Canjeado no v√°lido/no hay boletos canjeados"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/canjeados")
 	public ResponseEntity<List<Boleto>> getBoletosCanjeados() {
 		try {
@@ -132,12 +157,16 @@ public class BoletoController {
 	}
 
 	/**
-	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
-	 * la base de datos y aÒadir un boleto.
+	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
+	 * la base de datos y a√±adir un boleto.
 	 * 
-	 * @param boleto a aÒadir
-	 * @return boleto con el id aÒadido o boleto vacÌo si ha ido mal.
+	 * @param boleto a a√±adir
+	 * @return boleto con el id a√±adido o boleto vac√≠o si ha ido mal.
 	 */
+	@ApiOperation(value = "Crea un nuevo boleto", notes = "Crea un nuevo boleto siempre que tenga un id v√°lido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Error al crear el boleto"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PostMapping
 	public ResponseEntity<Boleto> createBoleto(@Valid @RequestBody Boleto boleto) {
 		if (boleto != null && boleto.getId() == -1) {
@@ -153,12 +182,16 @@ public class BoletoController {
 	}
 
 	/**
-	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
+	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
 	 * la base de datos y actualilzar un boleto.
 	 * 
-	 * @param boleto a aÒadir
-	 * @return boleto actualizado o boleto vacÌo si ha ido mal.
+	 * @param boleto a a√±adir
+	 * @return boleto actualizado o boleto vac√≠o si ha ido mal.
 	 */
+	@ApiOperation(value = "Edita un boleto", notes = "Edita un boleto siempre que tenga un id v√°lido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Error al editar el boleto"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PutMapping
 	public ResponseEntity<Boleto> updateBoleto(@Valid @RequestBody Boleto boleto) {
 		if (boleto != null && boleto.getId() != -1) {
@@ -174,13 +207,17 @@ public class BoletoController {
 	}
 
 	/**
-	 * MÈtodo para borrar un boleto de la base de datos por su id
+	 * M√©todo para borrar un boleto de la base de datos por su id
 	 * 
 	 * @param id del boleto a borrar
 	 * @return Ok si lo borra, Bad_Request.
 	 */
+	@ApiOperation(value = "Borra un boleto", notes = "Borra un boleto usando id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Id no v√°lido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@DeleteMapping("/{id}")
-	public HttpStatus deleteBoletoById(@PathVariable("id") Long id) {
+	public HttpStatus deleteBoletoById(@ApiParam("Boleto id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				service.deleteBoletoById(id);

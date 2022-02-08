@@ -21,6 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iesfranciscodelosrios.ryg.model.InfoTicket;
 import es.iesfranciscodelosrios.ryg.services.InfoTicketService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/tickets")
@@ -36,6 +40,10 @@ public class InfoTicketController {
 	 * 
 	 * @return Lista de tickets de la base de datos, lista vacía en caso contrario
 	 */
+	@ApiOperation(value = "Encuentra todos los tickets", notes = "Devuelve una lista de todos los tickets")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Error obtener los tickets"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping
 	public ResponseEntity<List<InfoTicket>> getAllTicket() {
 		try {
@@ -56,8 +64,12 @@ public class InfoTicketController {
 	 * @param id
 	 * @return Ticket encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Encuentra el ticket por su id", notes = "Devuelve un ticket con id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
+			@ApiResponse(code = 404, message = "Id no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/{id}")
-	public ResponseEntity<InfoTicket> getTicketById(@PathVariable("id") Long id) {
+	public ResponseEntity<InfoTicket> getTicketById(@ApiParam("Ticket id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				InfoTicket ticket = service.getInfoTicketById(id);
@@ -80,8 +92,12 @@ public class InfoTicketController {
 	 * @return Lista de tickets de la base de datos según teléfono, lista vacía en
 	 *         caso contrario
 	 */
+	@ApiOperation(value = "Encuentra todos los tickets asociados a un teléfono", notes = "Devuelve una lista de todos los tickets con teléfono")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Teléfono no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/telefono/{telefono}")
-	public ResponseEntity<List<InfoTicket>> getTicketsByTelephone(@PathVariable("telefono") int telefono) {
+	public ResponseEntity<List<InfoTicket>> getTicketsByTelephone(@ApiParam("Ticket teléfono (int)") @PathVariable("telefono") int telefono) {
 		try {
 			List<InfoTicket> getTicketsByTelephone = service.getTicketsByTelephone(telefono);
 			return new ResponseEntity<List<InfoTicket>>(getTicketsByTelephone, new HttpHeaders(), HttpStatus.OK);
@@ -101,8 +117,12 @@ public class InfoTicketController {
 	 * @return Ticket de la base de datos según id de boleto, vacío en caso
 	 *         contrario
 	 */
+	@ApiOperation(value = "Encuentra todos los tickets asociados a una fecha", notes = "Devuelve una lista de todos los tickets de una fecha determinada")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "No hay tickets con esa fecha"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/fecha/{fecha_ticket}")
-	public ResponseEntity<List<InfoTicket>> getTicketsByDate(@PathVariable("fecha_ticket") Timestamp fecha_ticket) {
+	public ResponseEntity<List<InfoTicket>> getTicketsByDate(@ApiParam("Ticket date (Timestamp)") @PathVariable("fecha_ticket") Timestamp fecha_ticket) {
 		if (fecha_ticket != null) {
 			try {
 				List<InfoTicket> getTicketsByDate = service.getTicketsByDate(fecha_ticket);
@@ -126,8 +146,12 @@ public class InfoTicketController {
 	 * @return Lista de tickets de la base de datos según fecha, lista vacía en caso
 	 *         contrario
 	 */
+	@ApiOperation(value = "Encuentra el ticket por el id de su boleto", notes = "Devuelve un ticket con id de su boleto")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
+			@ApiResponse(code = 404, message = "Id boleto no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/boleto/{id_boleto}")
-	public ResponseEntity<InfoTicket> getTicketByIdBoleto(@PathVariable("id_boleto") Long id_boleto) {
+	public ResponseEntity<InfoTicket> getTicketByIdBoleto(@ApiParam("Ticket id boleto (Long)") @PathVariable("id_boleto") Long id_boleto) {
 		if (id_boleto != null && id_boleto > -1) {
 			try {
 				InfoTicket getTicketByIdBoleto = service.getTicketByIdBoleto(id_boleto);
@@ -147,6 +171,10 @@ public class InfoTicketController {
 	 * @param id
 	 * @return Ticket encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Crea un nuevo ticket", notes = "Crea un nuevo ticket siempre que tenga un id válido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
+			@ApiResponse(code = 404, message = "Error al crear el ticket"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PostMapping
 	public ResponseEntity<InfoTicket> createTicket(@Valid @RequestBody InfoTicket ticket) {
 		if (ticket != null && ticket.getId() == -1) {
@@ -168,6 +196,10 @@ public class InfoTicketController {
 	 * @param id
 	 * @return Ticket encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Edita un ticket", notes = "Edita un ticket siempre que tenga un id válido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
+			@ApiResponse(code = 404, message = "Error al editar el ticket"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PutMapping
 	public ResponseEntity<InfoTicket> updateTicket(@Valid @RequestBody InfoTicket ticket) {
 		if (ticket != null && ticket.getId() != -1) {
@@ -189,8 +221,12 @@ public class InfoTicketController {
 	 * @param id
 	 * @return Ticket encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Borra un ticket", notes = "Borra un ticket usando id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
+			@ApiResponse(code = 404, message = "Id no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@DeleteMapping("/{id}")
-	public HttpStatus deleteTicketById(@PathVariable("id") Long id) {
+	public HttpStatus deleteTicketById(@ApiParam("Ticket id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				service.deleteInfoTicketById(id);
