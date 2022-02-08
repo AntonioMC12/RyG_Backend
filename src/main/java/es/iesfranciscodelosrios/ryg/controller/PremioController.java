@@ -41,7 +41,7 @@ public class PremioController {
 			return new ResponseEntity<List<Premio>>(list, new HttpHeaders(), HttpStatus.OK);
 		} catch (Exception e) {
 			List<Premio> list = new ArrayList<Premio>();
-			return new ResponseEntity<List<Premio>>(list, new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<List<Premio>>(list, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -60,20 +60,24 @@ public class PremioController {
 				Premio entity = service.getPremiosById(id);
 				return new ResponseEntity<Premio>(entity, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
-				return new ResponseEntity<Premio>(new Premio(), new HttpHeaders(), HttpStatus.OK);
+				return new ResponseEntity<Premio>(new Premio(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 
 			}
 		} else {
-			return new ResponseEntity<Premio>(new Premio(), new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<Premio>(new Premio(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 
 	}
 
 	@GetMapping("/description/{description}")
 	public ResponseEntity<List<Premio>> getPremiosByDescription(@PathVariable("description") String description) {
-		List<Premio> list = service.getPremiosByDescription(description);
-
-		return new ResponseEntity<List<Premio>>(list, new HttpHeaders(), HttpStatus.OK);
+		List<Premio> list;
+		try {
+			list = service.getPremiosByDescription(description);
+			return new ResponseEntity<List<Premio>>(list, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Premio>>(new ArrayList<Premio>(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -91,7 +95,7 @@ public class PremioController {
 				return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
 				List<Premio> getPremiosEntregados = new ArrayList<Premio>();
-				return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.OK);
+				return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 			}
 		
 
@@ -112,7 +116,7 @@ public class PremioController {
 				return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
 				List<Premio> getPremiosNoEntregados = new ArrayList<Premio>();
-				return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.OK);
+				return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 			}
 	
 

@@ -44,7 +44,7 @@ public class InfoTicketController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			List<InfoTicket> all = new ArrayList<InfoTicket>();
-			return new ResponseEntity<List<InfoTicket>>(all, new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<List<InfoTicket>>(all, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -63,11 +63,11 @@ public class InfoTicketController {
 				InfoTicket ticket = service.getInfoTicketById(id);
 				return new ResponseEntity<InfoTicket>(ticket, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
-				return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.OK);
+				return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 
 			}
 		} else {
-			return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -87,7 +87,8 @@ public class InfoTicketController {
 			return new ResponseEntity<List<InfoTicket>>(getTicketsByTelephone, new HttpHeaders(), HttpStatus.OK);
 		} catch (Exception e) {
 			List<InfoTicket> getTicketsByTelephone = new ArrayList<InfoTicket>();
-			return new ResponseEntity<List<InfoTicket>>(getTicketsByTelephone, new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<List<InfoTicket>>(getTicketsByTelephone, new HttpHeaders(),
+					HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -108,11 +109,12 @@ public class InfoTicketController {
 				return new ResponseEntity<List<InfoTicket>>(getTicketsByDate, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
 				List<InfoTicket> getTicketsByDate = new ArrayList<InfoTicket>();
-				return new ResponseEntity<List<InfoTicket>>(getTicketsByDate, new HttpHeaders(), HttpStatus.OK);
+				return new ResponseEntity<List<InfoTicket>>(getTicketsByDate, new HttpHeaders(),
+						HttpStatus.BAD_REQUEST);
 			}
 		} else {
 			List<InfoTicket> getTicketsByDate = new ArrayList<InfoTicket>();
-			return new ResponseEntity<List<InfoTicket>>(getTicketsByDate, new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<List<InfoTicket>>(getTicketsByDate, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -131,10 +133,10 @@ public class InfoTicketController {
 				InfoTicket getTicketByIdBoleto = service.getTicketByIdBoleto(id_boleto);
 				return new ResponseEntity<InfoTicket>(getTicketByIdBoleto, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
-				return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.OK);
+				return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 			}
 		} else {
-			return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 

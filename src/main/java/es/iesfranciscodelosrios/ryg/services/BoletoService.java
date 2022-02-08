@@ -3,8 +3,8 @@ package es.iesfranciscodelosrios.ryg.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import es.iesfranciscodelosrios.ryg.repository.BoletoRepository;
 @Service
 public class BoletoService {
 
-	private static final Logger logger = LogManager.getLogger("BoletoService");
+	public static final Logger logger = LoggerFactory.getLogger(BoletoService.class);
 
 	@Autowired
 	BoletoRepository repository;
@@ -27,6 +27,8 @@ public class BoletoService {
 	 * @throws Exception
 	 */
 	public List<Boleto> getAllBoleto() throws Exception {
+		logger.debug("Debug Message Logged !!!");
+		logger.info("Info Message Logged !!!");
 		try {
 			List<Boleto> getAllBoleto = repository.findAll();
 			return getAllBoleto;
