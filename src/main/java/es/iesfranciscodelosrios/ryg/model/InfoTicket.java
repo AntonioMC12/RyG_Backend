@@ -3,7 +3,6 @@ package es.iesfranciscodelosrios.ryg.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,8 +38,8 @@ public class InfoTicket implements Serializable {
 	private String nombreComercio;
 
 	@JsonIgnoreProperties(value = {"ticket"}, allowSetters = true)
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_boleto", referencedColumnName = "id")
+	@OneToOne
+	@JoinColumn(name = "id_boleto")
 	private Boleto boleto;
 
 	public InfoTicket() {
