@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iesfranciscodelosrios.ryg.model.Boleto;
 import es.iesfranciscodelosrios.ryg.services.BoletoService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
 
 @RestController
 @RequestMapping("/boletos")
@@ -35,6 +39,10 @@ public class BoletoController {
 	 * @return Lista con todos los boletos de la base de datos, una lista vacía si
 	 *         algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra todos los boletos", notes = "Devuelve una lista de todos los boletos")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Error al obtener los boletos"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping
 	public ResponseEntity<List<Boleto>> getAllBoletos() {
 		try {
@@ -54,8 +62,12 @@ public class BoletoController {
 	 * @param id del boleto a buscar
 	 * @return Boleto encontrado, o boleto vacío si hay algún error.
 	 */
+	@ApiOperation(value = "Encuentra el boleto por su id", notes = "Devuelve un boleto con id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Id no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/{id}")
-	public ResponseEntity<Boleto> getBoletoById(@PathVariable("id") Long id) {
+	public ResponseEntity<Boleto> getBoletoById(@ApiParam("Boleto id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				Boleto getBoletoById = service.getBoletoById(id);
@@ -75,8 +87,13 @@ public class BoletoController {
 	 * @return Lista con todos los boletos de un usuario de la base de datos, una
 	 *         lista vacía si algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra todos los boletos de un comercio", notes = "Devuelve una lista de todos los boletos con id del comercio")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Id comercio no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/usuarios/{id}")
-	public ResponseEntity<List<Boleto>> getBoletosByIdComercio(@PathVariable("id_comercio") Long id_comercio) {
+	public ResponseEntity<List<Boleto>> getBoletosByIdComercio(
+			@ApiParam("Comercio id (Long)") @PathVariable("id_comercio") Long id_comercio) {
 		if (id_comercio != null && id_comercio > -1) {
 			try {
 				List<Boleto> getBoletosByIdComercio = service.getBoletosByIdComercio(id_comercio);
@@ -98,8 +115,13 @@ public class BoletoController {
 	 * @return Lista con todos los boletos entregados de la base de datos, una lista
 	 *         vacía si algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra todos los boletos entregados", notes = "Devuelve una lista de todos los boletos que han sido entregados")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Entregado no válido/no hay boletos entregados"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/entregados")
-	public ResponseEntity<List<Boleto>> getBoletosEntregados(@PathVariable("entregado") boolean entregado) {
+	public ResponseEntity<List<Boleto>> getBoletosEntregados(
+			@ApiParam("entregado (boolean)") @PathVariable("entregado") boolean entregado) {
 		if (entregado != false) {
 			try {
 				List<Boleto> getBoletosEntregados = service.getBoletosEntregados();
@@ -122,8 +144,13 @@ public class BoletoController {
 	 * @return Lista con todos los boletos canjeados de la base de datos, una lista
 	 *         vacía si algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra todos los boletos canjeados", notes = "Devuelve una lista de todos los boletos que han sido canjeados")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Canjeado no válido/no hay boletos canjeados"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/canjeados")
-	public ResponseEntity<List<Boleto>> getBoletosCanjeados(@PathVariable("canjeado") boolean canjeado) {
+	public ResponseEntity<List<Boleto>> getBoletosCanjeados(
+			@ApiParam("canjeado (boolean)") @PathVariable("canjeado") boolean canjeado) {
 		if (canjeado != false) {
 			try {
 				List<Boleto> getBoletosCanjeados = service.getBoletosCanjeados();
@@ -146,6 +173,10 @@ public class BoletoController {
 	 * @param boleto a añadir
 	 * @return boleto con el id añadido o boleto vacío si ha ido mal.
 	 */
+	@ApiOperation(value = "Crea un nuevo boleto", notes = "Crea un nuevo boleto siempre que tenga un id válido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Error al crear el boleto"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PostMapping
 	public ResponseEntity<Boleto> createBoleto(@Valid @RequestBody Boleto boleto) {
 		if (boleto != null && boleto.getId() == -1) {
@@ -167,6 +198,10 @@ public class BoletoController {
 	 * @param boleto a añadir
 	 * @return boleto actualizado o boleto vacío si ha ido mal.
 	 */
+	@ApiOperation(value = "Edita un boleto", notes = "Edita un boleto siempre que tenga un id válido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Error al editar el boleto"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PutMapping
 	public ResponseEntity<Boleto> updateBoleto(@Valid @RequestBody Boleto boleto) {
 		if (boleto != null && boleto.getId() != -1) {
@@ -187,8 +222,12 @@ public class BoletoController {
 	 * @param id del boleto a borrar
 	 * @return Ok si lo borra, Bad_Request.
 	 */
+	@ApiOperation(value = "Borra un boleto", notes = "Borra un boleto usando id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Id no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@DeleteMapping("/{id}")
-	public HttpStatus deleteBoletoById(@PathVariable("id") Long id) {
+	public HttpStatus deleteBoletoById(@ApiParam("Boleto id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				service.deleteBoletoById(id);

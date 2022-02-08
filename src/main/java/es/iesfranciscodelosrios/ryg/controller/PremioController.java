@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import es.iesfranciscodelosrios.ryg.model.Boleto;
 import es.iesfranciscodelosrios.ryg.model.Premio;
 import es.iesfranciscodelosrios.ryg.services.PremioService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
@@ -35,6 +40,10 @@ public class PremioController {
 	 * 
 	 * @return Lista de premios de la base de datos, lista vacía en caso contrario
 	 */
+	@ApiOperation(value = "Encuentra todos los premios", notes = "Devuelve una lista de todos los premios")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Error al obtener los premios"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping
 	public ResponseEntity<List<Premio>> getAllPremios() {
 		try {
@@ -54,8 +63,12 @@ public class PremioController {
 	 * @param id
 	 * @return premio encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Encuentra el premio por su id", notes = "Devuelve un premio con id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Id no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/{id}")
-	public ResponseEntity<Premio> getPremiosById(@PathVariable("id") Integer id) {
+	public ResponseEntity<Premio> getPremiosById(@ApiParam("Boleto id (Integer)") @PathVariable("id") Integer id) {
 		if (id != null && id > -1) {
 			try {
 				Premio entity = service.getPremiosById(id);
@@ -70,10 +83,14 @@ public class PremioController {
 
 	}
 
+	@ApiOperation(value = "Encuentra premios por su descripción", notes = "Devuelve una lista de premios con descripción")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Id no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/description/{description}")
-	public ResponseEntity<List<Premio>> getPremiosByDescription(@PathVariable("description") String description) {
+	public ResponseEntity<List<Premio>> getPremiosByDescription(
+			@ApiParam("Premio descripcion (String)") @PathVariable("description") String description) {
 		List<Premio> list = service.getPremiosByDescription(description);
-
 		return new ResponseEntity<List<Premio>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 
@@ -84,8 +101,12 @@ public class PremioController {
 	 * @return Lista con todos los premios entregados de la base de datos, una lista
 	 *         vacía si algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra premios por su entregado", notes = "Devuelve la lista de premios que han sido entregados")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Entregado no válido/no hay premios entregados"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/entregado")
-	public ResponseEntity<List<Premio>> getPremiosEntregados(@PathVariable("entregado") boolean entregado) {
+	public ResponseEntity<List<Premio>> getPremiosEntregados(@ApiParam("entregado (boolean)") @PathVariable("entregado") boolean entregado) {
 		if (entregado != false) {
 			try {
 				List<Premio> getPremiosEntregados = service.getPremiosEntregados();
@@ -100,16 +121,20 @@ public class PremioController {
 		}
 
 	}
-	
+
 	/**
 	 * Método que recoge una petición http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Premios no entregados.
 	 * 
-	 * @return Lista con todos los premios no entregados de la base de datos, una lista
-	 *         vacía si algo ha ido mal
+	 * @return Lista con todos los premios no entregados de la base de datos, una
+	 *         lista vacía si algo ha ido mal
 	 */
+	@ApiOperation(value = "Encuentra premios por su no-entregado", notes = "Devuelve la lista de premios que no han sido entregados")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "No entregado no válido/no hay premios no entregados"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/no-entregado")
-	public ResponseEntity<List<Premio>> getPremiosNoEntregados(@PathVariable("no-entregado") boolean entregado) {
+	public ResponseEntity<List<Premio>> getPremiosNoEntregados(@ApiParam("no-entregado (boolean)") @PathVariable("no-entregado") boolean entregado) {
 		if (entregado != true) {
 			try {
 				List<Premio> getPremiosNoEntregados = service.getPremiosNoEntregados();
@@ -132,6 +157,10 @@ public class PremioController {
 	 * @param id
 	 * @return premio encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Crea un nuevo premio", notes = "Crea un nuevo premio siempre que tenga un id válido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Premio.class),
+			@ApiResponse(code = 404, message = "Error al crear el premio"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PostMapping
 	public ResponseEntity<Premio> createPremios(@Valid @RequestBody Premio myPremio) {
 		if (myPremio != null && myPremio.getId() == -1) {
@@ -154,6 +183,10 @@ public class PremioController {
 	 * @param id
 	 * @return premio encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Edita un premio", notes = "Edita un premio siempre que tenga un id válido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Premio.class),
+			@ApiResponse(code = 404, message = "Error al editar el premio"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PutMapping
 	public ResponseEntity<Premio> updatePremio(@Valid @RequestBody Premio myPremio) {
 		if (myPremio != null && myPremio.getId() != -1) {
@@ -176,8 +209,12 @@ public class PremioController {
 	 * @param id
 	 * @return premio encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Borra un premio", notes = "Borra un premio usando id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Premio.class),
+			@ApiResponse(code = 404, message = "Id no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@DeleteMapping("/{id}")
-	public HttpStatus deletePremioById(@PathVariable("id") Integer id) {
+	public HttpStatus deletePremioById(@ApiParam("Premio id (Long)") @PathVariable("id") Integer id) {
 		if (id != null && id > -1) {
 			try {
 				service.deletePremioById(id);

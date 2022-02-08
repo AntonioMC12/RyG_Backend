@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iesfranciscodelosrios.ryg.model.Usuario;
 import es.iesfranciscodelosrios.ryg.services.UsuarioService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -34,6 +38,10 @@ public class UsuarioController {
 	 * 
 	 * @return Lista de usuarios de la base de datos, lista vacía en caso contrario
 	 */
+	@ApiOperation(value = "Encuentra todos los usuarios", notes = "Devuelve una lista de todos los usuarios")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Error al obtener los usuarios"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping
 	public ResponseEntity<List<Usuario>> getAllUsuarios() {
 		try {
@@ -52,8 +60,12 @@ public class UsuarioController {
 	 * @param id
 	 * @return Usuario encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Encuentra el usuario por su id", notes = "Devuelve un usuario con id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Usuario.class),
+			@ApiResponse(code = 404, message = "Id no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> getUsuarioById(@PathVariable("id") Long id) {
+	public ResponseEntity<Usuario> getUsuarioById(@ApiParam("Usuario id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				Usuario getUsuarioById = service.getUsuarioById(id);
@@ -74,9 +86,13 @@ public class UsuarioController {
 	 * @param longitud
 	 * @return Usuario encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Encuentra un usuario por su latitud y longitud", notes = "Devuelve un usuario según sus coordenadas (latitud y longitud)")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Usuario.class),
+			@ApiResponse(code = 404, message = "Coordenadas no válidas"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/coordenadas/{latitud}/{longitud}")
-	public ResponseEntity<Usuario> getUsuarioByCoordinates(@PathVariable("latitud") float latitud,
-			@PathVariable("longitud") float longitud) {
+	public ResponseEntity<Usuario> getUsuarioByCoordinates(@ApiParam("Usuario latitud (float)") @PathVariable("latitud") float latitud,
+			@ApiParam("Usuario longitud (float)") @PathVariable("longitud") float longitud) {
 		Usuario getUsuarioByCoordinates = service.getUsuarioByCoordinates(latitud, longitud);
 		return new ResponseEntity<Usuario>(getUsuarioByCoordinates, new HttpHeaders(), HttpStatus.OK);
 
@@ -89,6 +105,10 @@ public class UsuarioController {
 	 * @param id
 	 * @return Usuario encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Crea un nuevo usuario", notes = "Crea un nuevo usuario siempre que tenga un id válido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Usuario.class),
+			@ApiResponse(code = 404, message = "Error al crear el usuario"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PostMapping
 	public ResponseEntity<Usuario> createUsuario(@Valid @RequestBody Usuario usuario) {
 		if (usuario != null && usuario.getId() == -1) {
@@ -110,6 +130,10 @@ public class UsuarioController {
 	 * @param id
 	 * @return Usuario encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Edita un usuario", notes = "Edita un usuario siempre que tenga un id válido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Usuario.class),
+			@ApiResponse(code = 404, message = "Error al editar el usuario"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@PutMapping
 	public ResponseEntity<Usuario> updateUsuario(@Valid @RequestBody Usuario usuario) {
 		if (usuario != null && usuario.getId() != -1) {
@@ -131,8 +155,12 @@ public class UsuarioController {
 	 * @param id del usuario a borrar
 	 * @return Usuario encontrado en la bd, o vacío si hay algún error
 	 */
+	@ApiOperation(value = "Borra un usuario", notes = "Borra un usuario usando id")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Usuario.class),
+			@ApiResponse(code = 404, message = "Id no válido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@DeleteMapping("/{id}")
-	public HttpStatus deleteUsuarioById(@PathVariable("id") Long id) {
+	public HttpStatus deleteUsuarioById(@ApiParam("Usuario id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
 			try {
 				service.deleteUsuarioById(id);
