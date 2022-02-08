@@ -41,7 +41,7 @@ public class UsuarioController {
 			return new ResponseEntity<List<Usuario>>(getAllUsuarios, new HttpHeaders(), HttpStatus.OK);
 		} catch (Exception e) {
 			List<Usuario> getAllUsuarios = new ArrayList<Usuario>();
-			return new ResponseEntity<List<Usuario>>(getAllUsuarios, new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<List<Usuario>>(getAllUsuarios, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -59,16 +59,17 @@ public class UsuarioController {
 				Usuario getUsuarioById = service.getUsuarioById(id);
 				return new ResponseEntity<Usuario>(getUsuarioById, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
-				return new ResponseEntity<Usuario>(new Usuario(), new HttpHeaders(), HttpStatus.OK);
+				return new ResponseEntity<Usuario>(new Usuario(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 			}
 		} else {
-			return new ResponseEntity<Usuario>(new Usuario(), new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<Usuario>(new Usuario(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Método que recoge una petición http para hacer una consulta a la base de
-	 * datos y devolver el usuario que le corresponda una latitud y longitud determinadas
+	 * datos y devolver el usuario que le corresponda una latitud y longitud
+	 * determinadas
 	 * 
 	 * @param latitud
 	 * @param longitud
@@ -77,8 +78,13 @@ public class UsuarioController {
 	@GetMapping("/coordenadas/{latitud}/{longitud}")
 	public ResponseEntity<Usuario> getUsuarioByCoordinates(@PathVariable("latitud") float latitud,
 			@PathVariable("longitud") float longitud) {
-		Usuario getUsuarioByCoordinates = service.getUsuarioByCoordinates(latitud, longitud);
-		return new ResponseEntity<Usuario>(getUsuarioByCoordinates, new HttpHeaders(), HttpStatus.OK);
+		Usuario getUsuarioByCoordinates;
+		try {
+			getUsuarioByCoordinates = service.getUsuarioByCoordinates(latitud, longitud);
+			return new ResponseEntity<Usuario>(getUsuarioByCoordinates, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Usuario>(new Usuario(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
 
 	}
 

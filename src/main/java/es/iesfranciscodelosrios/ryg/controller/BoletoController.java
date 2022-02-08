@@ -101,14 +101,14 @@ public class BoletoController {
 	 */
 	@GetMapping("/entregados")
 	public ResponseEntity<List<Boleto>> getBoletosEntregados() {
-		
-			try {
-				List<Boleto> getBoletosEntregados = service.getBoletosEntregados();
-				return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
-			} catch (Exception e) {
-				List<Boleto> getBoletosEntregados = new ArrayList<Boleto>();
-				return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
-			}
+
+		try {
+			List<Boleto> getBoletosEntregados = service.getBoletosEntregados();
+			return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			List<Boleto> getBoletosEntregados = new ArrayList<Boleto>();
+			return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
+		}
 
 	}
 
@@ -204,22 +204,16 @@ public class BoletoController {
 				if (service.setBoletoEntregado(randomElement, true)) {
 					return new ResponseEntity<Boleto>(randomElement, new HttpHeaders(), HttpStatus.OK);
 				} else {
-					System.out.println("salida 1");
 					return new ResponseEntity<Boleto>(new Boleto(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 				}
 			} else {
-				System.out.println("salida 2");
 				return new ResponseEntity<Boleto>(new Boleto(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 			}
 		} catch (IllegalArgumentException e) {
-			System.out.println("salida 3");
 			return new ResponseEntity<Boleto>(new Boleto(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		} catch (NullPointerException e) {
-			System.out.println("salida 4");
 			return new ResponseEntity<Boleto>(new Boleto(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
-			System.out.println("salida 5");
-			System.out.println(e);
 			return new ResponseEntity<Boleto>(new Boleto(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}

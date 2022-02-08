@@ -3,6 +3,8 @@ package es.iesfranciscodelosrios.ryg.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import es.iesfranciscodelosrios.ryg.repository.UsuarioRepository;
 @Service
 public class UsuarioService {
 
+	private static final Logger logger = LogManager.getLogger("UsuarioService");
+
 	@Autowired
 	UsuarioRepository repository;
 
@@ -21,10 +25,16 @@ public class UsuarioService {
 	 * mismo
 	 * 
 	 * @return Lista con todos los usuarios existentes
+	 * @throws Exception
 	 */
-	public List<Usuario> getAllUsuario() {
-		List<Usuario> getAllUsuario = repository.findAll();
-		return getAllUsuario;
+	public List<Usuario> getAllUsuario() throws Exception {
+		try {
+			List<Usuario> getAllUsuario = repository.findAll();
+			return getAllUsuario;
+		} catch (Exception e) {
+			logger.error("The boleto doesn't exists in the database." + e);
+			throw new Exception(e);
+		}
 	}
 
 	/**
@@ -43,12 +53,15 @@ public class UsuarioService {
 				if (getUsuarioById.isPresent()) {
 					return getUsuarioById.get();
 				} else {
+					logger.error("The boleto doesn't exists in the database.");
 					throw new RecordNotFoundException("El usuario no existe", id);
 				}
 			} catch (IllegalArgumentException e) {
+				logger.error("The boleto doesn't exists in the database." + e);
 				throw new IllegalArgumentException(e);
 			}
 		} else {
+			logger.error("The boleto doesn't exists in the database.");
 			throw new NullPointerException("El id es un objeto nulo");
 		}
 	}
@@ -70,12 +83,14 @@ public class UsuarioService {
 				try {
 					return repository.save(usuario);
 				} catch (IllegalArgumentException e) {
+					logger.error("The boleto doesn't exists in the database." + e);
 					throw new IllegalArgumentException(e);
 				}
 			} else {
 				return updateUsuario(usuario);
 			}
 		} else {
+			logger.error("The boleto doesn't exists in the database.");
 			throw new NullPointerException("El usuario es un objeto nulo");
 		}
 	}
@@ -92,26 +107,29 @@ public class UsuarioService {
 	public Usuario updateUsuario(Usuario usuario)
 			throws NullPointerException, RecordNotFoundException, IllegalArgumentException {
 		if (usuario != null) {
-			Optional<Usuario> getUsuario = Optional.ofNullable(getUsuarioById(usuario.getId()));
-			if (!getUsuario.isEmpty()) {
-				Usuario updateUsuario = getUsuario.get();
-				updateUsuario.setId(usuario.getId());
-				updateUsuario.setNombre_comercio(usuario.getNombre_comercio());
-				updateUsuario.setContrasena(usuario.getContrasena());
-				updateUsuario.setDireccion(usuario.getDireccion());
-				updateUsuario.setEmail(usuario.getEmail());
-				updateUsuario.setTelefono(usuario.getTelefono());
-				updateUsuario.setLatitud(usuario.getLatitud());
-				updateUsuario.setLongitud(usuario.getLongitud());
-				try {
+			try {
+				Optional<Usuario> getUsuario = Optional.ofNullable(getUsuarioById(usuario.getId()));
+				if (!getUsuario.isEmpty()) {
+					Usuario updateUsuario = getUsuario.get();
+					updateUsuario.setId(usuario.getId());
+					updateUsuario.setNombre_comercio(usuario.getNombre_comercio());
+					updateUsuario.setContrasena(usuario.getContrasena());
+					updateUsuario.setDireccion(usuario.getDireccion());
+					updateUsuario.setEmail(usuario.getEmail());
+					updateUsuario.setTelefono(usuario.getTelefono());
+					updateUsuario.setLatitud(usuario.getLatitud());
+					updateUsuario.setLongitud(usuario.getLongitud());
 					return repository.save(updateUsuario);
-				} catch (IllegalArgumentException e) {
-					throw new IllegalArgumentException(e);
+				} else {
+					logger.error("The boleto doesn't exists in the database.");
+					throw new RecordNotFoundException("El usuario no existe", usuario.getId());
 				}
-			} else {
-				throw new RecordNotFoundException("El usuario no existe", usuario.getId());
+			} catch (IllegalArgumentException e) {
+				logger.error("The boleto doesn't exists in the database." + e);
+				throw new IllegalArgumentException(e);
 			}
 		} else {
+			logger.error("The boleto doesn't exists in the database.");
 			throw new NullPointerException("El usuario es un objeto nulo");
 		}
 	}
@@ -128,17 +146,20 @@ public class UsuarioService {
 	public void deleteUsuarioById(Long id)
 			throws NullPointerException, RecordNotFoundException, IllegalArgumentException {
 		if (id != null) {
-			Optional<Usuario> deleteUsuarioById = Optional.ofNullable(getUsuarioById(id));
-			if (!deleteUsuarioById.isEmpty()) {
-				try {
+			try {
+				Optional<Usuario> deleteUsuarioById = Optional.ofNullable(getUsuarioById(id));
+				if (!deleteUsuarioById.isEmpty()) {
 					repository.deleteById(id);
-				} catch (IllegalArgumentException e) {
-					throw new IllegalArgumentException(e);
+				} else {
+					logger.error("The boleto doesn't exists in the database.");
+					throw new RecordNotFoundException("El usuario no existe", id);
 				}
-			} else {
-				throw new RecordNotFoundException("El usuario no existe", id);
+			} catch (IllegalArgumentException e) {
+				logger.error("The boleto doesn't exists in the database." + e);
+				throw new IllegalArgumentException(e);
 			}
 		} else {
+			logger.error("The boleto doesn't exists in the database.");
 			throw new NullPointerException("El id es un objeto nulo");
 		}
 	}
@@ -151,21 +172,24 @@ public class UsuarioService {
 	 * @param latitud
 	 * @param longitud
 	 * @return usuario si lo encuentra, excepcion si no lo encuentra
-	 * @throws RecordNotFoundException
-	 * @throws NullPointerException
+	 * @throws Exception
 	 */
-	public Usuario getUsuarioByCoordinates(float latitud, float longitud)
-			throws RecordNotFoundException, NullPointerException {
+	public Usuario getUsuarioByCoordinates(float latitud, float longitud) throws Exception {
 		try {
 			Optional<Usuario> getUsuarioByCoordinates = repository.getUsuarioByCoordinates(latitud, longitud);
 			if (getUsuarioByCoordinates.isPresent()) {
 				return getUsuarioByCoordinates.get();
 			} else {
+				logger.error("The boleto doesn't exists in the database.");
 				throw new RecordNotFoundException("No existe ningún usuario con esas coordenadas",
 						latitud + "-" + longitud);
 			}
 		} catch (IllegalArgumentException e) {
+			logger.error("The boleto doesn't exists in the database." + e);
 			throw new IllegalArgumentException(e);
+		} catch (Exception e) {
+			logger.error("The boleto doesn't exists in the database." + e);
+			throw new Exception();
 		}
 	}
 }

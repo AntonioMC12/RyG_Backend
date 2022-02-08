@@ -28,6 +28,7 @@ local.properties
 .recommenders
 src/main/resources/application.properties
 .idea
+logs/
 
 # External tool builders
 .externalToolBuilders/
