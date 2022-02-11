@@ -64,7 +64,7 @@ public class PremioController {
 	 * @return premio encontrado en la bd, o vacío si hay algún error
 	 */
 	@ApiOperation(value = "Encuentra el premio por su id", notes = "Devuelve un premio con id")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Boleto.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Premio.class),
 			@ApiResponse(code = 404, message = "Id no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@GetMapping("/{id}")

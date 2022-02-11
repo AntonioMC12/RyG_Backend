@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +43,7 @@ public class UsuarioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Error al obtener los usuarios"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping
 	public ResponseEntity<List<Usuario>> getAllUsuarios() {
 		try {
@@ -64,6 +66,7 @@ public class UsuarioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Usuario.class),
 			@ApiResponse(code = 404, message = "Id no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> getUsuarioById(@ApiParam("Usuario id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
@@ -91,6 +94,7 @@ public class UsuarioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Usuario.class),
 			@ApiResponse(code = 404, message = "Coordenadas no válidas"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/coordenadas/{latitud}/{longitud}")
 	public ResponseEntity<Usuario> getUsuarioByCoordinates(@ApiParam("Usuario latitud (float)") @PathVariable("latitud") float latitud,
 			@ApiParam("Usuario longitud (float)") @PathVariable("longitud") float longitud) {
@@ -114,6 +118,7 @@ public class UsuarioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Usuario.class),
 			@ApiResponse(code = 404, message = "Error al crear el usuario"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@PostMapping
 	public ResponseEntity<Usuario> createUsuario(@Valid @RequestBody Usuario usuario) {
 		if (usuario != null && usuario.getId() == -1) {
@@ -139,6 +144,7 @@ public class UsuarioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Usuario.class),
 			@ApiResponse(code = 404, message = "Error al editar el usuario"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@PutMapping
 	public ResponseEntity<Usuario> updateUsuario(@Valid @RequestBody Usuario usuario) {
 		if (usuario != null && usuario.getId() != -1) {
@@ -164,6 +170,7 @@ public class UsuarioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Usuario.class),
 			@ApiResponse(code = 404, message = "Id no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@DeleteMapping("/{id}")
 	public HttpStatus deleteUsuarioById(@ApiParam("Usuario id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
