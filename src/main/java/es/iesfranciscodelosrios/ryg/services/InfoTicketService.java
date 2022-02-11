@@ -1,6 +1,7 @@
 package es.iesfranciscodelosrios.ryg.services;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -215,7 +216,7 @@ public class InfoTicketService {
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 */
-	public List<InfoTicket> getTicketsByDate(Timestamp fecha_ticket)
+	public List<InfoTicket> getTicketsByDate(LocalDate fecha_ticket)
 			throws NullPointerException, IllegalArgumentException, Exception {
 		if (fecha_ticket != null) {
 			try {

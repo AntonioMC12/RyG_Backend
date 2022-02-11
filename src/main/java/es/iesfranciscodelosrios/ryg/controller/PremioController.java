@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +45,7 @@ public class PremioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Error al obtener los premios"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping
 	public ResponseEntity<List<Premio>> getAllPremios() {
 		try {
@@ -67,6 +69,7 @@ public class PremioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Premio.class),
 			@ApiResponse(code = 404, message = "Id no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/{id}")
 	public ResponseEntity<Premio> getPremiosById(@ApiParam("Boleto id (Integer)") @PathVariable("id") Integer id) {
 		if (id != null && id > -1) {
@@ -87,6 +90,7 @@ public class PremioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Id no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/description/{description}")
 	public ResponseEntity<List<Premio>> getPremiosByDescription(
 			@ApiParam("Premio descripcion (String)") @PathVariable("description") String description) {
@@ -110,6 +114,7 @@ public class PremioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Entregado no válido/no hay premios entregados"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/entregado")
 	public ResponseEntity<List<Premio>> getPremiosEntregados() {
 			try {
@@ -134,6 +139,7 @@ public class PremioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "No entregado no válido/no hay premios no entregados"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/no-entregado")
 	public ResponseEntity<List<Premio>> getPremiosNoEntregados() {
 			try {
@@ -158,6 +164,7 @@ public class PremioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Premio.class),
 			@ApiResponse(code = 404, message = "Error al crear el premio"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@PostMapping
 	public ResponseEntity<Premio> createPremios(@Valid @RequestBody Premio myPremio) {
 		if (myPremio != null && myPremio.getId() == -1) {
@@ -184,6 +191,7 @@ public class PremioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Premio.class),
 			@ApiResponse(code = 404, message = "Error al editar el premio"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@PutMapping
 	public ResponseEntity<Premio> updatePremio(@Valid @RequestBody Premio myPremio) {
 		if (myPremio != null && myPremio.getId() != -1) {
@@ -210,6 +218,7 @@ public class PremioController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Premio.class),
 			@ApiResponse(code = 404, message = "Id no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@DeleteMapping("/{id}")
 	public HttpStatus deletePremioById(@ApiParam("Premio id (Long)") @PathVariable("id") Integer id) {
 		if (id != null && id > -1) {
