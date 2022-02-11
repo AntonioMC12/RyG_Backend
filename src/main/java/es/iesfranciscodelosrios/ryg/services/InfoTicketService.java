@@ -1,15 +1,12 @@
 package es.iesfranciscodelosrios.ryg.services;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import es.iesfranciscodelosrios.ryg.exceptions.RecordNotFoundException;
 import es.iesfranciscodelosrios.ryg.model.InfoTicket;
 import es.iesfranciscodelosrios.ryg.repository.InfoTicketRepository;

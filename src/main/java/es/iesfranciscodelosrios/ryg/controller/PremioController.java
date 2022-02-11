@@ -16,15 +16,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import es.iesfranciscodelosrios.ryg.model.Boleto;
 import es.iesfranciscodelosrios.ryg.model.Premio;
 import es.iesfranciscodelosrios.ryg.services.PremioService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 

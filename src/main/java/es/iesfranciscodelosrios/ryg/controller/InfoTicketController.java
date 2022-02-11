@@ -1,13 +1,10 @@
 package es.iesfranciscodelosrios.ryg.controller;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import es.iesfranciscodelosrios.ryg.model.InfoTicket;
 import es.iesfranciscodelosrios.ryg.services.InfoTicketService;
 import io.swagger.annotations.ApiOperation;
