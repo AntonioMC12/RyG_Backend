@@ -1,6 +1,8 @@
 package es.iesfranciscodelosrios.ryg.controller;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +47,7 @@ public class InfoTicketController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Error obtener los tickets"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping
 	public ResponseEntity<List<InfoTicket>> getAllTicket() {
 		try {
@@ -68,6 +72,7 @@ public class InfoTicketController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
 			@ApiResponse(code = 404, message = "Id no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/{id}")
 	public ResponseEntity<InfoTicket> getTicketById(@ApiParam("Ticket id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
@@ -96,6 +101,7 @@ public class InfoTicketController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Teléfono no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/telefono/{telefono}")
 	public ResponseEntity<List<InfoTicket>> getTicketsByTelephone(@ApiParam("Ticket teléfono (int)") @PathVariable("telefono") int telefono) {
 		try {
@@ -121,11 +127,13 @@ public class InfoTicketController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "No hay tickets con esa fecha"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/fecha/{fecha_ticket}")
-	public ResponseEntity<List<InfoTicket>> getTicketsByDate(@ApiParam("Ticket date (Timestamp)") @PathVariable("fecha_ticket") Timestamp fecha_ticket) {
+	public ResponseEntity<List<InfoTicket>> getTicketsByDate(@ApiParam("Ticket date (LocalDate)") @PathVariable("fecha_ticket") String fecha_ticket) {
 		if (fecha_ticket != null) {
 			try {
-				List<InfoTicket> getTicketsByDate = service.getTicketsByDate(fecha_ticket);
+				LocalDate fecha = LocalDate.parse(fecha_ticket, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				List<InfoTicket> getTicketsByDate = service.getTicketsByDate(fecha);
 				return new ResponseEntity<List<InfoTicket>>(getTicketsByDate, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
 				List<InfoTicket> getTicketsByDate = new ArrayList<InfoTicket>();
@@ -150,6 +158,7 @@ public class InfoTicketController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
 			@ApiResponse(code = 404, message = "Id boleto no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/boleto/{id_boleto}")
 	public ResponseEntity<InfoTicket> getTicketByIdBoleto(@ApiParam("Ticket id boleto (Long)") @PathVariable("id_boleto") Long id_boleto) {
 		if (id_boleto != null && id_boleto > -1) {
@@ -175,6 +184,7 @@ public class InfoTicketController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
 			@ApiResponse(code = 404, message = "Error al crear el ticket"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@PostMapping
 	public ResponseEntity<InfoTicket> createTicket(@Valid @RequestBody InfoTicket ticket) {
 		if (ticket != null && ticket.getId() == -1) {
@@ -200,6 +210,7 @@ public class InfoTicketController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
 			@ApiResponse(code = 404, message = "Error al editar el ticket"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@PutMapping
 	public ResponseEntity<InfoTicket> updateTicket(@Valid @RequestBody InfoTicket ticket) {
 		if (ticket != null && ticket.getId() != -1) {
@@ -225,6 +236,7 @@ public class InfoTicketController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
 			@ApiResponse(code = 404, message = "Id no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@DeleteMapping("/{id}")
 	public HttpStatus deleteTicketById(@ApiParam("Ticket id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {

@@ -2,6 +2,7 @@ package es.iesfranciscodelosrios.ryg.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +34,7 @@ public class InfoTicket implements Serializable {
 	@Column(name = "numero_ticket")
 	private int numeroTicket;
 	@Column(name = "fecha_ticket")
-	private Timestamp fechaTicket;
+	private LocalDate fechaTicket;
 	@Column(name = "nombre_comercio")
 	private String nombreComercio;
 
@@ -45,7 +46,7 @@ public class InfoTicket implements Serializable {
 	public InfoTicket() {
 	}
 
-	public InfoTicket(Long id, String nombreCliente, int telefono, int numeroTicket, Timestamp fechaTicket,
+	public InfoTicket(Long id, String nombreCliente, int telefono, int numeroTicket, LocalDate fechaTicket,
 			String nombreComercio) {
 		super();
 		this.id = id;
@@ -88,11 +89,11 @@ public class InfoTicket implements Serializable {
 		this.numeroTicket = numeroTicket;
 	}
 
-	public Timestamp getFechaTicket() {
+	public LocalDate getFechaTicket() {
 		return fechaTicket;
 	}
 
-	public void setFechaTicket(Timestamp fechaTicket) {
+	public void setFechaTicket(LocalDate fechaTicket) {
 		this.fechaTicket = fechaTicket;
 	}
 
