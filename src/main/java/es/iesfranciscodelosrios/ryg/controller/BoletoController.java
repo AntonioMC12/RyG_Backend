@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +45,7 @@ public class BoletoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Error al obtener los boletos"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping
 	public ResponseEntity<List<Boleto>> getAllBoletos() {
 		try {
@@ -52,7 +54,7 @@ public class BoletoController {
 
 		} catch (Exception e) {
 			List<Boleto> getAllBoletos = new ArrayList<Boleto>();
-			return new ResponseEntity<List<Boleto>>(getAllBoletos, new HttpHeaders(), HttpStatus.OK);
+			return new ResponseEntity<List<Boleto>>(getAllBoletos, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -67,6 +69,7 @@ public class BoletoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Boleto.class),
 			@ApiResponse(code = 404, message = "Id no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/{id}")
 	public ResponseEntity<Boleto> getBoletoById(@ApiParam("Boleto id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
@@ -89,15 +92,16 @@ public class BoletoController {
 	 *         lista vacía si algo ha ido mal
 	 */
 	@ApiOperation(value = "Encuentra todos los boletos de un comercio", notes = "Devuelve una lista de todos los boletos con id del comercio")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci�n exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Id comercio no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
-	@GetMapping("/usuarios/{id}")
+	@CrossOrigin(origins = "http://localhost:8100")
+	@GetMapping("/usuarios/{id_usuario}")
 	public ResponseEntity<List<Boleto>> getBoletosByIdComercio(
-			@ApiParam("Comercio id (Long)") @PathVariable("id_comercio") Long id_comercio) {
-		if (id_comercio != null && id_comercio > -1) {
+			@ApiParam("id_usuario (Long)") @PathVariable("id_usuario") Long id_usuario) {
+		if (id_usuario != null && id_usuario > -1) {
 			try {
-				List<Boleto> getBoletosByIdComercio = service.getBoletosByIdComercio(id_comercio);
+				List<Boleto> getBoletosByIdComercio = service.getBoletosByIdComercio(id_usuario);
 				return new ResponseEntity<List<Boleto>>(getBoletosByIdComercio, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {
 				List<Boleto> getBoletosByIdComercio = new ArrayList<Boleto>();
@@ -120,9 +124,9 @@ public class BoletoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Entregado no válido/no hay boletos entregados"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/entregados")
-	public ResponseEntity<List<Boleto>> getBoletosEntregados(
-			@ApiParam("entregado (boolean)") @PathVariable("entregado") boolean entregado) {
+	public ResponseEntity<List<Boleto>> getBoletosEntregados() {
 		try {
 			List<Boleto> getBoletosEntregados = service.getBoletosEntregados();
 			return new ResponseEntity<List<Boleto>>(getBoletosEntregados, new HttpHeaders(), HttpStatus.OK);
@@ -144,6 +148,7 @@ public class BoletoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Canjeado no válido/no hay boletos canjeados"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/canjeados")
 	public ResponseEntity<List<Boleto>> getBoletosCanjeados() {
 		try {
@@ -167,6 +172,7 @@ public class BoletoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Boleto.class),
 			@ApiResponse(code = 404, message = "Error al crear el boleto"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@PostMapping
 	public ResponseEntity<Boleto> createBoleto(@Valid @RequestBody Boleto boleto) {
 		if (boleto != null && boleto.getId() == -1) {
@@ -192,6 +198,7 @@ public class BoletoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Boleto.class),
 			@ApiResponse(code = 404, message = "Error al editar el boleto"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@PutMapping
 	public ResponseEntity<Boleto> updateBoleto(@Valid @RequestBody Boleto boleto) {
 		if (boleto != null && boleto.getId() != -1) {
@@ -216,6 +223,7 @@ public class BoletoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = Boleto.class),
 			@ApiResponse(code = 404, message = "Id no válido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
+	@CrossOrigin(origins = "http://localhost:8100")
 	@DeleteMapping("/{id}")
 	public HttpStatus deleteBoletoById(@ApiParam("Boleto id (Long)") @PathVariable("id") Long id) {
 		if (id != null && id > -1) {
@@ -230,6 +238,14 @@ public class BoletoController {
 		}
 	}
 
+	/**
+	 * M�todo que obtiene un boleto de manera aleatoria, que no est� entregado y distinto del 
+	 * usuario que le pasamos con par�metro.
+	 * 
+	 * @param id del usuario
+	 * @return boleto aleatorio.
+	 */
+	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/sorteo/{id}")
 	public ResponseEntity<Boleto> getRandomBoleto(@PathVariable("id") Long id) {
 		try {

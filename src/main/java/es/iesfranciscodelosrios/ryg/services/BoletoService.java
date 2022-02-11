@@ -27,14 +27,12 @@ public class BoletoService {
 	 * @throws Exception
 	 */
 	public List<Boleto> getAllBoleto() throws Exception {
-		logger.debug("Debug Message Logged !!!");
-		logger.info("Info Message Logged !!!");
 		try {
 			List<Boleto> getAllBoleto = repository.findAll();
 			return getAllBoleto;
 		} catch (Exception e) {
-			logger.error("The boleto doesn't exists in the database.");
-			throw new Exception("El boleto no existe", e);
+			logger.error("There is no boletos in the database " + e);
+			throw new Exception("No hay boletos en la base de datos", e);
 		}
 	}
 
@@ -239,15 +237,15 @@ public class BoletoService {
 	/**
 	 * Método que devuelve todas los boletos de un usuario
 	 * 
-	 * @param id_comercio
+	 * @param id_usuario
 	 * @return Lista con todos los boletos de un usuario en concreto
 	 * @throws Exception, IllegalArgumentException
 	 */
-	public List<Boleto> getBoletosByIdComercio(Long id_comercio)
+	public List<Boleto> getBoletosByIdComercio(Long id_usuario)
 			throws Exception, IllegalArgumentException, NullPointerException {
-		if (id_comercio != null) {
+		if (id_usuario != null) {
 			try {
-				List<Boleto> getBoletosByIdComercio = repository.getBoletosByIdComercio(id_comercio);
+				List<Boleto> getBoletosByIdComercio = repository.getBoletosByIdComercio(id_usuario);
 				return getBoletosByIdComercio;
 			} catch (IllegalArgumentException e) {
 				logger.error("Exception in the method getBoletosByIdComercio" + e);
@@ -292,17 +290,17 @@ public class BoletoService {
 	 * Método que devuelve una lista de boletos no entregado y distinta del comercio
 	 * que va a realizar la peticion
 	 * 
-	 * @param id_comercio, id del comercio que no vamos a devolver los boletos.
+	 * @param id_usuario, id del comercio que no vamos a devolver los boletos.
 	 * @return lista de boletos no entregados y de distinto comercio.
 	 * @throws Exception
 	 * @throws IllegalArgumentException
 	 * @throws NullPointerException
 	 */
-	public List<Boleto> getBoletosForRandomPick(Long id_comercio)
+	public List<Boleto> getBoletosForRandomPick(Long id_usuario)
 			throws Exception, IllegalArgumentException, NullPointerException {
-		if (id_comercio != null && id_comercio > -1) {
+		if (id_usuario != null && id_usuario > -1) {
 			try {
-				List<Boleto> getBoletosForRandomPick = repository.getBoletosForRandomPick(id_comercio);
+				List<Boleto> getBoletosForRandomPick = repository.getBoletosForRandomPick(id_usuario);
 				return getBoletosForRandomPick;
 			} catch (IllegalArgumentException e) {
 				logger.error("Exception in the method getBoletosForRandomPick" + e);
@@ -312,7 +310,7 @@ public class BoletoService {
 				throw new Exception(e);
 			}
 		} else {
-			logger.error("Exception in the method getBoletosForRandomPick id_comercio is null");
+			logger.error("Exception in the method getBoletosForRandomPick id_usuario is null");
 			throw new NullPointerException("El id es un objeto nulo");
 		}
 	}
