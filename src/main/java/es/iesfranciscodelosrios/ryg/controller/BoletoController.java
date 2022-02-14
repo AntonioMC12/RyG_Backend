@@ -59,7 +59,7 @@ public class BoletoController {
 	}
 
 	/**
-	 * Método que recoge una petición http a nuestra API para hacer una consulta a
+	 * M�todo que recoge una petición http a nuestra API para hacer una consulta a
 	 * la base de datos y obtener el boleto con el id que pasamos por parámetro
 	 * 
 	 * @param id del boleto a buscar

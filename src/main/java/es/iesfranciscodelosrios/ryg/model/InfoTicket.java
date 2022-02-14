@@ -35,8 +35,10 @@ public class InfoTicket implements Serializable {
 	private LocalDate fechaTicket;
 	@Column(name = "nombre_comercio")
 	private String nombreComercio;
+	@Column(name = "foto")
+	private String foto;
 
-	@JsonIgnoreProperties(value = {"ticket"}, allowSetters = true)
+	@JsonIgnoreProperties(value = { "ticket" }, allowSetters = true)
 	@OneToOne
 	@JoinColumn(name = "id_boleto")
 	private Boleto boleto;
@@ -45,7 +47,7 @@ public class InfoTicket implements Serializable {
 	}
 
 	public InfoTicket(Long id, String nombreCliente, int telefono, int numeroTicket, LocalDate fechaTicket,
-			String nombreComercio) {
+			String nombreComercio, String foto) {
 		super();
 		this.id = id;
 		this.nombreCliente = nombreCliente;
@@ -53,6 +55,7 @@ public class InfoTicket implements Serializable {
 		this.numeroTicket = numeroTicket;
 		this.fechaTicket = fechaTicket;
 		this.nombreComercio = nombreComercio;
+		this.foto = foto;
 	}
 
 	public Long getId() {
@@ -109,6 +112,14 @@ public class InfoTicket implements Serializable {
 
 	public void setBoleto(Boleto boleto) {
 		this.boleto = boleto;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 	@Override

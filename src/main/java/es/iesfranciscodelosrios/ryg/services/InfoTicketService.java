@@ -85,19 +85,24 @@ public class InfoTicketService {
 			if (ticket.getId() == -1) {
 				ticket.setId(null);
 				try {
-					return ticket = repository.save(ticket);
+					if (checkTickets(ticket)) {
+						return ticket = repository.save(ticket);
+					} else {
+						logger.error("You can't insert 2 or more ticket with the same ticket");
+						throw new Exception("No se puede insertar 2 o más boletos con el mismo ticket");
+					}
 				} catch (IllegalArgumentException e) {
-					logger.error("The boleto doesn't exists in the database." + e);
+					logger.error("Error al insertar el ticket, argumento inválido" + e);
 					throw new IllegalArgumentException(e);
 				} catch (Exception e) {
-					logger.error("The boleto doesn't exists in the database." + e);
+					logger.error("Error al insertar el ticket. " + e);
 					throw new Exception(e);
 				}
 			} else {
 				return updateInfoTicket(ticket);
 			}
 		} else {
-			logger.error("The boleto doesn't exists in the database.");
+			logger.error("The ticket is null.");
 			throw new NullPointerException("El ticket es un objeto nulo");
 		}
 	}
@@ -125,7 +130,13 @@ public class InfoTicketService {
 					newTicket.setNombreComercio(ticket.getNombreComercio());
 					newTicket.setNumeroTicket(ticket.getNumeroTicket());
 					newTicket.setTelefono(ticket.getTelefono());
-					return repository.save(newTicket);
+					newTicket.setFoto(ticket.getFoto());
+					if (checkTickets(newTicket)) {
+						return repository.save(newTicket);
+					} else {
+						logger.error("You can't insert 2 or more ticket with the same ticket");
+						throw new Exception("No se puede insertar 2 o más boletos con el mismo ticket");
+					}
 				} else {
 					logger.error("The boleto doesn't exists in the database.");
 					throw new RecordNotFoundException("El ticket no existe", ticket.getId());
@@ -263,6 +274,29 @@ public class InfoTicketService {
 		} else {
 			logger.error("The boleto doesn't exists in the database. ");
 			throw new NullPointerException("El id de boleto es un objeto nulo");
+		}
+	}
+
+	public boolean checkTickets(InfoTicket ticket) {
+		if (ticket != null) {
+			if (ticket.getBoleto() != null) {
+				try {
+					InfoTicket newTicket = getTicketByIdBoleto(ticket.getBoleto().getId());
+					if (newTicket != null && newTicket.getId() > 0) {
+						return false;
+					} else {
+						return true;
+					}
+				} catch (Exception e) {
+					return true;
+				}
+			} else {
+				logger.error("The boleto is null in checkTickets().");
+				throw new NullPointerException("The boleto is null in checkTickets().");
+			}
+		} else {
+			logger.error("The ticket is null in checkTickets().");
+			throw new NullPointerException("The ticket is null in checkTickets().");
 		}
 	}
 }
