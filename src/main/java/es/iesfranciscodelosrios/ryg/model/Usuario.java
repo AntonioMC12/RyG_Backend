@@ -25,8 +25,8 @@ public class Usuario implements Serializable {
 	private Long id;
 	@Column(name = "nombre_comercio")
 	private String nombre_comercio;
-	@Column(name = "contrasena")
-	private String contrasena;
+	@Column(name = "uid")
+	private String uid;
 	@Column(name = "direccion")
 	private String direccion;
 	@Column(name = "email")
@@ -39,8 +39,10 @@ public class Usuario implements Serializable {
 	private float longitud;
 	@Column(name = "participaciones")
 	private int participaciones;
+	@Column(name = "admin")
+	private boolean admin;
 
-	@JsonIgnoreProperties(value = {"usuario"}, allowSetters = true)
+	@JsonIgnoreProperties(value = { "usuario" }, allowSetters = true)
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Boleto> boletos;
 
@@ -54,17 +56,17 @@ public class Usuario implements Serializable {
 	 * @param latitud
 	 * @param longitud
 	 */
-	public Usuario(Long id, String nombre_comercio, String contrasena, String direccion, String email, String telefono,
-			float latitud, float longitud) {
-		super();
+	public Usuario(Long id, String nombre_comercio, String uid, String direccion, String email, String telefono,
+			float latitud, float longitud, boolean admin) {
 		this.id = id;
 		this.nombre_comercio = nombre_comercio;
-		this.contrasena = contrasena;
+		this.uid = uid;
 		this.direccion = direccion;
 		this.email = email;
 		this.telefono = telefono;
 		this.latitud = latitud;
 		this.longitud = longitud;
+		this.admin = admin;
 	}
 
 	/**
@@ -76,17 +78,18 @@ public class Usuario implements Serializable {
 	 * @param latitud
 	 * @param longitud
 	 */
-	public Usuario(String nombre_comercio, String contrasena, String direccion, String email, String telefono,
-			float latitud, float longitud, int participaciones) {
+	public Usuario(String nombre_comercio, String uid, String direccion, String email, String telefono, float latitud,
+			float longitud, int participaciones, boolean admin) {
 		super();
 		this.nombre_comercio = nombre_comercio;
-		this.contrasena = contrasena;
+		this.uid = uid;
 		this.direccion = direccion;
 		this.email = email;
 		this.telefono = telefono;
 		this.latitud = latitud;
 		this.longitud = longitud;
 		this.participaciones = participaciones;
+		this.admin = admin;
 	}
 
 	/**
@@ -111,12 +114,12 @@ public class Usuario implements Serializable {
 		this.nombre_comercio = nombre_comercio;
 	}
 
-	public String getContrasena() {
-		return contrasena;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 
 	public String getDireccion() {
@@ -173,6 +176,14 @@ public class Usuario implements Serializable {
 
 	public void setBoletos(List<Boleto> boletos) {
 		this.boletos = boletos;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 
 	@Override

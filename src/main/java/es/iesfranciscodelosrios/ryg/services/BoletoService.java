@@ -86,7 +86,12 @@ public class BoletoService {
 			if (boleto.getId() == -1) {
 				boleto.setId(null);
 				try {
-					return boleto = repository.save(boleto);
+					if (checkPremios(boleto)) {
+						return boleto = repository.save(boleto);
+					} else {
+						logger.error("You can't insert 2 or more boletos with the same premio");
+						throw new Exception("No se puede insertar 2 o más boletos con el mismo premio");
+					}
 				} catch (IllegalArgumentException e) {
 					logger.error("IllegalArgumentException in the method createBoleto" + e);
 					throw new IllegalArgumentException(e);
@@ -137,7 +142,12 @@ public class BoletoService {
 					updateBoleto.setUsuario(boleto.getUsuario());
 					updateBoleto.setCanjeado(boleto.isCanjeado());
 					updateBoleto.setEntregado(boleto.isEntregado());
-					return repository.save(updateBoleto);
+					if (checkPremios(updateBoleto)) {
+						return repository.save(updateBoleto);
+					} else {
+						logger.error("You can't insert 2 or more boletos with the same premio");
+						throw new Exception("No se puede insertar 2 o más boletos con el mismo premio");
+					}
 				} else {
 					throw new RecordNotFoundException("El boleto no existe", boleto.getId());
 				}
@@ -312,6 +322,62 @@ public class BoletoService {
 		} else {
 			logger.error("Exception in the method getBoletosForRandomPick id_usuario is null");
 			throw new NullPointerException("El id es un objeto nulo");
+		}
+	}
+
+	/**
+	 * Método que obtiene un ticket de la base de datos buscando por el id de su
+	 * boleto asociado. Si existe, lo devuelve, si no, lanza una excepción para
+	 * dicho resultado
+	 * 
+	 * @param id_boleto
+	 * @return ticket si lo encuentra, excepcion si no lo encuentra
+	 * @throws RecordNotFoundException
+	 * @throws NullPointerException
+	 */
+	public Boleto getBoletoByIdPremio(int id_premio) throws RecordNotFoundException, NullPointerException, Exception {
+		if (id_premio > -1) {
+			try {
+				Optional<Boleto> getBoletoByIdPremio = repository.getBoletoByIdPremio(id_premio);
+				if (getBoletoByIdPremio.isPresent()) {
+					return getBoletoByIdPremio.get();
+				} else {
+					logger.error("The premio doesn't exists in the database. ");
+					throw new RecordNotFoundException("El premio asociado a ese boleto no existe", id_premio);
+				}
+			} catch (IllegalArgumentException e) {
+				logger.error("The boleto doesn't exists in the database. " + e);
+				throw new IllegalArgumentException(e);
+			} catch (Exception e) {
+				logger.error("The boleto doesn't exists in the database. " + e);
+				throw new Exception("El ticket es un objeto nulo");
+			}
+		} else {
+			logger.error("The boleto doesn't exists in the database. ");
+			throw new NullPointerException("El id de boleto es un objeto nulo");
+		}
+	}
+
+	public boolean checkPremios(Boleto boleto) {
+		if (boleto != null) {
+			if (boleto.getPremio() != null) {
+				try {
+					Boleto newBoleto = getBoletoByIdPremio(boleto.getPremio().getId());
+					if (newBoleto != null && newBoleto.getId() > 0) {
+						return false;
+					} else {
+						return true;
+					}
+				} catch (Exception e) {
+					return false;
+				}
+			} else {
+				logger.error("The boleto is null in checkTickets().");
+				throw new NullPointerException("The boleto is null in checkTickets().");
+			}
+		} else {
+			logger.error("The ticket is null in checkTickets().");
+			throw new NullPointerException("The ticket is null in checkTickets().");
 		}
 	}
 }

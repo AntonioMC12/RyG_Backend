@@ -1,24 +1,33 @@
 package es.iesfranciscodelosrios.ryg.controller;
 
+import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import es.iesfranciscodelosrios.ryg.model.InfoTicket;
+import es.iesfranciscodelosrios.ryg.services.CloudinaryService;
 import es.iesfranciscodelosrios.ryg.services.InfoTicketService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,6 +38,9 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/tickets")
 
 public class InfoTicketController {
+
+	@Autowired
+	CloudinaryService cluCloudinaryService;
 
 	@Autowired
 	InfoTicketService service;
@@ -50,7 +62,6 @@ public class InfoTicketController {
 			List<InfoTicket> all = service.getAllTicket();
 			return new ResponseEntity<List<InfoTicket>>(all, new HttpHeaders(), HttpStatus.OK);
 		} catch (Exception e) {
-			// TODO: handle exception
 			List<InfoTicket> all = new ArrayList<InfoTicket>();
 			return new ResponseEntity<List<InfoTicket>>(all, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 		}
@@ -99,7 +110,8 @@ public class InfoTicketController {
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/telefono/{telefono}")
-	public ResponseEntity<List<InfoTicket>> getTicketsByTelephone(@ApiParam("Ticket teléfono (int)") @PathVariable("telefono") int telefono) {
+	public ResponseEntity<List<InfoTicket>> getTicketsByTelephone(
+			@ApiParam("Ticket teléfono (int)") @PathVariable("telefono") int telefono) {
 		try {
 			List<InfoTicket> getTicketsByTelephone = service.getTicketsByTelephone(telefono);
 			return new ResponseEntity<List<InfoTicket>>(getTicketsByTelephone, new HttpHeaders(), HttpStatus.OK);
@@ -125,7 +137,8 @@ public class InfoTicketController {
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/fecha/{fecha_ticket}")
-	public ResponseEntity<List<InfoTicket>> getTicketsByDate(@ApiParam("Ticket date (LocalDate)") @PathVariable("fecha_ticket") String fecha_ticket) {
+	public ResponseEntity<List<InfoTicket>> getTicketsByDate(
+			@ApiParam("Ticket date (LocalDate)") @PathVariable("fecha_ticket") String fecha_ticket) {
 		if (fecha_ticket != null) {
 			try {
 				LocalDate fecha = LocalDate.parse(fecha_ticket, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -156,7 +169,8 @@ public class InfoTicketController {
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/boleto/{id_boleto}")
-	public ResponseEntity<InfoTicket> getTicketByIdBoleto(@ApiParam("Ticket id boleto (Long)") @PathVariable("id_boleto") Long id_boleto) {
+	public ResponseEntity<InfoTicket> getTicketByIdBoleto(
+			@ApiParam("Ticket id boleto (Long)") @PathVariable("id_boleto") Long id_boleto) {
 		if (id_boleto != null && id_boleto > -1) {
 			try {
 				InfoTicket getTicketByIdBoleto = service.getTicketByIdBoleto(id_boleto);
@@ -170,21 +184,34 @@ public class InfoTicketController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de
-	 * datos y crear un ticket nuevo
+	 * Método para insertar un ticket en la base de datos, recibiendo los datos del
+	 * ticket en JSON y la foto como MultipartFile guardando el contenido multimedia
+	 * en Cloudinary y almacenando la url en la base de datos.
 	 * 
-	 * @param id
-	 * @return Ticket encontrado en la bd, o vacío si hay algún error
+	 * @param ticket        JSON con la información del ticket
+	 * @param multipartFile archivo multimedia para insertar en cloudinary y guardar
+	 *                      la url en maridaDB.
+	 * @return JSON con la información del ticket en la base de datos o ticket vacío
+	 *         si hay error.
 	 */
 	@ApiOperation(value = "Crea un nuevo ticket", notes = "Crea un nuevo ticket siempre que tenga un id válido")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
 			@ApiResponse(code = 404, message = "Error al crear el ticket"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
-	@PostMapping
-	public ResponseEntity<InfoTicket> createTicket(@Valid @RequestBody InfoTicket ticket) {
-		if (ticket != null && ticket.getId() == -1) {
+	@RequestMapping(path = "", method = RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<InfoTicket> createTicket(@Valid @RequestPart InfoTicket ticket,
+			@Valid @RequestPart MultipartFile multipartFile) {
+		if (ticket != null && multipartFile != null && ticket.getId() == -1) {
 			try {
+				//Obtengo la imagen, leyendo del Stream para subirla a cloudinary.
+				BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+				if (bi == null) {
+					return new ResponseEntity<InfoTicket>(new InfoTicket(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+				}
+				//Subo la foto a cludinary y obtengo su url para guardarla en la base de datos.
+				Map<?, ?> result = cluCloudinaryService.upload(multipartFile);
+				ticket.setFoto((String) result.get("url"));
 				InfoTicket newTicket = service.createInfoTicket(ticket);
 				return new ResponseEntity<InfoTicket>(newTicket, new HttpHeaders(), HttpStatus.OK);
 			} catch (Exception e) {

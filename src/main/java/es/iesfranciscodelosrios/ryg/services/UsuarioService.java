@@ -113,12 +113,13 @@ public class UsuarioService {
 					Usuario updateUsuario = getUsuario.get();
 					updateUsuario.setId(usuario.getId());
 					updateUsuario.setNombre_comercio(usuario.getNombre_comercio());
-					updateUsuario.setContrasena(usuario.getContrasena());
+					updateUsuario.setUid(usuario.getUid());
 					updateUsuario.setDireccion(usuario.getDireccion());
 					updateUsuario.setEmail(usuario.getEmail());
 					updateUsuario.setTelefono(usuario.getTelefono());
 					updateUsuario.setLatitud(usuario.getLatitud());
 					updateUsuario.setLongitud(usuario.getLongitud());
+					updateUsuario.setAdmin(usuario.isAdmin());
 					return repository.save(updateUsuario);
 				} else {
 					logger.error("The boleto doesn't exists in the database.");

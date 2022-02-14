@@ -127,7 +127,7 @@ public class PremioService {
 	 * @throws RecordNotFoundException
 	 */
 	public Premio updatePremio(Premio entity)
-			throws NullPointerException, IllegalArgumentException, RecordNotFoundException {
+			throws NullPointerException, IllegalArgumentException, RecordNotFoundException, Exception {
 
 		if (entity != null) {
 			try {
@@ -136,7 +136,7 @@ public class PremioService {
 					Premio newEntity = premio.get();
 					newEntity.setDescription(entity.getDescription());
 					newEntity.setEntregado(entity.isEntregado());
-					return repository.save(newEntity);
+					return entity = repository.save(entity);
 				} else {
 					logger.error("The boleto doesn't exists in the database.");
 					throw new RecordNotFoundException("Premio not found", entity.getId());
@@ -232,5 +232,4 @@ public class PremioService {
 			throw new Exception(e);
 		}
 	}
-
 }

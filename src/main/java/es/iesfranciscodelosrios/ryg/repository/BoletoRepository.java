@@ -1,11 +1,11 @@
 package es.iesfranciscodelosrios.ryg.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import es.iesfranciscodelosrios.ryg.model.Boleto;
 
 @Repository
@@ -23,4 +23,6 @@ public interface BoletoRepository extends JpaRepository<Boleto, Long> {
 	@Query(value = "SELECT * FROM boleto AS b WHERE b.id_usuario != ?1 AND b.entregado = 0 AND b.canjeado = 0", nativeQuery = true)
 	public List<Boleto> getBoletosForRandomPick(Long id_comercio);
 
+	@Query(value = "SELECT * FROM boleto AS b WHERE b.id_premio = ?1", nativeQuery = true)
+	public Optional<Boleto> getBoletoByIdPremio(int id_premio);
 }
