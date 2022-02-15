@@ -51,19 +51,19 @@ public class InfoTicketService {
 				if (result.isPresent()) {
 					return result.get();
 				} else {
-					logger.error("The boleto doesn't exists in the database.");
+					logger.error("The ticket doesn't exists in the database.");
 					throw new RecordNotFoundException("La nota no existe", id);
 				}
 			} catch (IllegalArgumentException e) {
-				logger.error("The boleto doesn't exists in the database." + e);
+				logger.error("The ticket doesn't exists in the database." + e);
 				throw new IllegalArgumentException(e);
 			} catch (Exception e) {
-				logger.error("The boleto doesn't exists in the database." + e);
+				logger.error("The ticket doesn't exists in the database." + e);
 				throw new Exception(e);
 			}
 
 		} else {
-			logger.error("The boleto doesn't exists in the database.");
+			logger.error("The ticket doesn't exists in the database.");
 			throw new NullPointerException("El id es un objeto nulo");
 		}
 
