@@ -369,15 +369,16 @@ public class BoletoService {
 						return true;
 					}
 				} catch (Exception e) {
-					return false;
+					return true;
 				}
 			} else {
-				logger.error("The boleto is null in checkTickets().");
-				throw new NullPointerException("The boleto is null in checkTickets().");
+				return true;
+				//logger.error("The boleto is null in checkTickets().");
+				//throw new NullPointerException("The boleto is null in checkPremios().");
 			}
 		} else {
 			logger.error("The ticket is null in checkTickets().");
-			throw new NullPointerException("The ticket is null in checkTickets().");
+			throw new NullPointerException("The ticket is null in checkPremios().");
 		}
 	}
 }
