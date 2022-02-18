@@ -33,13 +33,13 @@ public class PremioController {
 	PremioService service;
 
 	/**
-	 * M茅todo que recoge una petici贸n http para hacer una consulta a la base de
+	 * M閠odo que recoge una petici髇 http para hacer una consulta a la base de
 	 * datos y devolver una lista de premios
 	 * 
-	 * @return Lista de premios de la base de datos, lista vac铆a en caso contrario
+	 * @return Lista de premios de la base de datos, lista vac韆 en caso contrario
 	 */
 	@ApiOperation(value = "Encuentra todos los premios", notes = "Devuelve una lista de todos los premios")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = List.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci髇 exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Error al obtener los premios"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -56,15 +56,15 @@ public class PremioController {
 	}
 
 	/**
-	 * M茅todo que recoge una petici贸n http para hacer una consulta a la base de
+	 * M閠odo que recoge una petici髇 http para hacer una consulta a la base de
 	 * datos y devolver el premio que le corresponda un id determinado
 	 * 
 	 * @param id
-	 * @return premio encontrado en la bd, o vac铆o si hay alg煤n error
+	 * @return premio encontrado en la bd, o vac韔 si hay alg鷑 error
 	 */
 	@ApiOperation(value = "Encuentra el premio por su id", notes = "Devuelve un premio con id")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = Premio.class),
-			@ApiResponse(code = 404, message = "Id no v谩lido"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci髇 exitosa", response = Premio.class),
+			@ApiResponse(code = 404, message = "Id no v醠ido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/{id}")
@@ -83,9 +83,17 @@ public class PremioController {
 
 	}
 
-	@ApiOperation(value = "Encuentra premios por su descripci贸n", notes = "Devuelve una lista de premios con descripci贸n")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = List.class),
-			@ApiResponse(code = 404, message = "Id no v谩lido"),
+	/**
+	 * M閠odo que recoge una petici髇 http a nuestra API para hacer una consulta a
+	 * la base de datos y devolver todos los Premios que concuerden con una
+	 * descripci髇
+	 * 
+	 * @param description
+	 * @return Lista con todos los premios con una descripci髇 espec韋ica
+	 */
+	@ApiOperation(value = "Encuentra premios por su descripci髇", notes = "Devuelve una lista de premios con descripci髇")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci髇 exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Id no v髄ido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/description/{description}")
@@ -101,64 +109,62 @@ public class PremioController {
 	}
 
 	/**
-	 * M茅todo que recoge una petici贸n http a nuestra API para hacer una consulta a
+	 * M閠odo que recoge una petici髇 http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Premios entregados.
 	 * 
 	 * @return Lista con todos los premios entregados de la base de datos, una lista
-	 *         vac铆a si algo ha ido mal
+	 *         vac韆 si algo ha ido mal
 	 */
 	@ApiOperation(value = "Encuentra premios por su entregado", notes = "Devuelve la lista de premios que han sido entregados")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = List.class),
-			@ApiResponse(code = 404, message = "Entregado no v谩lido/no hay premios entregados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci髇 exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Entregado no v醠ido/no hay premios entregados"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/entregado")
 	public ResponseEntity<List<Premio>> getPremiosEntregados() {
-			try {
-				List<Premio> getPremiosEntregados = service.getPremiosEntregados();
-				return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.OK);
-			} catch (Exception e) {
-				List<Premio> getPremiosEntregados = new ArrayList<Premio>();
-				return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.BAD_REQUEST);
-			}
-		
+		try {
+			List<Premio> getPremiosEntregados = service.getPremiosEntregados();
+			return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			List<Premio> getPremiosEntregados = new ArrayList<Premio>();
+			return new ResponseEntity<List<Premio>>(getPremiosEntregados, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
 
 	}
 
 	/**
-	 * M茅todo que recoge una petici贸n http a nuestra API para hacer una consulta a
+	 * M閠odo que recoge una petici髇 http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Premios no entregados.
 	 * 
 	 * @return Lista con todos los premios no entregados de la base de datos, una
-	 *         lista vac铆a si algo ha ido mal
+	 *         lista vac韆 si algo ha ido mal
 	 */
 	@ApiOperation(value = "Encuentra premios por su no-entregado", notes = "Devuelve la lista de premios que no han sido entregados")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = List.class),
-			@ApiResponse(code = 404, message = "No entregado no v谩lido/no hay premios no entregados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci髇 exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "No entregado no v醠ido/no hay premios no entregados"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/no-entregado")
 	public ResponseEntity<List<Premio>> getPremiosNoEntregados() {
-			try {
-				List<Premio> getPremiosNoEntregados = service.getPremiosNoEntregados();
-				return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.OK);
-			} catch (Exception e) {
-				List<Premio> getPremiosNoEntregados = new ArrayList<Premio>();
-				return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.BAD_REQUEST);
-			}
-	
+		try {
+			List<Premio> getPremiosNoEntregados = service.getPremiosNoEntregados();
+			return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.OK);
+		} catch (Exception e) {
+			List<Premio> getPremiosNoEntregados = new ArrayList<Premio>();
+			return new ResponseEntity<List<Premio>>(getPremiosNoEntregados, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		}
 
 	}
 
 	/**
-	 * M茅todo que recoge una petici贸n http para hacer una consulta a la base de
+	 * M閠odo que recoge una petici髇 http para hacer una consulta a la base de
 	 * datos y crear un premio nuevo
 	 * 
 	 * @param id
-	 * @return premio encontrado en la bd, o vac铆o si hay alg煤n error
+	 * @return premio encontrado en la bd, o vac韔 si hay alg鷑 error
 	 */
 	@ApiOperation(value = "Crea un nuevo premio", notes = "Crea un nuevo premio siempre que tenga un id v谩lido")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = Premio.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci髇 exitosa", response = Premio.class),
 			@ApiResponse(code = 404, message = "Error al crear el premio"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -178,14 +184,14 @@ public class PremioController {
 	}
 
 	/**
-	 * M茅todo que recoge una petici贸n http para hacer una consulta a la base de
+	 * M閠odo que recoge una petici髇 http para hacer una consulta a la base de
 	 * datos y actualizar un premio
 	 * 
 	 * @param id
-	 * @return premio encontrado en la bd, o vac铆o si hay alg煤n error
+	 * @return premio encontrado en la bd, o vac韔 si hay alg鷑 error
 	 */
 	@ApiOperation(value = "Edita un premio", notes = "Edita un premio siempre que tenga un id v谩lido")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = Premio.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci髇 exitosa", response = Premio.class),
 			@ApiResponse(code = 404, message = "Error al editar el premio"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -205,15 +211,15 @@ public class PremioController {
 	}
 
 	/**
-	 * M茅todo que recoge una petici贸n http para hacer una consulta a la base de
+	 * M閠odo que recoge una petici髇 http para hacer una consulta a la base de
 	 * datos y borrar un premio
 	 * 
 	 * @param id
-	 * @return premio encontrado en la bd, o vac铆o si hay alg煤n error
+	 * @return premio encontrado en la bd, o vac韔 si hay alg鷑 error
 	 */
 	@ApiOperation(value = "Borra un premio", notes = "Borra un premio usando id")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci贸n exitosa", response = Premio.class),
-			@ApiResponse(code = 404, message = "Id no v谩lido"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci髇 exitosa", response = Premio.class),
+			@ApiResponse(code = 404, message = "Id no v醠ido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@DeleteMapping("/{id}")

@@ -13,6 +13,10 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("Modelo de Premio")
 @Entity
 @Table(name = "premio")
 public class Premio implements Serializable {
@@ -22,12 +26,20 @@ public class Premio implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(
+			value="Identificador",
+			example = "5")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
+	@ApiModelProperty(
+			value="Descripción")
 	@Column(name = "descripcion")
 	private String description;
+	@ApiModelProperty(
+			value="Valor que muestra si el premio ha sido entregado",
+			example = "0")
 	@Column(name = "entregado")
 	private boolean entregado;
 

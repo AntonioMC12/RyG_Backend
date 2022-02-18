@@ -13,6 +13,10 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("Modelo de Ticket")
 @Entity
 @Table(name = "info_ticket")
 public class InfoTicket implements Serializable {
@@ -21,23 +25,41 @@ public class InfoTicket implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@ApiModelProperty(
+			value="Identificador",
+			example = "1")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+	@ApiModelProperty(
+			value="Nombre del cliente al que pertenece")
 	@Column(name = "nombre_cliente")
 	private String nombreCliente;
+	@ApiModelProperty(
+			value="Teléfono del cliente",
+			example = "669317799")
 	@Column(name = "telefono")
 	private int telefono;
+	@ApiModelProperty(
+			value="Número del ticket",
+			example = "092")
 	@Column(name = "numero_ticket")
 	private int numeroTicket;
+	@ApiModelProperty(
+			value="Fecha de salida del ticket",
+			example = "13-04-22")
 	@Column(name = "fecha_ticket")
 	private LocalDate fechaTicket;
+	@ApiModelProperty(
+			value="Nombre del comercio que da el ticket")
 	@Column(name = "nombre_comercio")
 	private String nombreComercio;
+	@ApiModelProperty(
+			value="Imagen")
 	@Column(name = "foto")
 	private String foto;
-
+	
 	@JsonIgnoreProperties(value = { "ticket" }, allowSetters = true)
 	@OneToOne
 	@JoinColumn(name = "id_boleto")

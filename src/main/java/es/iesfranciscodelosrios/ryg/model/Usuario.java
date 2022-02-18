@@ -14,31 +14,63 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("Modelo de Usuario")
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(
+			value="Identificador",
+			example = "5")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+	@ApiModelProperty(
+			value="Nombre del comercio",
+			example = "Carnicería Pérez")
 	@Column(name = "nombre_comercio")
 	private String nombre_comercio;
+	@ApiModelProperty(
+			value="Contraseña",
+			example = "*****")
 	@Column(name = "uid")
 	private String uid;
+	@ApiModelProperty(
+			value="Dirección del comercio",
+			example = "Calle Pintor Velázquez, 11")
 	@Column(name = "direccion")
 	private String direccion;
+	@ApiModelProperty(
+			value="Email del comercio",
+			example = "carniceriaperez@hotmail.com")
 	@Column(name = "email")
 	private String email;
+	@ApiModelProperty(
+			value="Número de teléfono",
+			example = "669279987")
 	@Column(name = "telefono")
 	private String telefono;
+	@ApiModelProperty(
+			value="Ubicación: latitud")
 	@Column(name = "latitud")
 	private float latitud;
+	@ApiModelProperty(
+			value="Ubicación: longitud")
 	@Column(name = "longitud")
 	private float longitud;
+	@ApiModelProperty(
+			value="Participaciones del comercio",
+			example = "100")
 	@Column(name = "participaciones")
 	private int participaciones;
+	@ApiModelProperty(
+			value="Rol de administrador",
+			example = "0")
 	@Column(name = "admin")
 	private boolean admin;
 

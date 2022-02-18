@@ -16,20 +16,35 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("Modelo de Boleto")
 @Entity
 @Table(name = "boleto")
 public class Boleto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@ApiModelProperty(
+			value="Identificador",
+			example = "3")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+	@ApiModelProperty(
+			value="Descripción del boleto")
 	@Column(name = "descripcion", length = 256)
 	private String descripcion;
+	@ApiModelProperty(
+			value="Valor que muestra si ha sido entregado",
+			example = "1")
 	@Column(name = "entregado")
 	private boolean entregado;
+	@ApiModelProperty(
+			value="Valor que muestra si ha sido canjeado",
+			example = "0")
 	@Column(name = "canjeado")
 	private boolean canjeado;
 

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.iesfranciscodelosrios.ryg.model.Boleto;
 import es.iesfranciscodelosrios.ryg.services.BoletoService;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponses;
@@ -35,14 +36,14 @@ public class BoletoController {
 	BoletoService service;
 
 	/**
-	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
+	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Boletos.
 	 * 
-	 * @return Lista con todos los boletos de la base de datos, una lista vac√≠a si
+	 * @return Lista con todos los boletos de la base de datos, una lista vacÌa si
 	 *         algo ha ido mal
 	 */
 	@ApiOperation(value = "Encuentra todos los boletos", notes = "Devuelve una lista de todos los boletos")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = List.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OperaciÛn exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Error al obtener los boletos"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -59,15 +60,15 @@ public class BoletoController {
 	}
 
 	/**
-	 * MÈtodo que recoge una petici√≥n http a nuestra API para hacer una consulta a
-	 * la base de datos y obtener el boleto con el id que pasamos por par√°metro
+	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
+	 * la base de datos y obtener el boleto con el id que pasamos por par·metro
 	 * 
 	 * @param id del boleto a buscar
-	 * @return Boleto encontrado, o boleto vac√≠o si hay alg√∫n error.
+	 * @return Boleto encontrado, o boleto vacÌo si hay alg˙n error.
 	 */
 	@ApiOperation(value = "Encuentra el boleto por su id", notes = "Devuelve un boleto con id")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = Boleto.class),
-			@ApiResponse(code = 404, message = "Id no v√°lido"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OperaciÛn exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Id no v·lido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/{id}")
@@ -85,15 +86,15 @@ public class BoletoController {
 	}
 
 	/**
-	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
+	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Boletos de un usuario en concreto.
 	 * 
 	 * @return Lista con todos los boletos de un usuario de la base de datos, una
-	 *         lista vac√≠a si algo ha ido mal
+	 *         lista vacÌa si algo ha ido mal
 	 */
 	@ApiOperation(value = "Encuentra todos los boletos de un comercio", notes = "Devuelve una lista de todos los boletos con id del comercio")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OperaciÛn exitosa", response = List.class),
-			@ApiResponse(code = 404, message = "Id comercio no v√°lido"),
+			@ApiResponse(code = 404, message = "Id comercio no v·lido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/usuarios/{id_usuario}")
@@ -114,7 +115,7 @@ public class BoletoController {
 	}
 
 	/**
-	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
+	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Boletos entregados.
 	 * 
 	 * @return Lista con todos los boletos entregados de la base de datos, una lista
@@ -138,15 +139,15 @@ public class BoletoController {
 	}
 
 	/**
-	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
+	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
 	 * la base de datos y devolver todos los Boletos canjeados.
 	 * 
 	 * @return Lista con todos los boletos canjeados de la base de datos, una lista
-	 *         vac√≠a si algo ha ido mal
+	 *         vacÌa si algo ha ido mal
 	 */
 	@ApiOperation(value = "Encuentra todos los boletos canjeados", notes = "Devuelve una lista de todos los boletos que han sido canjeados")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = List.class),
-			@ApiResponse(code = 404, message = "Canjeado no v√°lido/no hay boletos canjeados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OperaciÛn exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Canjeado no v·lido/no hay boletos canjeados"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/canjeados")
@@ -162,14 +163,14 @@ public class BoletoController {
 	}
 
 	/**
-	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
+	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
 	 * la base de datos y a√±adir un boleto.
 	 * 
-	 * @param boleto a a√±adir
-	 * @return boleto con el id a√±adido o boleto vac√≠o si ha ido mal.
+	 * @param boleto a aÒadir
+	 * @return boleto con el id aÒadido o boleto vacÌo si ha ido mal.
 	 */
-	@ApiOperation(value = "Crea un nuevo boleto", notes = "Crea un nuevo boleto siempre que tenga un id v√°lido")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = Boleto.class),
+	@ApiOperation(value = "Crea un nuevo boleto", notes = "Crea un nuevo boleto siempre que tenga un id v·lido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OperaciÛn exitosa", response = Boleto.class),
 			@ApiResponse(code = 404, message = "Error al crear el boleto"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -188,14 +189,14 @@ public class BoletoController {
 	}
 
 	/**
-	 * M√©todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
+	 * MÈtodo que recoge una peticiÛn http a nuestra API para hacer una consulta a
 	 * la base de datos y actualilzar un boleto.
 	 * 
-	 * @param boleto a a√±adir
-	 * @return boleto actualizado o boleto vac√≠o si ha ido mal.
+	 * @param boleto a aÒadir
+	 * @return boleto actualizado o boleto vacÌo si ha ido mal.
 	 */
-	@ApiOperation(value = "Edita un boleto", notes = "Edita un boleto siempre que tenga un id v√°lido")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = Boleto.class),
+	@ApiOperation(value = "Edita un boleto", notes = "Edita un boleto siempre que tenga un id v·lido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OperaciÛn exitosa", response = Boleto.class),
 			@ApiResponse(code = 404, message = "Error al editar el boleto"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -214,14 +215,14 @@ public class BoletoController {
 	}
 
 	/**
-	 * M√©todo para borrar un boleto de la base de datos por su id
+	 * MÈtodo para borrar un boleto de la base de datos por su id
 	 * 
 	 * @param id del boleto a borrar
 	 * @return Ok si lo borra, Bad_Request.
 	 */
 	@ApiOperation(value = "Borra un boleto", notes = "Borra un boleto usando id")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci√≥n exitosa", response = Boleto.class),
-			@ApiResponse(code = 404, message = "Id no v√°lido"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OperaciÛn exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Id no v·lido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@DeleteMapping("/{id}")
@@ -245,6 +246,10 @@ public class BoletoController {
 	 * @param id del usuario
 	 * @return boleto aleatorio.
 	 */
+	@ApiOperation(value = "Obtiene un boleto al azar", notes = "Obtiene cualquier boleto de nuestra BD")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OperaciÛn exitosa", response = Boleto.class),
+			@ApiResponse(code = 404, message = "Id no v·lido"),
+			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/sorteo/{id}")
 	public ResponseEntity<Boleto> getRandomBoleto(@PathVariable("id") Long id) {
