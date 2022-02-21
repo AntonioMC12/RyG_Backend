@@ -21,7 +21,7 @@ public class UsuarioService {
 	UsuarioRepository repository;
 
 	/**
-	 * Método que devuelve todos los usuarios, haciendo uso del repositorio del
+	 * M_todo que devuelve todos los usuarios, haciendo uso del repositorio del
 	 * mismo
 	 * 
 	 * @return Lista con todos los usuarios existentes
@@ -38,8 +38,8 @@ public class UsuarioService {
 	}
 
 	/**
-	 * Método que obtiene un usuario de la base de datos buscando por su id, si
-	 * existe, lo devuelve, si no, lanza una excepción para dicho resultado
+	 * M_todo que obtiene un usuario de la base de datos buscando por su id, si
+	 * existe, lo devuelve, si no, lanza una excepci_n para dicho resultado
 	 * 
 	 * @param id
 	 * @return usuario si lo encuentra, excepcion si no lo encuentra
@@ -67,8 +67,8 @@ public class UsuarioService {
 	}
 
 	/**
-	 * Método que crea un usuario en la base de datos, si existe el objeto
-	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el método de
+	 * M_todo que crea un usuario en la base de datos, si existe el objeto
+	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el m_todo de
 	 * actualizar
 	 * 
 	 * @param usuario
@@ -96,7 +96,7 @@ public class UsuarioService {
 	}
 
 	/**
-	 * Método que actualiza la información de un usuario de la base de datos
+	 * M_todo que actualiza la informaci_n de un usuario de la base de datos
 	 * 
 	 * @param usuario
 	 * @return usuario actualizado
@@ -136,8 +136,8 @@ public class UsuarioService {
 	}
 
 	/**
-	 * Método que borra un usuario de la base de datos, si no lo encuentra lanza una
-	 * excepción
+	 * M_todo que borra un usuario de la base de datos, si no lo encuentra lanza una
+	 * excepci_n
 	 * 
 	 * @param id
 	 * @throws RecordNotFoundException
@@ -166,8 +166,8 @@ public class UsuarioService {
 	}
 
 	/**
-	 * Método que obtiene un usuario de la base de datos buscando por su latitud y
-	 * longitud, si existe, lo devuelve, si no, lanza una excepción para dicho
+	 * M_todo que obtiene un usuario de la base de datos buscando por su latitud y
+	 * longitud, si existe, lo devuelve, si no, lanza una excepci_n para dicho
 	 * resultado
 	 * 
 	 * @param latitud
@@ -182,7 +182,7 @@ public class UsuarioService {
 				return getUsuarioByCoordinates.get();
 			} else {
 				logger.error("The boleto doesn't exists in the database.");
-				throw new RecordNotFoundException("No existe ningún usuario con esas coordenadas",
+				throw new RecordNotFoundException("No existe ning_n usuario con esas coordenadas",
 						latitud + "-" + longitud);
 			}
 		} catch (IllegalArgumentException e) {

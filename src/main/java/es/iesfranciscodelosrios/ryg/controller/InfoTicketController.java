@@ -46,13 +46,13 @@ public class InfoTicketController {
 	InfoTicketService service;
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * M_todo que recoge una petici_n http para hacer una consulta a la base de
 	 * datos y devolver una lista de tickets
 	 * 
-	 * @return Lista de tickets de la base de datos, lista vacía en caso contrario
+	 * @return Lista de tickets de la base de datos, lista vac_a en caso contrario
 	 */
 	@ApiOperation(value = "Encuentra todos los tickets", notes = "Devuelve una lista de todos los tickets")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci_n exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Error obtener los tickets"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -69,15 +69,15 @@ public class InfoTicketController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * M_todo que recoge una petici_n http para hacer una consulta a la base de
 	 * datos y devolver el ticket que le corresponda un id determinado
 	 * 
 	 * @param id
-	 * @return Ticket encontrado en la bd, o vacío si hay algún error
+	 * @return Ticket encontrado en la bd, o vac_o si hay alg_n error
 	 */
 	@ApiOperation(value = "Encuentra el ticket por su id", notes = "Devuelve un ticket con id")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
-			@ApiResponse(code = 404, message = "Id no válido"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci_n exitosa", response = InfoTicket.class),
+			@ApiResponse(code = 404, message = "Id no v_lido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/{id}")
@@ -97,21 +97,21 @@ public class InfoTicketController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de
-	 * datos y devolver una lista de tickets filtrando por teléfono
+	 * M_todo que recoge una petici_n http para hacer una consulta a la base de
+	 * datos y devolver una lista de tickets filtrando por tel_fono
 	 * 
 	 * @param telefono
-	 * @return Lista de tickets de la base de datos según teléfono, lista vacía en
+	 * @return Lista de tickets de la base de datos seg_n tel_fono, lista vac_a en
 	 *         caso contrario
 	 */
-	@ApiOperation(value = "Encuentra todos los tickets asociados a un teléfono", notes = "Devuelve una lista de todos los tickets con teléfono")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
-			@ApiResponse(code = 404, message = "Teléfono no válido"),
+	@ApiOperation(value = "Encuentra todos los tickets asociados a un tel_fono", notes = "Devuelve una lista de todos los tickets con tel_fono")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci_n exitosa", response = List.class),
+			@ApiResponse(code = 404, message = "Tel_fono no v_lido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/telefono/{telefono}")
 	public ResponseEntity<List<InfoTicket>> getTicketsByTelephone(
-			@ApiParam("Ticket teléfono (int)") @PathVariable("telefono") int telefono) {
+			@ApiParam("Ticket tel_fono (int)") @PathVariable("telefono") int telefono) {
 		try {
 			List<InfoTicket> getTicketsByTelephone = service.getTicketsByTelephone(telefono);
 			return new ResponseEntity<List<InfoTicket>>(getTicketsByTelephone, new HttpHeaders(), HttpStatus.OK);
@@ -124,15 +124,15 @@ public class InfoTicketController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * M_todo que recoge una petici_n http para hacer una consulta a la base de
 	 * datos y devolver una lista de tickets filtrando por una fecha
 	 * 
 	 * @param fecha_ticket
-	 * @return Ticket de la base de datos según id de boleto, vacío en caso
+	 * @return Ticket de la base de datos seg_n id de boleto, vac_o en caso
 	 *         contrario
 	 */
 	@ApiOperation(value = "Encuentra todos los tickets asociados a una fecha", notes = "Devuelve una lista de todos los tickets de una fecha determinada")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = List.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci_n exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "No hay tickets con esa fecha"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -156,16 +156,16 @@ public class InfoTicketController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * M_todo que recoge una petici_n http para hacer una consulta a la base de
 	 * datos y devolver un ticket filtrando por su id de boleto
 	 * 
 	 * @param id_boleto
-	 * @return Lista de tickets de la base de datos según fecha, lista vacía en caso
+	 * @return Lista de tickets de la base de datos seg_n fecha, lista vac_a en caso
 	 *         contrario
 	 */
 	@ApiOperation(value = "Encuentra el ticket por el id de su boleto", notes = "Devuelve un ticket con id de su boleto")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
-			@ApiResponse(code = 404, message = "Id boleto no válido"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci_n exitosa", response = InfoTicket.class),
+			@ApiResponse(code = 404, message = "Id boleto no v_lido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@GetMapping("/boleto/{id_boleto}")
@@ -184,18 +184,18 @@ public class InfoTicketController {
 	}
 
 	/**
-	 * Método para insertar un ticket en la base de datos, recibiendo los datos del
+	 * M_todo para insertar un ticket en la base de datos, recibiendo los datos del
 	 * ticket en JSON y la foto como MultipartFile guardando el contenido multimedia
 	 * en Cloudinary y almacenando la url en la base de datos.
 	 * 
-	 * @param ticket        JSON con la información del ticket
+	 * @param ticket        JSON con la informaci_n del ticket
 	 * @param multipartFile archivo multimedia para insertar en cloudinary y guardar
 	 *                      la url en maridaDB.
-	 * @return JSON con la información del ticket en la base de datos o ticket vacío
+	 * @return JSON con la informaci_n del ticket en la base de datos o ticket vac_o
 	 *         si hay error.
 	 */
-	@ApiOperation(value = "Crea un nuevo ticket", notes = "Crea un nuevo ticket siempre que tenga un id válido")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
+	@ApiOperation(value = "Crea un nuevo ticket", notes = "Crea un nuevo ticket siempre que tenga un id v_lido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci_n exitosa", response = InfoTicket.class),
 			@ApiResponse(code = 404, message = "Error al crear el ticket"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -223,14 +223,14 @@ public class InfoTicketController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * M_todo que recoge una petici_n http para hacer una consulta a la base de
 	 * datos y actualizar un ticket
 	 * 
 	 * @param id
-	 * @return Ticket encontrado en la bd, o vacío si hay algún error
+	 * @return Ticket encontrado en la bd, o vac_o si hay alg_n error
 	 */
-	@ApiOperation(value = "Edita un ticket", notes = "Edita un ticket siempre que tenga un id válido")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
+	@ApiOperation(value = "Edita un ticket", notes = "Edita un ticket siempre que tenga un id v_lido")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci_n exitosa", response = InfoTicket.class),
 			@ApiResponse(code = 404, message = "Error al editar el ticket"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -249,15 +249,15 @@ public class InfoTicketController {
 	}
 
 	/**
-	 * Método que recoge una petición http para hacer una consulta a la base de
+	 * M_todo que recoge una petici_n http para hacer una consulta a la base de
 	 * datos y borrar un ticket
 	 * 
 	 * @param id
-	 * @return Ticket encontrado en la bd, o vacío si hay algún error
+	 * @return Ticket encontrado en la bd, o vac_o si hay alg_n error
 	 */
 	@ApiOperation(value = "Borra un ticket", notes = "Borra un ticket usando id")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operación exitosa", response = InfoTicket.class),
-			@ApiResponse(code = 404, message = "Id no válido"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci_n exitosa", response = InfoTicket.class),
+			@ApiResponse(code = 404, message = "Id no v_lido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
 	@DeleteMapping("/{id}")

@@ -59,7 +59,7 @@ public class BoletoController {
 	}
 
 	/**
-	 * MÈtodo que recoge una petici√≥n http a nuestra API para hacer una consulta a
+	 * M_todo que recoge una petici√≥n http a nuestra API para hacer una consulta a
 	 * la base de datos y obtener el boleto con el id que pasamos por par√°metro
 	 * 
 	 * @param id del boleto a buscar
@@ -92,7 +92,7 @@ public class BoletoController {
 	 *         lista vac√≠a si algo ha ido mal
 	 */
 	@ApiOperation(value = "Encuentra todos los boletos de un comercio", notes = "Devuelve una lista de todos los boletos con id del comercio")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OperaciÛn exitosa", response = List.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Operaci_n exitosa", response = List.class),
 			@ApiResponse(code = 404, message = "Id comercio no v√°lido"),
 			@ApiResponse(code = 500, message = "Internal server error") })
 	@CrossOrigin(origins = "http://localhost:8100")
@@ -239,8 +239,8 @@ public class BoletoController {
 	}
 
 	/**
-	 * MÈtodo que obtiene un boleto de manera aleatoria, que no estÈ entregado y distinto del 
-	 * usuario que le pasamos con par·metro.
+	 * M_todo que obtiene un boleto de manera aleatoria, que no est_ entregado y distinto del 
+	 * usuario que le pasamos con par_metro.
 	 * 
 	 * @param id del usuario
 	 * @return boleto aleatorio.

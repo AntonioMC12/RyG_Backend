@@ -22,7 +22,7 @@ public class PremioService {
 	PremioRepository repository;
 
 	/**
-	 * Método que devuelve todos los premios, haciendo uso del repositorio del mismo
+	 * M_todo que devuelve todos los premios, haciendo uso del repositorio del mismo
 	 * 
 	 * @return Lista con todos los premios existentes
 	 * @throws Exception
@@ -42,11 +42,11 @@ public class PremioService {
 	}
 
 	/**
-	 * Método que obtiene un premio de la base de datos buscando por su id, si
-	 * existe, lo devuelve, si no, lanza una excepción para dicho resultado
+	 * M_todo que obtiene un premio de la base de datos buscando por su id, si
+	 * existe, lo devuelve, si no, lanza una excepci_n para dicho resultado
 	 * 
 	 * @param id
-	 * @return premio si lo encuentra, excepción si no lo encuentra
+	 * @return premio si lo encuentra, excepci_n si no lo encuentra
 	 * @throws RecordNotFoundException
 	 * @throws NullPointerException
 	 */
@@ -72,8 +72,8 @@ public class PremioService {
 	}
 
 	/**
-	 * Método que crea un premio en la base de datos, si existe el objeto
-	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el método de
+	 * M_todo que crea un premio en la base de datos, si existe el objeto
+	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el m_todo de
 	 * actualizar
 	 * 
 	 * @param entity
@@ -118,7 +118,7 @@ public class PremioService {
 	}
 
 	/**
-	 * Método que actualiza la información de un premio en la base de datos
+	 * M_todo que actualiza la informaci_n de un premio en la base de datos
 	 * 
 	 * @param entity
 	 * @return premio actualizado
@@ -152,8 +152,8 @@ public class PremioService {
 	}
 
 	/**
-	 * Método que borra un premio de la base de datos, si no lo encuentra lanza una
-	 * excepción
+	 * M_todo que borra un premio de la base de datos, si no lo encuentra lanza una
+	 * excepci_n
 	 * 
 	 * @param id
 	 * @throws RecordNotFoundException
@@ -200,7 +200,7 @@ public class PremioService {
 	}
 
 	/**
-	 * Método que devuelve todas los premios que han sido entregados, haciendo uso
+	 * M_todo que devuelve todas los premios que han sido entregados, haciendo uso
 	 * del repositorio del mismo
 	 * 
 	 * @return Lista con todos los premios entregados
@@ -217,7 +217,7 @@ public class PremioService {
 	}
 
 	/**
-	 * Método que devuelve todas los premios no que han sido entregados, haciendo
+	 * M_todo que devuelve todas los premios no que han sido entregados, haciendo
 	 * uso del repositorio del mismo
 	 * 
 	 * @return Lista con todos los premios no entregados

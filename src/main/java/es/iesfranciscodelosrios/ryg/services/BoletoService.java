@@ -21,7 +21,7 @@ public class BoletoService {
 	BoletoRepository repository;
 
 	/**
-	 * Método que devuelve todas los boletos, haciendo uso del repositorio del mismo
+	 * M_todo que devuelve todas los boletos, haciendo uso del repositorio del mismo
 	 * 
 	 * @return Lista con todos los boletos existentes.
 	 * @throws Exception
@@ -37,8 +37,8 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que obtiene un boleto de la base de datos buscando por su id, si
-	 * existe, este lo devuelve si no existe lanza una excepción para tratar dicho
+	 * M_todo que obtiene un boleto de la base de datos buscando por su id, si
+	 * existe, este lo devuelve si no existe lanza una excepci_n para tratar dicho
 	 * resultado.
 	 * 
 	 * @param id del boleto a buscar
@@ -71,9 +71,9 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que crea un boleto en la base de datos, si existe el objeto
-	 * referenciado. Si el objeto ya está persistido (Su id es distinto de -1 se
-	 * ejecuta el método de "Actualizar".
+	 * M_todo que crea un boleto en la base de datos, si existe el objeto
+	 * referenciado. Si el objeto ya est_ persistido (Su id es distinto de -1 se
+	 * ejecuta el m_todo de "Actualizar".
 	 * 
 	 * @param boleto a guardar en la base de datos.
 	 * @return boleto creado en la base de datos con el id actualizado.
@@ -90,7 +90,7 @@ public class BoletoService {
 						return boleto = repository.save(boleto);
 					} else {
 						logger.error("You can't insert 2 or more boletos with the same premio");
-						throw new Exception("No se puede insertar 2 o más boletos con el mismo premio");
+						throw new Exception("No se puede insertar 2 o m_s boletos con el mismo premio");
 					}
 				} catch (IllegalArgumentException e) {
 					logger.error("IllegalArgumentException in the method createBoleto" + e);
@@ -120,7 +120,7 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que actualiza un boleto de la base de datos, si este boleto no es nulo
+	 * M_todo que actualiza un boleto de la base de datos, si este boleto no es nulo
 	 * y se encuentra en la base de datos.
 	 * 
 	 * @param boleto a actualizar en la base de datos.
@@ -146,7 +146,7 @@ public class BoletoService {
 						return repository.save(updateBoleto);
 					} else {
 						logger.error("You can't insert 2 or more boletos with the same premio");
-						throw new Exception("No se puede insertar 2 o más boletos con el mismo premio");
+						throw new Exception("No se puede insertar 2 o m_s boletos con el mismo premio");
 					}
 				} else {
 					throw new RecordNotFoundException("El boleto no existe", boleto.getId());
@@ -171,8 +171,8 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que borra un boleto de la base de datos si lo encuentra, si no lo
-	 * encuentra lanza una excepción.
+	 * M_todo que borra un boleto de la base de datos si lo encuentra, si no lo
+	 * encuentra lanza una excepci_n.
 	 * 
 	 * @param id del boleto que queremos borrar.
 	 * @throws NullPointerException
@@ -211,7 +211,7 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que devuelve todas los boletos que han sido entregados, haciendo uso
+	 * M_todo que devuelve todas los boletos que han sido entregados, haciendo uso
 	 * del repositorio del mismo
 	 * 
 	 * @return Lista con todos los boletos entregados
@@ -228,7 +228,7 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que devuelve todas los boletos que han sido canjeados, haciendo uso
+	 * M_todo que devuelve todas los boletos que han sido canjeados, haciendo uso
 	 * del repositorio del mismo
 	 * 
 	 * @return Lista con todos los boletos canjeados
@@ -245,7 +245,7 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que devuelve todas los boletos de un usuario
+	 * M_todo que devuelve todas los boletos de un usuario
 	 * 
 	 * @param id_usuario
 	 * @return Lista con todos los boletos de un usuario en concreto
@@ -297,7 +297,7 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que devuelve una lista de boletos no entregado y distinta del comercio
+	 * M_todo que devuelve una lista de boletos no entregado y distinta del comercio
 	 * que va a realizar la peticion
 	 * 
 	 * @param id_usuario, id del comercio que no vamos a devolver los boletos.
@@ -326,8 +326,8 @@ public class BoletoService {
 	}
 
 	/**
-	 * Método que obtiene un ticket de la base de datos buscando por el id de su
-	 * boleto asociado. Si existe, lo devuelve, si no, lanza una excepción para
+	 * M_todo que obtiene un ticket de la base de datos buscando por el id de su
+	 * boleto asociado. Si existe, lo devuelve, si no, lanza una excepci_n para
 	 * dicho resultado
 	 * 
 	 * @param id_boleto

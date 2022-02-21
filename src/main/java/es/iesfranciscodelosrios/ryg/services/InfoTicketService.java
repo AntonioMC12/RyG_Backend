@@ -20,7 +20,7 @@ public class InfoTicketService {
 	private static final Logger logger = LogManager.getLogger("InfoTicketService");
 
 	/**
-	 * Método que devuelve todos los tickets, haciendo uso del repositorio del mismo
+	 * Metodo que devuelve todos los tickets, haciendo uso del repositorio del mismo
 	 * 
 	 * @return Lista con todos los tickets existentes
 	 * @throws Exception
@@ -36,8 +36,8 @@ public class InfoTicketService {
 	}
 
 	/**
-	 * Método que obtiene un ticket de la base de datos buscando por su id, si
-	 * existe, lo devuelve, si no, lanza una excepción para dicho resultado
+	 * M_todo que obtiene un ticket de la base de datos buscando por su id, si
+	 * existe, lo devuelve, si no, lanza una excepci_n para dicho resultado
 	 * 
 	 * @param id
 	 * @return ticket si lo encuentra, excepcion si no lo encuentra
@@ -70,8 +70,8 @@ public class InfoTicketService {
 	}
 
 	/**
-	 * Método que crea un ticket en la base de datos, si existe el objeto
-	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el método de
+	 * M_todo que crea un ticket en la base de datos, si existe el objeto
+	 * referenciado. Si el objeto ya estaba persistido, se ejecuta el m_todo de
 	 * actualizar
 	 * 
 	 * @param ticket
@@ -89,10 +89,10 @@ public class InfoTicketService {
 						return ticket = repository.save(ticket);
 					} else {
 						logger.error("You can't insert 2 or more ticket with the same ticket");
-						throw new Exception("No se puede insertar 2 o más boletos con el mismo ticket");
+						throw new Exception("No se puede insertar 2 o m_s boletos con el mismo ticket");
 					}
 				} catch (IllegalArgumentException e) {
-					logger.error("Error al insertar el ticket, argumento inválido" + e);
+					logger.error("Error al insertar el ticket, argumento inv_lido" + e);
 					throw new IllegalArgumentException(e);
 				} catch (Exception e) {
 					logger.error("Error al insertar el ticket. " + e);
@@ -108,7 +108,7 @@ public class InfoTicketService {
 	}
 
 	/**
-	 * Método que actualiza la información de un ticket de la base de datos
+	 * M_todo que actualiza la informaci_n de un ticket de la base de datos
 	 * 
 	 * @param ticket
 	 * @return ticket actualizado
@@ -135,7 +135,7 @@ public class InfoTicketService {
 						return repository.save(newTicket);
 					} else {
 						logger.error("You can't insert 2 or more ticket with the same ticket");
-						throw new Exception("No se puede insertar 2 o más boletos con el mismo ticket");
+						throw new Exception("No se puede insertar 2 o m_s boletos con el mismo ticket");
 					}
 				} else {
 					logger.error("The boleto doesn't exists in the database.");
@@ -158,8 +158,8 @@ public class InfoTicketService {
 	}
 
 	/**
-	 * Método que borra un ticket de la base de datos, si no lo encuentra lanza una
-	 * excepción
+	 * M_todo que borra un ticket de la base de datos, si no lo encuentra lanza una
+	 * excepci_n
 	 * 
 	 * @param id
 	 * @throws RecordNotFoundException
@@ -197,10 +197,10 @@ public class InfoTicketService {
 	}
 
 	/**
-	 * Método que devuelve todos los tickets de un teléfono
+	 * M_todo que devuelve todos los tickets de un tel_fono
 	 * 
 	 * @param telefono
-	 * @return Lista con todos los tickets de un teléfono en concreto
+	 * @return Lista con todos los tickets de un tel_fono en concreto
 	 * @throws IllegalArgumentException
 	 */
 	public List<InfoTicket> getTicketsByTelephone(int telefono) throws IllegalArgumentException, Exception {
@@ -217,7 +217,7 @@ public class InfoTicketService {
 	}
 
 	/**
-	 * Método que devuelve todos los tickets de una fecha concreta
+	 * M_todo que devuelve todos los tickets de una fecha concreta
 	 * 
 	 * @param fecha_ticket
 	 * @return Lista con todos los tickets de una fecha
@@ -244,8 +244,8 @@ public class InfoTicketService {
 	}
 
 	/**
-	 * Método que obtiene un ticket de la base de datos buscando por el id de su
-	 * boleto asociado. Si existe, lo devuelve, si no, lanza una excepción para
+	 * M_todo que obtiene un ticket de la base de datos buscando por el id de su
+	 * boleto asociado. Si existe, lo devuelve, si no, lanza una excepci_n para
 	 * dicho resultado
 	 * 
 	 * @param id_boleto
